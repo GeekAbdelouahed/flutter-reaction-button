@@ -1,8 +1,8 @@
 name: flutter_reaction_button
 description: Flutter Reaction Button
 version: 0.0.1
-author: Abdelouahed Medjoudja
-homepage:
+author: Abdelouahed Medjoudja <abdeluached@gmail.com>
+homepage: https://github.com/GeekAbdelouahed/flutter-reaction-button
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
