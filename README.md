@@ -79,7 +79,7 @@ FlutterReactionButtonCheck(
     elevation: 10,
     position: Position.TOP,
     color: Colors.black.withOpacity(0.5),
-    duration: Duration(milliseconds: 500),
+    duration: Duration(milliseconds: 250),
 )
 ```
 
