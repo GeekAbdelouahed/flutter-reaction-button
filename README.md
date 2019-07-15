@@ -30,12 +30,12 @@ FlutterReactionButton(
         ),
     ],
     initialReaction: Reaction(
-            previewIcon: Text('U.Kingdom'),
-            icon: Text('UK'),
+        previewIcon: Text('U.Kingdom'),
+        icon: Text('UK'),
     ),
     selectedReaction: Reaction(
-            previewIcon: Text('U.Kingdom'),
-            icon: Text('UK'),
+        previewIcon: Text('U.Kingdom'),
+        icon: Text('UK'),
     ),
     radius: 10,
     elevation: 10,
@@ -68,12 +68,12 @@ FlutterReactionButtonCheck(
         ),
     ],
     initialReaction: Reaction(
-            previewIcon: Text('Default'),
-            icon: Text('DF'),
+        previewIcon: Text('Default'),
+        icon: Text('DF'),
     ),
     selectedReaction : Reaction(
-            previewIcon: Text('U.Kingdom'),
-            icon: Text('UK'),
+        previewIcon: Text('U.Kingdom'),
+        icon: Text('UK'),
     ),
     radius: 10,
     elevation: 10,
