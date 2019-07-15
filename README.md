@@ -2,9 +2,8 @@
 
 Flutter button reaction it is fully customizable widget such as Facebook reaction button.
 
-- [Pub Package](https://pub.dartlang.org/packages/flutter-reaction-button)
+- [Pub Package](https://pub.dev/packages/flutter_reaction_button)
 - [GitHub Repository](https://github.com/GeekAbdelouahed/flutter-reaction-button)
-- [API reference](https://pub.dartlang.org/documentation/flutter-reaction-button/)
 
 ## Usage
 
