@@ -1,16 +1,90 @@
 # flutter_reaction_button_example
 
-Demonstrates how to use the flutter_reaction_button plugin.
+This is example Flutter Reaction Button:
 
-## Getting Started
+```dart
+FlutterReactionButton(
+    onReactionChanged: (isChecked, reaction) {
+        print('reaction changed');
+    },
+    reactions: <Reaction>[
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'English',
+                icon: 'united-kingdom-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'united-kingdom.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'Arabic',
+                icon: 'algeria-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'algeria.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'German',
+                icon: 'germany-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'germany.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'Spanish',
+                icon: 'spain-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'spain.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'Chinese',
+                icon: 'china-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'china.png'
+            ),
+        ),
+    ],
+    initialReaction: Reaction(
+        previewIcon: buildWidgetPreview(
+            title: 'English',
+            icon: 'united-kingdom-round.png',
+        ),
+        icon: buildWidget(
+            icon: 'united-kingdom.png'
+        ),
+    ),
+    radius: 10,
+    elevation: 10,
+    position: Position.TOP,
+    color: Colors.black.withOpacity(0.5),
+    duration: Duration(milliseconds: 500),
+)
+```
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button.gif"/>
 
-This project is a starting point for a Flutter application.
+This is a example Flutter Reaction Button Check:
 
-A few resources to get you started if this is your first Flutter project:
+```dart
+FlutterReactionButtonCheck(
+    onReactionChanged: (reaction) {
+        print('reaction changed');
+    },
+    radius: 10,
+    elevation: 10,
+    position: Position.TOP,
+    color: Colors.black.withOpacity(0.5),
+    duration: Duration(milliseconds: 250),
+)
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button-Check.gif"/>
