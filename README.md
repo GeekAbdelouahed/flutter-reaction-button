@@ -17,25 +17,59 @@ FlutterReactionButton(
     },
     reactions: <Reaction>[
         Reaction(
-            previewIcon: Text('U.Kingdom'),
-            icon: Text('UK'),
+            previewIcon: buildWidgetPreview(
+                title: 'English',
+                icon: 'united-kingdom-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'united-kingdom.png'
+            ),
         ),
         Reaction(
-            previewIcon: Text('Algeria'),
-            icon: Text('DZ'),
+            previewIcon: buildWidgetPreview(
+                title: 'Arabic',
+                icon: 'algeria-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'algeria.png'
+            ),
         ),
         Reaction(
-            previewIcon: Text('Germany'),
-            icon: Text('GR'),
+            previewIcon: buildWidgetPreview(
+                title: 'German',
+                icon: 'germany-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'germany.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'Spanish',
+                icon: 'spain-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'spain.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                title: 'Chinese',
+                icon: 'china-round.png',
+            ),
+            icon: buildWidget(
+                icon: 'china.png'
+            ),
         ),
     ],
     initialReaction: Reaction(
-        previewIcon: Text('U.Kingdom'),
-        icon: Text('UK'),
-    ),
-    selectedReaction: Reaction(
-        previewIcon: Text('U.Kingdom'),
-        icon: Text('UK'),
+        previewIcon: buildWidgetPreview(
+            title: 'English',
+            icon: 'united-kingdom-round.png',
+        ),
+        icon: buildWidget(
+            icon: 'united-kingdom.png'
+        ),
     ),
     radius: 10,
     elevation: 10,
@@ -53,28 +87,6 @@ FlutterReactionButtonCheck(
     onReactionChanged: (reaction) {
         print('reaction changed');
     },
-    reactions: <Reaction>[
-        Reaction(
-            previewIcon: Text('U.Kingdom'),
-            icon: Text('UK'),
-        ),
-        Reaction(
-            previewIcon: Text('Algeria'),
-            icon: Text('DZ'),
-        ),
-        Reaction(
-            previewIcon: Text('Germany'),
-            icon: Text('GR'),
-        ),
-    ],
-    initialReaction: Reaction(
-        previewIcon: Text('Default'),
-        icon: Text('DF'),
-    ),
-    selectedReaction : Reaction(
-        previewIcon: Text('U.Kingdom'),
-        icon: Text('UK'),
-    ),
     radius: 10,
     elevation: 10,
     position: Position.TOP,
