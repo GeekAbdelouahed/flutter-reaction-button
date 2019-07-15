@@ -72,7 +72,7 @@ FlutterReactionButton(
 ```
 <img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button.gif"/>
 
-This is a example Flutter Reaction Button Check:
+This is a example Flutter Reaction Button Check ( you can also customize everything ):
 
 ```dart
 FlutterReactionButtonCheck(
