@@ -33,7 +33,10 @@ FlutterReactionButton(
             previewIcon: Text('U.Kingdom'),
             icon: Text('UK'),
     ),
-    selectedReaction: 
+    selectedReaction: Reaction(
+            previewIcon: Text('U.Kingdom'),
+            icon: Text('UK'),
+    ),
     radius: 10,
     elevation: 10,
     position: Position.TOP,
