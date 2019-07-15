@@ -44,7 +44,7 @@ FlutterReactionButton(
     duration: Duration(milliseconds: 500),
 )
 ```
-<img src="images/Flutter-Reaction-Button.gif"/>
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button.gif"/>
 
 This is a example Flutter Reaction Button Check:
 
@@ -83,7 +83,7 @@ FlutterReactionButtonCheck(
 )
 ```
 
-<img src="images/Flutter-Reaction-Button-Check.gif"/>
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button-Check.gif"/>
 
 For more information about the properties, have a look at the [API reference](https://pub.dartlang.org/documentation/flutter-reaction-button/).
 
