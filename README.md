@@ -86,11 +86,6 @@ FlutterReactionButtonCheck(
     onReactionChanged: (reaction) {
         print('reaction changed');
     },
-    radius: 10,
-    elevation: 10,
-    position: Position.TOP,
-    color: Colors.black.withOpacity(0.5),
-    duration: Duration(milliseconds: 250),
 )
 ```
 
