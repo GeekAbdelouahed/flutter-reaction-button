@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:flutter_reaction_button_example/example_data.dart';
+import './example_data.dart' as Example;
 
 import 'item.dart';
 
@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
             title: const Text('Flutter Reaction Button'),
             actions: <Widget>[
               FlutterReactionButton(
-                reactions: menuReactions,
-                initialReaction: menuReactions[0],
+                reactions: Example.menuReactions,
+                initialReaction: Example.menuReactions[0],
                 color: Colors.black.withOpacity(0.5),
                 radius: 10,
                 duration: Duration(milliseconds: 500),
