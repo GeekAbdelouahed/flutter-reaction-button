@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/src/reactions_container.dart';
 import 'reactions_position.dart';
 import './reactions_box.dart';
 import './reaction.dart';
@@ -10,9 +9,9 @@ class FlutterReactionButton extends StatefulWidget {
   final Function(Reaction) onReactionChanged;
 
   /// Default reaction button widget
-  Reaction initialReaction;
+  final Reaction initialReaction;
 
-  List<Reaction> reactions;
+  final List<Reaction> reactions;
 
   /// Position reactions box for the button [default = TOP]
   final Position position;
@@ -32,17 +31,15 @@ class FlutterReactionButton extends StatefulWidget {
   FlutterReactionButton({
     Key key,
     @required this.onReactionChanged,
+    @required this.reactions,
     this.initialReaction,
-    this.reactions,
     this.position = Position.TOP,
     this.color = Colors.white,
     this.elevation = 5,
     this.radius = 50,
     this.duration = const Duration(milliseconds: 200),
-  }) : super(key: key) {
-    initialReaction = initialReaction ?? defaultInitialReaction;
-    reactions = reactions ?? defaultReactions;
-  }
+  })  : assert(reactions != null),
+        super(key: key);
 
   @override
   _FlutterReactionButtonState createState() =>
@@ -61,7 +58,7 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
     return GestureDetector(
       key: _buttonKey,
       onTap: () => _showReactionButtons(context),
-      child: _selectedReaction.icon,
+      child: (_selectedReaction ?? widget.reactions[0]).icon,
     );
   }
 

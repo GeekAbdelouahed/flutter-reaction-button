@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aea0f885-616b-44bc-a9f7-6da3b6296477" name="Default Changelist" comment="" />
+    <list default="true" id="aea0f885-616b-44bc-a9f7-6da3b6296477" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/example_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/example_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/angry.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/angry.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/haha.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/haha.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/like.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/like.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/like_fill.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/love.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/love.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/sad.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/sad.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/wow.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icons/wow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/flutter_reaction_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/flutter_reaction_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/flutter_reaction_button_check.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/flutter_reaction_button_check.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/reactions_container.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
     <ignored path="$PROJECT_DIR$/.pub/" />
@@ -15,13 +37,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="575" />
-    <option name="width" value="1361" />
-    <option name="height" value="1080" />
+    <option name="width" value="1363" />
+    <option name="height" value="1081" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -66,31 +92,31 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1618" height="887" extended-state="6" />
     <layout>
-      <window_info id="Capture Tool" />
-      <window_info id="Structure" side_tool="true" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Build Variants" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="Captures" side_tool="true" />
-      <window_info id="Resources Explorer" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.24967907" />
-      <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Dart Analysis" weight="0.32980132" />
-      <window_info anchor="bottom" id="Logcat" />
-      <window_info anchor="bottom" id="TODO" />
-      <window_info anchor="bottom" id="Debug" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Flutter Performance" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
-      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Flutter Inspector" />
-      <window_info anchor="right" id="Flutter Outline" />
-      <window_info anchor="right" id="Palette&#9;" />
+      <window_info id="Captures" order="1" side_tool="true" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="Build Variants" order="5" side_tool="true" />
+      <window_info id="Resources Explorer" order="6" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info id="Favorites" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Dart Analysis" order="0" weight="0.32980132" />
+      <window_info anchor="bottom" id="Run" order="1" />
+      <window_info anchor="bottom" id="TODO" order="2" />
+      <window_info anchor="bottom" id="Android Profiler" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Logcat" order="4" />
+      <window_info anchor="bottom" id="Debug" order="5" />
+      <window_info anchor="bottom" id="Terminal" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Flutter Performance" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Flutter Inspector" order="3" />
+      <window_info anchor="right" id="Flutter Outline" order="4" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
     </layout>
     <layout-to-restore>
       <window_info id="Captures" order="0" side_tool="true" />

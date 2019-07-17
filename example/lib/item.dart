@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'example_data.dart' as Example;
 
 class Item extends StatefulWidget {
   final String title;
   final String imgPath;
+  final List<Reaction> reactions;
 
-  const Item(this.title, this.imgPath);
+  const Item(this.title, this.imgPath, this.reactions);
 
   @override
   _ItemState createState() => _ItemState();
@@ -47,6 +49,9 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                   onReactionChanged: (isChecked, reaction) {
                     print('reaction changed');
                   },
+                  reactions: widget.reactions,
+                  initialReaction: Example.defaultInitialReaction,
+                  selectedReaction: widget.reactions[0],
                 ),
                 SizedBox(
                   width: 10,

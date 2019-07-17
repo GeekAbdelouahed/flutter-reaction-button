@@ -1,8 +1,9 @@
 name: flutter_reaction_button
 description: Flutter button reaction it is fully customizable widget such as Facebook reaction button
-version: 0.1.0
+version: 0.1.1
 author: Abdelouahed Medjoudja <abdeluached@gmail.com>
 homepage: https://github.com/GeekAbdelouahed/flutter-reaction-button
+repository: https://github.com/GeekAbdelouahed/flutter-reaction-button.git
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -38,20 +39,6 @@ flutter:
   #
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-  assets:
-    - packages/flutter_reaction_button/icons/like.png
-    - packages/flutter_reaction_button/icons/like_fill.png
-    - packages/flutter_reaction_button/icons/like.gif
-    - packages/flutter_reaction_button/icons/love.png
-    - packages/flutter_reaction_button/icons/love.gif
-    - packages/flutter_reaction_button/icons/haha.png
-    - packages/flutter_reaction_button/icons/haha.gif
-    - packages/flutter_reaction_button/icons/wow.png
-    - packages/flutter_reaction_button/icons/wow.gif
-    - packages/flutter_reaction_button/icons/sad.png
-    - packages/flutter_reaction_button/icons/sad.gif
-    - packages/flutter_reaction_button/icons/angry.png
-    - packages/flutter_reaction_button/icons/angry.gif
 
   # To add custom fonts to your plugin package, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

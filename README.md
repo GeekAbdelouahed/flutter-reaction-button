@@ -86,6 +86,66 @@ FlutterReactionButtonCheck(
     onReactionChanged: (isChecked, reaction) {
         print('reaction changed $isChecked');
     },
+    reaction: <Reaction>[
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                icon: 'like.gif',
+            ),
+            icon: buildWidget(
+                icon: 'like_fill.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                icon: 'love.gif',
+            ),
+            icon: buildWidget(
+                icon: 'love.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                icon: 'wow.gif',
+            ),
+            icon: buildWidget(
+                icon: 'wow.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                icon: 'haha.gif',
+            ),
+            icon: buildWidget(
+                icon: 'haha.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                icon: 'sad.gif',
+            ),
+            icon: buildWidget(
+                icon: 'sad.png'
+            ),
+        ),
+        Reaction(
+            previewIcon: buildWidgetPreview(
+                icon: 'angry.gif',
+            ),
+            icon: buildWidget(
+                icon: 'angry.png'
+            ),
+        ),
+    ],
+    initialReaction: Reaction(
+        icon: buildWidget(
+            icon: 'like.png'
+        ),
+    ),
+    selectedReaction: Reaction(
+        icon: buildWidget(
+            icon: 'like_fill.png'
+        ),
+    ),
 )
 ```
 
