@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'reactions_position.dart';
-import './reaction.dart';
-import './utils.dart';
+import 'reaction.dart';
+import 'utils.dart';
 
 class ReactionsBox extends StatefulWidget {
   final Offset buttonOffset;

@@ -9,3 +9,7 @@
 ## 0.1.1
 
 * TODO: Reactions List @required.
+
+## 0.1.2
+
+* TODO: from plugin to packages.
