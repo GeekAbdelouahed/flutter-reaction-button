@@ -7,7 +7,7 @@ Flutter button reaction it is fully customizable widget such as Facebook reactio
 
 ## Usage
 
-This is example Flutter Reaction Button:
+This is example Flutter Reaction Button Check:
 
 <img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button-Check.gif"/>
 
@@ -79,7 +79,9 @@ FlutterReactionButtonCheck(
 )
 ```
 
-This is a example Flutter Reaction Button Check ( you can also customize everything ):
+
+
+This is a example Flutter Reaction Button ( you can also customize everything ):
 
 <img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button.gif"/>
 
