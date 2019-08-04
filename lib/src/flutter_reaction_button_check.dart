@@ -8,7 +8,7 @@ import 'utils.dart';
 
 class FlutterReactionButtonCheck extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final Function(bool, Reaction) onReactionChanged;
+  final Function(Reaction, int, bool) onReactionChanged;
 
   /// Default reaction button widget if [isChecked == false]
   final Reaction initialReaction;
@@ -130,8 +130,8 @@ class _FlutterReactionButtonCheckState
   void _updateReaction(Reaction reaction, [bool isSelectedFromDialog = false]) {
     _isChecked =
         isSelectedFromDialog ? true : !reaction.equals(widget.initialReaction);
-
-    widget.onReactionChanged(_isChecked, reaction);
+    final selectedIndex = widget.reactions.indexOf(reaction);
+    widget.onReactionChanged(reaction, selectedIndex, _isChecked);
     setState(() {
       _selectedReaction = reaction;
     });

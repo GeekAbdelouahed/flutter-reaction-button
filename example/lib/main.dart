@@ -32,8 +32,8 @@ class _MyAppState extends State<MyApp> {
                 color: Colors.black.withOpacity(0.5),
                 radius: 10,
                 duration: Duration(milliseconds: 500),
-                onReactionChanged: (reaction) {
-                  print('reaction changed');
+                onReactionChanged: (reaction, selectedIndex) {
+                  print('reaction changed at $selectedIndex');
                 },
               ),
               SizedBox(

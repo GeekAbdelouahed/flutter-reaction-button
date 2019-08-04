@@ -46,8 +46,8 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FlutterReactionButtonCheck(
-                  onReactionChanged: (isChecked, reaction) {
-                    print('reaction changed');
+                  onReactionChanged: (reaction, selectedIndex, isChecked) {
+                    print('reaction changed at $selectedIndex');
                   },
                   reactions: widget.reactions,
                   initialReaction: Example.defaultInitialReaction,
