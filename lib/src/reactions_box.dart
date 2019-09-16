@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'reactions_box_item.dart';
 import 'reactions_position.dart';
 import 'reaction.dart';
 import 'utils.dart';
@@ -40,46 +41,39 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
-  AnimationController _startController, _endController;
+  AnimationController _scaleController;
 
-  Animation<double> _startAnimation, _endAnimation;
+  Animation<double> _scaleAnimation;
 
   double _scale = 0;
+
+  Reaction _selectedReaction;
 
   @override
   void initState() {
     super.initState();
 
-    // Start animation
-    _startController =
+    _scaleController =
         AnimationController(vsync: this, duration: widget.duration);
 
     final Tween<double> startTween = Tween(begin: 0, end: 1);
-    _startAnimation = startTween.animate(_startController)
+    _scaleAnimation = startTween.animate(_scaleController)
       ..addListener(() {
         setState(() {
-          _scale = _startAnimation.value;
+          _scale = _scaleAnimation.value;
         });
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.reverse)
+          Navigator.of(context).pop(_selectedReaction);
       });
 
-    // End animation
-    _endController =
-        AnimationController(vsync: this, duration: widget.duration);
-    final Tween<double> endTween = Tween(begin: 1, end: 0);
-    _endAnimation = endTween.animate(_endController)
-      ..addListener(() {
-        setState(() {
-          _scale = _endAnimation.value;
-        });
-      });
-
-    _startController.forward();
+    _scaleController.forward();
   }
 
   @override
   void dispose() {
-    _startController.dispose();
-    _endController.dispose();
+    _scaleController.dispose();
     super.dispose();
   }
 
@@ -87,7 +81,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
   Widget build(BuildContext context) {
     return GestureDetector(
       // Hide box when clicking out
-      onTap: () => _hideBox(context),
+      onTap: () => _scaleController.reverse(),
       child: Container(
         height: double.infinity,
         color: Colors.transparent,
@@ -106,9 +100,13 @@ class _ReactionsBoxState extends State<ReactionsBox>
                         borderRadius: BorderRadius.circular(widget.radius)),
                     child: Wrap(
                       children: widget.reactions
-                          .map((reaction) => InkWell(
-                              onTap: () => _hideBox(context, reaction),
-                              child: reaction.previewIcon))
+                          .map((reaction) => ReactionsBoxItem(
+                                onReactionClick: (reaction) {
+                                  _selectedReaction = reaction;
+                                  _scaleController.reverse();
+                                },
+                                reaction: reaction,
+                              ))
                           .toList(),
                     ),
                   ),
@@ -119,14 +117,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
         ),
       ),
     );
-  }
-
-  void _hideBox(BuildContext context, [Reaction reaction]) {
-    _endController.addStatusListener((status) {
-      if (status == AnimationStatus.completed)
-        Navigator.of(context).pop(reaction);
-    });
-    _endController.forward();
   }
 
   double _getPosition(BuildContext context) {
