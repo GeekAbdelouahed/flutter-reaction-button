@@ -26,6 +26,7 @@ class _CommentsState extends State<Comments> {
   }
 
   _onSubmiteComment() {
+    if (_textEditingController.text.isEmpty) return;
     setState(() {
       widget.comments.add(_textEditingController.text);
       _textEditingController.text = "";
