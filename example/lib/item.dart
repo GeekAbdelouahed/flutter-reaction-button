@@ -1,13 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:flutter/material.dart';
+import 'comments.dart';
 import 'example_data.dart' as Example;
 
 class Item extends StatefulWidget {
+  final BuildContext context;
   final String title;
   final String imgPath;
   final List<Reaction> reactions;
 
-  const Item(this.title, this.imgPath, this.reactions);
+  const Item(this.context, this.title, this.imgPath, this.reactions);
 
   @override
   _ItemState createState() => _ItemState();
@@ -16,6 +18,15 @@ class Item extends StatefulWidget {
 class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  List<String> _comments = [];
+
+  _showBottomSheetCommets() {
+    showBottomSheet(
+      context: widget.context,
+      builder: (context) => Comments(_comments),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +68,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                   width: 10,
                 ),
                 InkWell(
-                  onTap: () => Scaffold.of(context).showSnackBar(SnackBar(
-                    duration: Duration(seconds: 2),
-                    content: Text(
-                      'Comment on image ${widget.title}',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )),
+                  onTap: () => _showBottomSheetCommets(),
                   child: Row(
                     children: <Widget>[
                       Icon(
