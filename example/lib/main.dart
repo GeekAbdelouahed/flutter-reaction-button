@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import './example_data.dart' as Example;
-
-import 'item.dart';
+import 'data/example_data.dart' as Example;
+import 'widgets/item.dart';
 
 void main() => runApp(MyApp());
 

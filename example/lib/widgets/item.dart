@@ -1,7 +1,8 @@
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter/material.dart';
 import 'comments.dart';
-import 'example_data.dart' as Example;
+import '../models/comment.dart';
+import '../data/example_data.dart' as Example;
 
 class Item extends StatefulWidget {
   final BuildContext context;
@@ -19,7 +20,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  List<String> _comments = [];
+  List<Comment> _comments = [];
 
   _showBottomSheetCommets() {
     showBottomSheet(

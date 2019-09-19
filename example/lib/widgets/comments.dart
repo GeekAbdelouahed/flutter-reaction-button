@@ -1,8 +1,10 @@
 import 'package:avataaar_image/avataaar_image.dart';
 import 'package:flutter/material.dart';
 
+import '../models/comment.dart';
+
 class Comments extends StatefulWidget {
-  final List<String> comments;
+  final List<Comment> comments;
 
   Comments(this.comments);
 
@@ -28,7 +30,12 @@ class _CommentsState extends State<Comments> {
   _onSubmiteComment() {
     if (_textEditingController.text.isEmpty) return;
     setState(() {
-      widget.comments.add(_textEditingController.text);
+      final comment = Comment(
+        avatar: Avataaar.random(),
+        name: 'Person ${widget.comments.length}',
+        content: _textEditingController.text,
+      );
+      widget.comments.add(comment);
       _textEditingController.text = "";
     });
   }
@@ -37,6 +44,9 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 20,
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -52,7 +62,8 @@ class _CommentsState extends State<Comments> {
                 : ListView.builder(
                     physics: BouncingScrollPhysics(),
                     itemCount: widget.comments.length,
-                    itemBuilder: (context, index) => buildComment(index),
+                    itemBuilder: (context, index) =>
+                        buildComment(widget.comments[index]),
                   ),
           ),
         ),
@@ -61,16 +72,18 @@ class _CommentsState extends State<Comments> {
     );
   }
 
-  Widget buildComment(int index) => SizedBox(
-        height: 70,
+  Widget buildComment(comment) => SizedBox(
+        height: 75,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: 35,
+              height: 40,
+              width: 40,
               child: CircleAvatar(
                 radius: 100,
                 child: AvataaarImage(
-                  avatar: Avataaar.random(),
+                  avatar: comment.avatar,
                   errorImage: CircleAvatar(
                     backgroundColor: Colors.grey[200],
                     radius: 100,
@@ -85,23 +98,45 @@ class _CommentsState extends State<Comments> {
             SizedBox(
               width: 10,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.grey[200],
-              ),
-              child: Text(
-                widget.comments[index],
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black.withOpacity(.75),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.grey[200],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      comment.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black.withOpacity(.9),
+                      ),
+                    ),
+                    Text(
+                      comment.content,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black.withOpacity(.75),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       );
