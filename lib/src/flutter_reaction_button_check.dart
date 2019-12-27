@@ -109,19 +109,22 @@ class _FlutterReactionButtonCheckState
   void _showReactionButtons(BuildContext context) async {
     final buttonOffset = getButtonOffset(_buttonKey);
     final buttonSize = getButtonSize(_buttonKey);
-    final reactionButton = await Navigator.of(context).push(PageRouteBuilder(
+    final reactionButton = await Navigator.of(context).push(
+      PageRouteBuilder(
         opaque: false,
         transitionDuration: Duration(milliseconds: 200),
         pageBuilder: (context, _, __) => ReactionsBox(
-              buttonOffset: buttonOffset,
-              buttonSize: buttonSize,
-              reactions: widget.reactions,
-              position: widget.position,
-              color: widget.color,
-              elevation: widget.elevation,
-              radius: widget.radius,
-              duration: widget.duration,
-            )));
+          buttonOffset: buttonOffset,
+          buttonSize: buttonSize,
+          reactions: widget.reactions,
+          position: widget.position,
+          color: widget.color,
+          elevation: widget.elevation,
+          radius: widget.radius,
+          duration: widget.duration,
+        ),
+      ),
+    );
     if (reactionButton != null) {
       _updateReaction(reactionButton, true);
     }
