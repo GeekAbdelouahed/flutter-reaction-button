@@ -79,56 +79,54 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // Hide box when clicking out
-      onTap: () => _scaleController.reverse(),
-      child: Container(
-        height: double.infinity,
-        color: Colors.transparent,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: _getPosition(context),
-              child: GestureDetector(
-                child: Transform.scale(
-                  scale: _scale,
-                  child: Card(
-                    color: widget.color,
-                    elevation: widget.elevation,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(widget.radius)),
-                    child: Wrap(
-                      children: widget.reactions
-                          .map((reaction) => ReactionsBoxItem(
-                                onReactionClick: (reaction) {
-                                  _selectedReaction = reaction;
-                                  _scaleController.reverse();
-                                },
-                                reaction: reaction,
-                              ))
-                          .toList(),
+  Widget build(BuildContext context) => GestureDetector(
+        // Hide box when clicking out
+        onTap: () => _scaleController.reverse(),
+        child: Container(
+          height: double.infinity,
+          color: Colors.transparent,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Positioned(
+                top: _getPosition(context),
+                child: GestureDetector(
+                  child: Transform.scale(
+                    scale: _scale,
+                    child: Card(
+                      color: widget.color,
+                      elevation: widget.elevation,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(widget.radius)),
+                      child: Wrap(
+                        children: widget.reactions
+                            .map((reaction) => ReactionsBoxItem(
+                                  onReactionClick: (reaction) {
+                                    _selectedReaction = reaction;
+                                    _scaleController.reverse();
+                                  },
+                                  reaction: reaction,
+                                ))
+                            .toList(),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 
-  double _getPosition(BuildContext context) {
-    if (_getTopPosition() - widget.buttonSize.height * 2 < 0)
-      return _getBottomPosition();
-    if (_getBottomPosition() + widget.buttonSize.height * 2 >
-        getScreenSize(context).height) return _getTopPosition();
-    return widget.position == Position.TOP
-        ? _getTopPosition()
-        : _getBottomPosition();
-  }
+  double _getPosition(BuildContext context) =>
+      (_getTopPosition() - widget.buttonSize.height * 2 < 0)
+          ? _getBottomPosition()
+          : (_getBottomPosition() + widget.buttonSize.height * 2 >
+                  Utils.getScreenSize(context).height)
+              ? _getTopPosition()
+              : widget.position == Position.TOP
+                  ? _getTopPosition()
+                  : _getBottomPosition();
 
   double _getTopPosition() =>
       widget.buttonOffset.dy - widget.buttonSize.height * 3.3;

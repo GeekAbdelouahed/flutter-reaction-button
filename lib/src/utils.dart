@@ -2,18 +2,21 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-Offset getButtonOffset(GlobalKey globalKey) {
-  final RenderBox containerRenderBox =
-      globalKey.currentContext.findRenderObject();
-  return containerRenderBox.localToGlobal(Offset.zero);
-}
+class Utils {
+  Utils._();
 
-Size getButtonSize(GlobalKey globalKey) {
-  final RenderBox containerRenderBox =
-      globalKey.currentContext.findRenderObject();
-  return containerRenderBox.size;
-}
+  static Offset getButtonOffset(GlobalKey globalKey) {
+    final RenderBox containerRenderBox =
+        globalKey.currentContext.findRenderObject();
+    return containerRenderBox.localToGlobal(Offset.zero);
+  }
 
-Size getScreenSize(BuildContext context) {
-  return MediaQuery.of(context).size;
+  static Size getButtonSize(GlobalKey globalKey) {
+    final RenderBox containerRenderBox =
+        globalKey.currentContext.findRenderObject();
+    return containerRenderBox.size;
+  }
+
+  static Size getScreenSize(BuildContext context) =>
+      MediaQuery.of(context).size;
 }

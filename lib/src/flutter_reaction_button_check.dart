@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'reactions_position.dart';
 import 'reactions_box.dart';
@@ -105,8 +104,8 @@ class _FlutterReactionButtonCheckState
   }
 
   void _showReactionButtons(BuildContext context) async {
-    final buttonOffset = getButtonOffset(_buttonKey);
-    final buttonSize = getButtonSize(_buttonKey);
+    final buttonOffset = Utils.getButtonOffset(_buttonKey);
+    final buttonSize = Utils.getButtonSize(_buttonKey);
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
