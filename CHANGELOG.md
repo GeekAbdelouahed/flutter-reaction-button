@@ -21,3 +21,7 @@
 ## 0.1.3
 
 * TODO: selected rection index.
+
+## 1.0.0
+
+* TODO: ripple effect.

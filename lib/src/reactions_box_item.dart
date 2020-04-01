@@ -51,15 +51,15 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   Widget build(BuildContext context) {
     return Transform.scale(
       scale: _scale,
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           _scaleController.reverse();
           widget.onReactionClick(widget.reaction);
         },
-        onPanDown: (details) {
+        onTapDown: (_) {
           _scaleController.forward();
         },
-        onPanEnd: (details) {
+        onTapCancel: () {
           _scaleController.reverse();
         },
         child: widget.reaction.previewIcon,
