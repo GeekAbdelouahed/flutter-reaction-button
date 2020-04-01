@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'reactions_box_item.dart';
 import 'reactions_position.dart';
 import 'reaction.dart';
@@ -11,7 +12,7 @@ class ReactionsBox extends StatefulWidget {
 
   final List<Reaction> reactions;
 
-  final position;
+  final Position position;
 
   final Color color;
 

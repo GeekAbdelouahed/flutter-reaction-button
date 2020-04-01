@@ -42,8 +42,7 @@ class FlutterReactionButton extends StatefulWidget {
         super(key: key);
 
   @override
-  _FlutterReactionButtonState createState() =>
-      _FlutterReactionButtonState(initialReaction);
+  _FlutterReactionButtonState createState() => _FlutterReactionButtonState();
 }
 
 class _FlutterReactionButtonState extends State<FlutterReactionButton> {
@@ -51,16 +50,20 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
 
   Reaction _selectedReaction;
 
-  _FlutterReactionButtonState(this._selectedReaction);
+  _FlutterReactionButtonState();
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      key: _buttonKey,
-      onTap: () => _showReactionButtons(context),
-      child: (_selectedReaction ?? widget.reactions[0]).icon,
-    );
+  void initState() {
+    super.initState();
+    _selectedReaction = widget.initialReaction;
   }
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+        key: _buttonKey,
+        onTap: () => _showReactionButtons(context),
+        child: (_selectedReaction ?? widget.reactions[0]).icon,
+      );
 
   void _showReactionButtons(BuildContext context) async {
     final buttonOffset = getButtonOffset(_buttonKey);

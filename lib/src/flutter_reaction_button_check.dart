@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'reactions_position.dart';
 import 'reactions_box.dart';
@@ -49,7 +50,7 @@ class FlutterReactionButtonCheck extends StatefulWidget {
 
   @override
   _FlutterReactionButtonCheckState createState() =>
-      _FlutterReactionButtonCheckState(initialReaction);
+      _FlutterReactionButtonCheckState();
 }
 
 class _FlutterReactionButtonCheckState
@@ -64,28 +65,25 @@ class _FlutterReactionButtonCheckState
 
   bool _isChecked = false;
 
-  _FlutterReactionButtonCheckState(this._selectedReaction);
+  _FlutterReactionButtonCheckState();
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      key: _buttonKey,
-      onPanDown: (_) => _onTapReactionButton(context),
-      onPanCancel: () {
-        if (_timer != null && _timer.isActive) {
-          _timer.cancel();
-          _onClickReactionButton();
-        }
-      },
-      onPanEnd: (_) {
-        if (_timer != null && _timer.isActive) {
-          _timer.cancel();
-          _onClickReactionButton();
-        }
-      },
-      child: (_selectedReaction ?? widget.reactions[0]).icon,
-    );
+  void initState() {
+    super.initState();
+    _selectedReaction = widget.initialReaction;
   }
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+        key: _buttonKey,
+        onTap: () {
+          _onClickReactionButton();
+        },
+        onLongPress: () {
+          _onTapReactionButton(context);
+        },
+        child: (_selectedReaction ?? widget.reactions[0]).icon,
+      );
 
   void _onTapReactionButton(BuildContext context) {
     _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {

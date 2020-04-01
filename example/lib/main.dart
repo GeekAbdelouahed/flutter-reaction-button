@@ -17,6 +17,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Reaction Button',
       home: Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: const Text('Flutter Reaction Button'),
           actions: <Widget>[
@@ -30,12 +31,9 @@ class _MyAppState extends State<MyApp> {
                 print('reaction changed at $selectedIndex');
               },
             ),
-            SizedBox(
-              width: 10,
-            ),
+            SizedBox(width: 10),
           ],
         ),
-        backgroundColor: Colors.grey[200],
         body: Builder(
           builder: (context) {
             return ListView(
