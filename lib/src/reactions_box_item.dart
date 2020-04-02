@@ -6,10 +6,16 @@ class ReactionsBoxItem extends StatefulWidget {
 
   final Reaction reaction;
 
+  final Color highlightColor;
+
+  final Color splashColor;
+
   const ReactionsBoxItem({
     Key key,
     @required this.reaction,
     @required this.onReactionClick,
+    this.highlightColor,
+    this.splashColor,
   }) : super(key: key);
 
   @override
@@ -62,6 +68,8 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         onTapCancel: () {
           _scaleController.reverse();
         },
+        splashColor: widget.splashColor,
+        highlightColor: widget.highlightColor,
         child: widget.reaction.previewIcon,
       ),
     );

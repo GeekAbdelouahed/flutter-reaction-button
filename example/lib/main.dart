@@ -22,14 +22,14 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Flutter Reaction Button'),
           actions: <Widget>[
             FlutterReactionButton(
-              reactions: Example.flagsReactions,
-              initialReaction: Example.flagsReactions[0],
-              color: Colors.black.withOpacity(0.5),
-              radius: 10,
-              duration: Duration(milliseconds: 500),
               onReactionChanged: (reaction, selectedIndex) {
                 print('reaction changed at $selectedIndex');
               },
+              reactions: Example.flagsReactions,
+              initialReaction: Example.flagsReactions[0],
+              boxColor: Colors.black.withOpacity(0.5),
+              boxRadius: 10,
+              boxDuration: Duration(milliseconds: 500),
             ),
             SizedBox(width: 10),
           ],

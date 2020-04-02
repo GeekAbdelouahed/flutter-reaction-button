@@ -13,31 +13,37 @@ class FlutterReactionButton extends StatefulWidget {
 
   final List<Reaction> reactions;
 
+  final Color highlightColor;
+
+  final Color splashColor;
+
   /// Position reactions box for the button [default = TOP]
-  final Position position;
+  final Position boxPosition;
 
   /// Reactions box color [default = white]
-  final Color color;
+  final Color boxColor;
 
   /// Reactions box elevation [default = 5]
-  final double elevation;
+  final double boxElevation;
 
   /// Reactions box radius [default = 50]
-  final double radius;
+  final double boxRadius;
 
   /// Reactions box show/hide duration [default = 200 milliseconds]
-  final Duration duration;
+  final Duration boxDuration;
 
   FlutterReactionButton({
     Key key,
     @required this.onReactionChanged,
     @required this.reactions,
     this.initialReaction,
-    this.position = Position.TOP,
-    this.color = Colors.white,
-    this.elevation = 5,
-    this.radius = 50,
-    this.duration = const Duration(milliseconds: 200),
+    this.highlightColor,
+    this.splashColor,
+    this.boxPosition = Position.TOP,
+    this.boxColor = Colors.white,
+    this.boxElevation = 5,
+    this.boxRadius = 50,
+    this.boxDuration = const Duration(milliseconds: 200),
   })  : assert(reactions != null),
         super(key: key);
 
@@ -61,6 +67,8 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   @override
   Widget build(BuildContext context) => InkWell(
         key: _buttonKey,
+        highlightColor: widget.highlightColor,
+        splashColor: widget.splashColor,
         onTap: () => _showReactionButtons(context),
         child: (_selectedReaction ?? widget.reactions[0]).icon,
       );
@@ -75,11 +83,13 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
               buttonOffset: buttonOffset,
               buttonSize: buttonSize,
               reactions: widget.reactions,
-              position: widget.position,
-              color: widget.color,
-              elevation: widget.elevation,
-              radius: widget.radius,
-              duration: widget.duration,
+              position: widget.boxPosition,
+              color: widget.boxColor,
+              elevation: widget.boxElevation,
+              radius: widget.boxRadius,
+              duration: widget.boxDuration,
+              highlightColor: widget.highlightColor,
+              splashColor: widget.splashColor,
             )));
     if (reactionButton != null) {
       _updateReaction(reactionButton);

@@ -22,6 +22,10 @@ class ReactionsBox extends StatefulWidget {
 
   final Duration duration;
 
+  final Color highlightColor;
+
+  final Color splashColor;
+
   const ReactionsBox({
     @required this.buttonOffset,
     @required this.buttonSize,
@@ -31,6 +35,8 @@ class ReactionsBox extends StatefulWidget {
     this.elevation = 5,
     this.radius = 50,
     this.duration = const Duration(milliseconds: 200),
+    this.highlightColor,
+    this.splashColor,
   })  : assert(buttonOffset != null),
         assert(buttonSize != null),
         assert(reactions != null),
@@ -105,6 +111,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
                                     _selectedReaction = reaction;
                                     _scaleController.reverse();
                                   },
+                                  splashColor: widget.splashColor,
+                                  highlightColor: widget.highlightColor,
                                   reaction: reaction,
                                 ))
                             .toList(),
