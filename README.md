@@ -146,11 +146,6 @@ FlutterReactionButton(
             icon: 'united-kingdom.png'
         ),
     ),
-    radius: 10,
-    elevation: 10,
-    position: Position.TOP,
-    color: Colors.black.withOpacity(0.5),
-    duration: Duration(milliseconds: 500),
 )
 ```
 
