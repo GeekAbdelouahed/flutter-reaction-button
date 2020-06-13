@@ -5,12 +5,11 @@ import '../models/comment.dart';
 import '../data/example_data.dart' as Example;
 
 class Item extends StatefulWidget {
-  final BuildContext context;
   final String title;
   final String imgPath;
   final List<Reaction> reactions;
 
-  const Item(this.context, this.title, this.imgPath, this.reactions);
+  const Item(this.title, this.imgPath, this.reactions);
 
   @override
   _ItemState createState() => _ItemState();
@@ -24,7 +23,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
 
   _showBottomSheetCommets() {
     showBottomSheet(
-      context: widget.context,
+      context: context,
       builder: (context) => Comments(_comments),
     );
   }
@@ -58,8 +57,8 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FlutterReactionButtonCheck(
-                  onReactionChanged: (reaction, selectedIndex, isChecked) {
-                    print('reaction changed at $selectedIndex');
+                  onReactionChanged: (reaction, isChecked) {
+                    print('reaction selected id: ${reaction.id}');
                   },
                   reactions: widget.reactions,
                   initialReaction: Example.defaultInitialReaction,

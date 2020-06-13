@@ -7,14 +7,16 @@ Flutter button reaction it is fully customizable widget such as Facebook reactio
 
 ## Usage
 
+# flutter_reaction_button_example
+
 This is example Flutter Reaction Button Check:
 
 <img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button-Check.gif"/>
 
 ```dart
 FlutterReactionButtonCheck(
-    onReactionChanged: (reaction, selectedIndex, isChecked) {
-        print('reaction changed at $selectedIndex');
+    onReactionChanged: (reaction, isChecked) {
+        print('reaction selected id: $selectedIndex');
     },
     reaction: <Reaction>[
         Reaction(
@@ -87,8 +89,8 @@ This is a example Flutter Reaction Button:
 
 ```dart
 FlutterReactionButton(
-    onReactionChanged: (reaction, selectedIndex) {
-        print('reaction changed at $selectedIndex');
+    onReactionChanged: (reaction) {
+        print('reaction selected id: $selectedIndex');
     },
     reactions: <Reaction>[
         Reaction(
