@@ -37,7 +37,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         child: Column(
-          children: <Widget>[
+          children: [
             AspectRatio(
               aspectRatio: 2,
               child: Image.asset(
@@ -64,21 +64,17 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                   initialReaction: Example.defaultInitialReaction,
                   selectedReaction: widget.reactions[0],
                 ),
-                SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 InkWell(
                   onTap: () => _showBottomSheetCommets(),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       Icon(
                         Icons.message,
                         size: 20,
                         color: Colors.grey[400],
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      const SizedBox(width: 5),
                       Text(
                         'Comment',
                         style: TextStyle(fontSize: 17, color: Colors.grey[600]),
@@ -101,9 +97,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                         size: 20,
                         color: Colors.grey[400],
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      const SizedBox(width: 5),
                       Text(
                         'Share',
                         style: TextStyle(fontSize: 17, color: Colors.grey[600]),
@@ -114,7 +108,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
               ],
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               height: 1,
               color: Colors.grey[200],
             ),

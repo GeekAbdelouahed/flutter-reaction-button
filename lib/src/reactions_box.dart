@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'reactions_box_item.dart';
 import 'reactions_position.dart';
 import 'reaction.dart';
-import 'utils.dart';
+import 'extensions.dart';
 
 class ReactionsBox extends StatefulWidget {
   final Offset buttonOffset;
@@ -106,15 +106,17 @@ class _ReactionsBoxState extends State<ReactionsBox>
                           borderRadius: BorderRadius.circular(widget.radius)),
                       child: Wrap(
                         children: widget.reactions
-                            .map((reaction) => ReactionsBoxItem(
-                                  onReactionClick: (reaction) {
-                                    _selectedReaction = reaction;
-                                    _scaleController.reverse();
-                                  },
-                                  splashColor: widget.splashColor,
-                                  highlightColor: widget.highlightColor,
-                                  reaction: reaction,
-                                ))
+                            .map(
+                              (reaction) => ReactionsBoxItem(
+                                onReactionClick: (reaction) {
+                                  _selectedReaction = reaction;
+                                  _scaleController.reverse();
+                                },
+                                splashColor: widget.splashColor,
+                                highlightColor: widget.highlightColor,
+                                reaction: reaction,
+                              ),
+                            )
                             .toList(),
                       ),
                     ),
@@ -130,7 +132,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
       (_getTopPosition() - widget.buttonSize.height * 2 < 0)
           ? _getBottomPosition()
           : (_getBottomPosition() + widget.buttonSize.height * 2 >
-                  Utils.getScreenSize(context).height)
+                  context.getScreenSize().height)
               ? _getTopPosition()
               : widget.position == Position.TOP
                   ? _getTopPosition()

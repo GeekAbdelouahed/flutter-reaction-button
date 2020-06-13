@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
                   print('reaction selected id: ${reaction.id}');
                 },
                 reactions: Example.flagsReactions,
-                initialReaction: Example.flagsReactions[0],
+                initialReaction: Reaction(id: 0, icon: Icon(Icons.language)),
                 boxColor: Colors.black.withOpacity(0.5),
                 boxRadius: 10,
                 boxDuration: Duration(milliseconds: 500),
@@ -38,16 +38,31 @@ class _MyAppState extends State<MyApp> {
             builder: (context) => ListView(
               padding: const EdgeInsets.symmetric(vertical: 5),
               children: [
-                Item('image 1', 'assets/images/img1.jpg',
-                    Example.facebookReactions),
-                Item('image 2', 'assets/images/img2.jpg',
-                    Example.facebookReactions),
-                Item('image 3', 'assets/images/img3.jpg',
-                    Example.facebookReactions),
-                Item('image 4', 'assets/images/img4.jpg',
-                    Example.facebookReactions),
-                Item('image 5', 'assets/images/img5.jpg',
-                    Example.facebookReactions),
+                Item(
+                  'image 1',
+                  'assets/images/img1.jpg',
+                  Example.facebookReactions,
+                ),
+                Item(
+                  'image 2',
+                  'assets/images/img2.jpg',
+                  Example.facebookReactions,
+                ),
+                Item(
+                  'image 3',
+                  'assets/images/img3.jpg',
+                  Example.facebookReactions,
+                ),
+                Item(
+                  'image 4',
+                  'assets/images/img4.jpg',
+                  Example.facebookReactions,
+                ),
+                Item(
+                  'image 5',
+                  'assets/images/img5.jpg',
+                  Example.facebookReactions,
+                ),
               ],
             ),
           ),

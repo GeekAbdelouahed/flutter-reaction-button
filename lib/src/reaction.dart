@@ -11,7 +11,14 @@ class Reaction {
   /// If it's null will replace by [icon].
   Widget previewIcon;
 
-  Reaction({@required this.id, this.previewIcon, @required this.icon}) {
+  final bool enabled;
+
+  Reaction({
+    @required this.id,
+    this.previewIcon,
+    @required this.icon,
+    this.enabled = true,
+  }) {
     assert(id != null);
     assert(icon != null);
     this.previewIcon = previewIcon ?? this.icon;

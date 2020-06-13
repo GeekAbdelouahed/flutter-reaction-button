@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'reactions_position.dart';
 import 'reactions_box.dart';
 import 'reaction.dart';
-import 'utils.dart';
+import 'extensions.dart';
 
 class FlutterReactionButtonCheck extends StatefulWidget {
   /// This triggers when reaction button value changed.
@@ -112,8 +112,8 @@ class _FlutterReactionButtonCheckState
   }
 
   void _showReactionButtons(BuildContext context) async {
-    final buttonOffset = Utils.getButtonOffset(_buttonKey);
-    final buttonSize = Utils.getButtonSize(_buttonKey);
+    final buttonOffset = _buttonKey.getButtonOffset();
+    final buttonSize = _buttonKey.getButtonSize();
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,

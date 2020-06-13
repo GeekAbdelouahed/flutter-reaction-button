@@ -16,6 +16,7 @@ List<Reaction> flagsReactions = [
   ),
   Reaction(
     id: 3,
+    enabled: false,
     previewIcon: _buildPreviewIcon('assets/images/germany-round.png', 'German'),
     icon: _buildIcon('assets/images/germany.png'),
   ),

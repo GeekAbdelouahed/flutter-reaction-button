@@ -54,22 +54,25 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   }
 
   @override
-  Widget build(BuildContext context) => Transform.scale(
-        scale: _scale,
-        child: InkWell(
-          onTap: () {
-            _scaleController.reverse();
-            widget.onReactionClick(widget.reaction);
-          },
-          onTapDown: (_) {
-            _scaleController.forward();
-          },
-          onTapCancel: () {
-            _scaleController.reverse();
-          },
-          splashColor: widget.splashColor,
-          highlightColor: widget.highlightColor,
-          child: widget.reaction.previewIcon,
+  Widget build(BuildContext context) => IgnorePointer(
+        ignoring: !widget.reaction.enabled,
+        child: Transform.scale(
+          scale: _scale,
+          child: InkWell(
+            onTap: () {
+              _scaleController.reverse();
+              widget.onReactionClick(widget.reaction);
+            },
+            onTapDown: (_) {
+              _scaleController.forward();
+            },
+            onTapCancel: () {
+              _scaleController.reverse();
+            },
+            splashColor: widget.splashColor,
+            highlightColor: widget.highlightColor,
+            child: widget.reaction.previewIcon,
+          ),
         ),
       );
 }
