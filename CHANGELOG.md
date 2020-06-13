@@ -25,3 +25,9 @@
 ## 1.0.0
 
 * Add ripple effect.
+
+## 1.0.1
+
+* define reaction by id.
+* alternative to popup menu.
+* enable/disable reaction click.
