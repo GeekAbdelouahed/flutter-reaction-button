@@ -32,6 +32,9 @@ class FlutterReactionButton extends StatefulWidget {
   /// Reactions box show/hide duration [default = 200 milliseconds]
   final Duration boxDuration;
 
+  /// Change initial reaction after selected one [default = true]
+  final bool shouldChangeReaction;
+
   FlutterReactionButton({
     Key key,
     @required this.onReactionChanged,
@@ -44,6 +47,7 @@ class FlutterReactionButton extends StatefulWidget {
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
+    this.shouldChangeReaction = true,
   })  : assert(reactions != null),
         super(key: key);
 
@@ -98,8 +102,9 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
 
   void _updateReaction(Reaction reaction) {
     widget.onReactionChanged(reaction);
-    setState(() {
-      _selectedReaction = reaction;
-    });
+    if (widget.shouldChangeReaction)
+      setState(() {
+        _selectedReaction = reaction;
+      });
   }
 }

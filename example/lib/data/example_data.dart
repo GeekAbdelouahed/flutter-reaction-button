@@ -34,46 +34,94 @@ List<Reaction> flagsReactions = [
 final defaultInitialReaction = Reaction(
   id: 0,
   previewIcon: _buildPreviewIconFacebook('assets/images/like.png'),
-  icon: _buildIconFacebook('assets/images/like.png',
-      Text('Like', style: TextStyle(color: Colors.grey[600]))),
+  icon: _buildIconFacebook(
+    'assets/images/like.png',
+    Text(
+      'Like',
+      style: TextStyle(color: Colors.grey[600]),
+    ),
+  ),
 );
 
 final facebookReactions = [
   Reaction(
     id: 1,
     previewIcon: _buildPreviewIconFacebook('assets/images/like.gif'),
-    icon: _buildIconFacebook('assets/images/like_fill.png',
-        Text('Like', style: TextStyle(color: Color(0XFF3b5998)))),
+    icon: _buildIconFacebook(
+      'assets/images/like_fill.png',
+      Text(
+        'Like',
+        style: TextStyle(
+          color: Color(0XFF3b5998),
+        ),
+      ),
+    ),
   ),
   Reaction(
     id: 2,
     previewIcon: _buildPreviewIconFacebook('assets/images/love.gif'),
-    icon: _buildIconFacebook('assets/images/love.png',
-        Text('Love', style: TextStyle(color: Color(0XFFed5168)))),
+    icon: _buildIconFacebook(
+      'assets/images/love.png',
+      Text(
+        'Love',
+        style: TextStyle(
+          color: Color(0XFFed5168),
+        ),
+      ),
+    ),
   ),
   Reaction(
     id: 3,
     previewIcon: _buildPreviewIconFacebook('assets/images/wow.gif'),
-    icon: _buildIconFacebook('assets/images/wow.png',
-        Text('Wow', style: TextStyle(color: Color(0XFFffda6b)))),
+    icon: _buildIconFacebook(
+      'assets/images/wow.png',
+      Text(
+        'Wow',
+        style: TextStyle(
+          color: Color(0XFFffda6b),
+        ),
+      ),
+    ),
   ),
   Reaction(
     id: 4,
     previewIcon: _buildPreviewIconFacebook('assets/images/haha.gif'),
-    icon: _buildIconFacebook('assets/images/haha.png',
-        Text('Haha', style: TextStyle(color: Color(0XFFffda6b)))),
+    icon: _buildIconFacebook(
+      'assets/images/haha.png',
+      Text(
+        'Haha',
+        style: TextStyle(
+          color: Color(0XFFffda6b),
+        ),
+      ),
+    ),
   ),
   Reaction(
     id: 5,
     previewIcon: _buildPreviewIconFacebook('assets/images/sad.gif'),
-    icon: _buildIconFacebook('assets/images/sad.png',
-        Text('Sad', style: TextStyle(color: Color(0XFFffda6b)))),
+    icon: _buildIconFacebook(
+      'assets/images/sad.png',
+      Text(
+        'Sad',
+        style: TextStyle(
+          color: Color(0XFFffda6b),
+        ),
+      ),
+    ),
   ),
   Reaction(
-      id: 6,
-      previewIcon: _buildPreviewIconFacebook('assets/images/angry.gif'),
-      icon: _buildIconFacebook('assets/images/angry.png',
-          Text('Angry', style: TextStyle(color: Color(0XFFf05766))))),
+    id: 6,
+    previewIcon: _buildPreviewIconFacebook('assets/images/angry.gif'),
+    icon: _buildIconFacebook(
+      'assets/images/angry.png',
+      Text(
+        'Angry',
+        style: TextStyle(
+          color: Color(0XFFf05766),
+        ),
+      ),
+    ),
+  ),
 ];
 
 Widget _buildPreviewIcon(String path, String text) => Padding(
