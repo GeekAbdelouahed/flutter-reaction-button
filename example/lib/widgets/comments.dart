@@ -41,36 +41,32 @@ class _CommentsState extends State<Comments> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: widget.comments.isEmpty
-                ? Center(
-                    child: Text(
-                      'No comment yet',
-                      style: TextStyle(
-                        fontSize: 18,
+  Widget build(BuildContext context) => Column(
+        children: [
+          const SizedBox(height: 20),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: widget.comments.isEmpty
+                  ? Center(
+                      child: const Text(
+                        'No comment yet',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
+                    )
+                  : ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: widget.comments.length,
+                      itemBuilder: (context, index) =>
+                          buildComment(widget.comments[index]),
                     ),
-                  )
-                : ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: widget.comments.length,
-                    itemBuilder: (context, index) =>
-                        buildComment(widget.comments[index]),
-                  ),
+            ),
           ),
-        ),
-        buildCommentField(),
-      ],
-    );
-  }
+          buildCommentField(),
+        ],
+      );
 
   Widget buildComment(comment) => SizedBox(
         height: 75,
@@ -95,9 +91,7 @@ class _CommentsState extends State<Comments> {
                 ),
               ),
             ),
-            SizedBox(
-              width: 10,
-            ),
+            const SizedBox(width: 10),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(

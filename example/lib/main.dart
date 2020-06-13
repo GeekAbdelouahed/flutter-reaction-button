@@ -20,16 +20,23 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.grey[200],
           appBar: AppBar(
             title: const Text('Flutter Reaction Button'),
-            actions: <Widget>[
-              FlutterReactionButton(
-                onReactionChanged: (reaction) {
-                  print('reaction selected id: ${reaction.id}');
-                },
-                reactions: Example.flagsReactions,
-                initialReaction: Reaction(id: 0, icon: Icon(Icons.language)),
-                boxColor: Colors.black.withOpacity(0.5),
-                boxRadius: 10,
-                boxDuration: Duration(milliseconds: 500),
+            actions: [
+              Builder(
+                builder: (ctx) => FlutterReactionButton(
+                  onReactionChanged: (reaction) {
+                    Scaffold.of(ctx).showSnackBar(
+                      SnackBar(
+                        content: Text('reaction selected id: ${reaction.id}'),
+                      ),
+                    );
+                  },
+                  shouldChangeReaction: false,
+                  reactions: Example.flagsReactions,
+                  initialReaction: Reaction(id: 0, icon: Icon(Icons.language)),
+                  boxColor: Colors.black.withOpacity(0.5),
+                  boxRadius: 10,
+                  boxDuration: Duration(milliseconds: 500),
+                ),
               ),
               SizedBox(width: 10),
             ],
