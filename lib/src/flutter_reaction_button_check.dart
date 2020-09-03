@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-import 'extensions.dart';
-import 'reaction.dart';
-import 'reactions_box.dart';
 import 'reactions_position.dart';
+import 'reactions_box.dart';
+import 'reaction.dart';
+import 'extensions.dart';
 
 class FlutterReactionButtonCheck extends StatefulWidget {
   /// This triggers when reaction button value changed.
