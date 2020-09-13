@@ -37,6 +37,10 @@ class FlutterReactionButtonCheck extends StatefulWidget {
   /// Reactions box show/hide duration [default = 200 milliseconds]
   final Duration boxDuration;
 
+  /// Flag for pre-set reactions if true @link selectedReaction will be
+  /// displayed else @link initialReaction will be displayed [default = false]
+  final bool isChecked;
+
   FlutterReactionButtonCheck({
     Key key,
     @required this.onReactionChanged,
@@ -50,6 +54,7 @@ class FlutterReactionButtonCheck extends StatefulWidget {
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
+    this.isChecked = false,
   })  : assert(reactions != null),
         super(key: key);
 
@@ -75,7 +80,9 @@ class _FlutterReactionButtonCheckState
   @override
   void initState() {
     super.initState();
-    _selectedReaction = widget.initialReaction;
+    _isChecked = widget.isChecked;
+    _selectedReaction =
+        _isChecked ? widget.selectedReaction : widget.initialReaction;
   }
 
   @override
@@ -106,7 +113,7 @@ class _FlutterReactionButtonCheckState
     _isChecked = !_isChecked;
     _updateReaction(
       _isChecked
-          ? (widget.selectedReaction ?? widget.reactions[0])
+          ? widget.reactions[0]
           : widget.initialReaction,
     );
   }
@@ -139,7 +146,7 @@ class _FlutterReactionButtonCheckState
 
   void _updateReaction(Reaction reaction, [bool isSelectedFromDialog = false]) {
     _isChecked =
-        isSelectedFromDialog ? true : reaction != widget.initialReaction;
+    isSelectedFromDialog ? true : reaction.id != widget.initialReaction.id;
     widget.onReactionChanged(reaction, _isChecked);
     setState(() {
       _selectedReaction = reaction;
