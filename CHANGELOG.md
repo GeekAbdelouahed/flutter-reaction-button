@@ -35,3 +35,7 @@
 ## 1.0.2
 
 * code improvements
+
+## 1.0.3
+
+* change state externally
