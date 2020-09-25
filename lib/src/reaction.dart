@@ -15,8 +15,8 @@ class Reaction {
 
   Reaction({
     @required this.id,
-    this.previewIcon,
     @required this.icon,
+    this.previewIcon,
     this.enabled = true,
   }) {
     assert(id != null);

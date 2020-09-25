@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../flutter_reaction_button.dart';
+
+import 'reaction.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
   final Function(Reaction) onReactionClick;

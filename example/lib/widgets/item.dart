@@ -86,7 +86,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                   onTap: () => Scaffold.of(context).showSnackBar(SnackBar(
                     duration: Duration(seconds: 2),
                     content: Text(
-                      'Sahre image ${widget.title}',
+                      'Share image ${widget.title}',
                       style: TextStyle(color: Colors.white),
                     ),
                   )),

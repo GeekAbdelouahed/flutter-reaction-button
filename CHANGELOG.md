@@ -31,3 +31,7 @@
 * define reaction by id.
 * alternative to popup menu.
 * enable/disable reaction click.
+
+## 1.0.2
+
+* code improvements

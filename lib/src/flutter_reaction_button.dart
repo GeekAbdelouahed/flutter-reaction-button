@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'reactions_position.dart';
 import 'reactions_box.dart';
 import 'reaction.dart';
@@ -60,12 +61,20 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
 
   Reaction _selectedReaction;
 
-  _FlutterReactionButtonState();
+  void _init() {
+    _selectedReaction = widget.initialReaction;
+  }
+
+  @override
+  void didUpdateWidget(FlutterReactionButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _init();
+  }
 
   @override
   void initState() {
     super.initState();
-    _selectedReaction = widget.initialReaction;
+    _init();
   }
 
   @override

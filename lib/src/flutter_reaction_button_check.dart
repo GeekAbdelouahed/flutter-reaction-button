@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'reactions_position.dart';
 import 'reactions_box.dart';
 import 'reaction.dart';
@@ -75,14 +76,22 @@ class _FlutterReactionButtonCheckState
 
   bool _isChecked = false;
 
-  _FlutterReactionButtonCheckState();
+  void _init() {
+    _isChecked = widget.isChecked;
+    _selectedReaction =
+        _isChecked ? widget.selectedReaction : widget.initialReaction;
+  }
+
+  @override
+  void didUpdateWidget(FlutterReactionButtonCheck oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _init();
+  }
 
   @override
   void initState() {
     super.initState();
-    _isChecked = widget.isChecked;
-    _selectedReaction =
-        _isChecked ? widget.selectedReaction : widget.initialReaction;
+    _init();
   }
 
   @override
@@ -112,9 +121,7 @@ class _FlutterReactionButtonCheckState
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
     _updateReaction(
-      _isChecked
-          ? widget.reactions[0]
-          : widget.initialReaction,
+      _isChecked ? widget.reactions[0] : widget.initialReaction,
     );
   }
 
@@ -146,7 +153,7 @@ class _FlutterReactionButtonCheckState
 
   void _updateReaction(Reaction reaction, [bool isSelectedFromDialog = false]) {
     _isChecked =
-    isSelectedFromDialog ? true : reaction.id != widget.initialReaction.id;
+        isSelectedFromDialog ? true : reaction.id != widget.initialReaction.id;
     widget.onReactionChanged(reaction, _isChecked);
     setState(() {
       _selectedReaction = reaction;
