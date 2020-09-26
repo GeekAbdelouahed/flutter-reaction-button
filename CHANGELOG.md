@@ -39,3 +39,7 @@
 ## 1.0.3
 
 * change state externally
+
+## 1.0.4
+
+* reactions box alignment

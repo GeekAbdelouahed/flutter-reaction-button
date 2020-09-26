@@ -38,6 +38,9 @@ class FlutterReactionButtonCheck extends StatefulWidget {
   /// Reactions box show/hide duration [default = 200 milliseconds]
   final Duration boxDuration;
 
+  /// Reactions box alignment [default = Alignment.center]
+  final Alignment boxAlignment;
+
   /// Flag for pre-set reactions if true @link selectedReaction will be
   /// displayed else @link initialReaction will be displayed [default = false]
   final bool isChecked;
@@ -55,6 +58,7 @@ class FlutterReactionButtonCheck extends StatefulWidget {
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
+    this.boxAlignment = Alignment.center,
     this.isChecked = false,
   })  : assert(reactions != null),
         super(key: key);
@@ -143,6 +147,7 @@ class _FlutterReactionButtonCheckState
           duration: widget.boxDuration,
           highlightColor: widget.highlightColor,
           splashColor: widget.splashColor,
+          alignment: widget.boxAlignment,
         ),
       ),
     );

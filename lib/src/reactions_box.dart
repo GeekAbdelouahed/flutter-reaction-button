@@ -26,6 +26,8 @@ class ReactionsBox extends StatefulWidget {
 
   final Color splashColor;
 
+  final Alignment alignment;
+
   const ReactionsBox({
     @required this.buttonOffset,
     @required this.buttonSize,
@@ -37,6 +39,7 @@ class ReactionsBox extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.highlightColor,
     this.splashColor,
+    this.alignment = Alignment.center,
   })  : assert(buttonOffset != null),
         assert(buttonSize != null),
         assert(reactions != null),
@@ -92,7 +95,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
           height: double.infinity,
           color: Colors.transparent,
           child: Stack(
-            alignment: Alignment.center,
+            alignment: widget.alignment,
             children: <Widget>[
               Positioned(
                 top: _getPosition(context),
