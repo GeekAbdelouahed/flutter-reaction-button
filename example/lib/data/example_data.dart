@@ -34,24 +34,17 @@ List<Reaction> flagsReactions = [
 
 final defaultInitialReaction = Reaction(
   id: 0,
-  previewIcon: _buildPreviewIconFacebook('assets/images/like.png'),
-  icon: _buildIconFacebook(
-    'assets/images/like.png',
-    Text(
-      'Like',
-      style: TextStyle(color: Colors.grey[600]),
-    ),
-  ),
+  icon: Text('No raction'),
 );
 
-final facebookReactions = [
+final reactions = [
   Reaction(
     id: 1,
-    previewIcon: _buildPreviewIconFacebook('assets/images/like.gif'),
+    previewIcon: _buildPreviewIconFacebook('assets/images/happy.png'),
     icon: _buildIconFacebook(
-      'assets/images/like_fill.png',
+      'assets/images/happy.png',
       Text(
-        'Like',
+        'Happy',
         style: TextStyle(
           color: Color(0XFF3b5998),
         ),
@@ -60,11 +53,11 @@ final facebookReactions = [
   ),
   Reaction(
     id: 2,
-    previewIcon: _buildPreviewIconFacebook('assets/images/love.gif'),
+    previewIcon: _buildPreviewIconFacebook('assets/images/angry.png'),
     icon: _buildIconFacebook(
-      'assets/images/love.png',
+      'assets/images/angry.png',
       Text(
-        'Love',
+        'Angry',
         style: TextStyle(
           color: Color(0XFFed5168),
         ),
@@ -73,11 +66,11 @@ final facebookReactions = [
   ),
   Reaction(
     id: 3,
-    previewIcon: _buildPreviewIconFacebook('assets/images/wow.gif'),
+    previewIcon: _buildPreviewIconFacebook('assets/images/in-love.png'),
     icon: _buildIconFacebook(
-      'assets/images/wow.png',
+      'assets/images/in-love.png',
       Text(
-        'Wow',
+        'In love',
         style: TextStyle(
           color: Color(0XFFffda6b),
         ),
@@ -86,20 +79,7 @@ final facebookReactions = [
   ),
   Reaction(
     id: 4,
-    previewIcon: _buildPreviewIconFacebook('assets/images/haha.gif'),
-    icon: _buildIconFacebook(
-      'assets/images/haha.png',
-      Text(
-        'Haha',
-        style: TextStyle(
-          color: Color(0XFFffda6b),
-        ),
-      ),
-    ),
-  ),
-  Reaction(
-    id: 5,
-    previewIcon: _buildPreviewIconFacebook('assets/images/sad.gif'),
+    previewIcon: _buildPreviewIconFacebook('assets/images/sad.png'),
     icon: _buildIconFacebook(
       'assets/images/sad.png',
       Text(
@@ -111,12 +91,25 @@ final facebookReactions = [
     ),
   ),
   Reaction(
-    id: 6,
-    previewIcon: _buildPreviewIconFacebook('assets/images/angry.gif'),
+    id: 5,
+    previewIcon: _buildPreviewIconFacebook('assets/images/surprised.png'),
     icon: _buildIconFacebook(
-      'assets/images/angry.png',
+      'assets/images/surprised.png',
       Text(
-        'Angry',
+        'Surprised',
+        style: TextStyle(
+          color: Color(0XFFffda6b),
+        ),
+      ),
+    ),
+  ),
+  Reaction(
+    id: 6,
+    previewIcon: _buildPreviewIconFacebook('assets/images/mad.png'),
+    icon: _buildIconFacebook(
+      'assets/images/mad.png',
+      Text(
+        'Mad',
         style: TextStyle(
           color: Color(0XFFf05766),
         ),

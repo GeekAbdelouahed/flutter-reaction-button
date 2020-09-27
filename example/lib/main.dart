@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'data/example_data.dart' as Example;
 
-import 'widgets/item.dart';
+import 'items/item.dart';
 
 void main() => runApp(MyApp());
 
@@ -49,27 +49,27 @@ class _MyAppState extends State<MyApp> {
                 Item(
                   'image 1',
                   'assets/images/img1.jpg',
-                  Example.facebookReactions,
+                  Example.reactions,
                 ),
                 Item(
                   'image 2',
                   'assets/images/img2.jpg',
-                  Example.facebookReactions,
+                  Example.reactions,
                 ),
                 Item(
                   'image 3',
                   'assets/images/img3.jpg',
-                  Example.facebookReactions,
+                  Example.reactions,
                 ),
                 Item(
                   'image 4',
                   'assets/images/img4.jpg',
-                  Example.facebookReactions,
+                  Example.reactions,
                 ),
                 Item(
                   'image 5',
                   'assets/images/img5.jpg',
-                  Example.facebookReactions,
+                  Example.reactions,
                 ),
               ],
             ),
