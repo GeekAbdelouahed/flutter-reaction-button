@@ -145,7 +145,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
       (_getTopPosition() - widget.buttonSize.height * 2 < 0)
           ? _getBottomPosition()
           : (_getBottomPosition() + widget.buttonSize.height * 2 >
-                  context.getScreenSize().height)
+                  context.screenSize.height)
               ? _getTopPosition()
               : widget.position == Position.TOP
                   ? _getTopPosition()

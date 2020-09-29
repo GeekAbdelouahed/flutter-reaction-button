@@ -1,17 +1,17 @@
 import 'package:flutter/widgets.dart';
 
 extension KeyExtensions on GlobalKey {
-  Offset getButtonOffset() {
+  Offset get buttonOffset {
     final RenderBox containerRenderBox = this.currentContext.findRenderObject();
     return containerRenderBox.localToGlobal(Offset.zero);
   }
 
-  Size getButtonSize() {
+  Size get buttonSize {
     final RenderBox containerRenderBox = this.currentContext.findRenderObject();
     return containerRenderBox.size;
   }
 }
 
 extension ContextExtensions on BuildContext {
-  Size getScreenSize() => MediaQuery.of(this).size;
+  Size get screenSize => MediaQuery.of(this).size;
 }
