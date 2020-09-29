@@ -7,7 +7,7 @@ This is example Flutter Reaction Button Check:
 ```dart
 FlutterReactionButtonCheck(
     onReactionChanged: (reaction, isChecked) {
-        print('reaction selected id: $selectedIndex');
+        print('reaction selected id: ${reaction.id}');
     },
     reaction: <Reaction>[
         Reaction(
@@ -81,7 +81,7 @@ This is a example Flutter Reaction Button:
 ```dart
 FlutterReactionButton(
     onReactionChanged: (reaction) {
-        print('reaction selected id: $selectedIndex');
+        print('reaction selected id: ${reaction.id}');
     },
     reactions: <Reaction>[
         Reaction(
