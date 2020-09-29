@@ -39,6 +39,10 @@ class FlutterReactionButton extends StatefulWidget {
   /// Change initial reaction after selected one [default = true]
   final bool shouldChangeReaction;
 
+  final EdgeInsets boxPadding;
+
+  final double boxItemsSpacing;
+
   FlutterReactionButton({
     Key key,
     @required this.onReactionChanged,
@@ -53,6 +57,8 @@ class FlutterReactionButton extends StatefulWidget {
     this.boxDuration = const Duration(milliseconds: 200),
     this.boxAlignment = Alignment.center,
     this.shouldChangeReaction = true,
+    this.boxPadding = const EdgeInsets.all(0),
+    this.boxItemsSpacing = 0,
   })  : assert(reactions != null),
         super(key: key);
 
@@ -109,6 +115,8 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
           highlightColor: widget.highlightColor,
           splashColor: widget.splashColor,
           alignment: widget.boxAlignment,
+          boxPadding: widget.boxPadding,
+          boxItemsSpacing: widget.boxItemsSpacing,
         ),
       ),
     );

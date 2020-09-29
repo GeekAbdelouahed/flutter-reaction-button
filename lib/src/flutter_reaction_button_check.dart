@@ -45,6 +45,10 @@ class FlutterReactionButtonCheck extends StatefulWidget {
   /// displayed else @link initialReaction will be displayed [default = false]
   final bool isChecked;
 
+  final EdgeInsets boxPadding;
+
+  final double boxItemsSpacing;
+
   FlutterReactionButtonCheck({
     Key key,
     @required this.onReactionChanged,
@@ -60,6 +64,8 @@ class FlutterReactionButtonCheck extends StatefulWidget {
     this.boxDuration = const Duration(milliseconds: 200),
     this.boxAlignment = Alignment.center,
     this.isChecked = false,
+    this.boxPadding = const EdgeInsets.all(0),
+    this.boxItemsSpacing = 0,
   })  : assert(reactions != null),
         super(key: key);
 
@@ -148,6 +154,8 @@ class _FlutterReactionButtonCheckState
           highlightColor: widget.highlightColor,
           splashColor: widget.splashColor,
           alignment: widget.boxAlignment,
+          boxPadding: widget.boxPadding,
+          boxItemsSpacing: widget.boxItemsSpacing,
         ),
       ),
     );

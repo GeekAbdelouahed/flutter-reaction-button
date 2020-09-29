@@ -28,6 +28,10 @@ class ReactionsBox extends StatefulWidget {
 
   final Alignment alignment;
 
+  final EdgeInsets boxPadding;
+
+  final double boxItemsSpacing;
+
   const ReactionsBox({
     @required this.buttonOffset,
     @required this.buttonSize,
@@ -40,6 +44,8 @@ class ReactionsBox extends StatefulWidget {
     this.highlightColor,
     this.splashColor,
     this.alignment = Alignment.center,
+    this.boxPadding = const EdgeInsets.all(0),
+    this.boxItemsSpacing = 0,
   })  : assert(buttonOffset != null),
         assert(buttonSize != null),
         assert(reactions != null),
@@ -107,20 +113,24 @@ class _ReactionsBoxState extends State<ReactionsBox>
                       elevation: widget.elevation,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(widget.radius)),
-                      child: Wrap(
-                        children: widget.reactions
-                            .map(
-                              (reaction) => ReactionsBoxItem(
-                                onReactionClick: (reaction) {
-                                  _selectedReaction = reaction;
-                                  _scaleController.reverse();
-                                },
-                                splashColor: widget.splashColor,
-                                highlightColor: widget.highlightColor,
-                                reaction: reaction,
-                              ),
-                            )
-                            .toList(),
+                      child: Padding(
+                        padding: widget.boxPadding,
+                        child: Wrap(
+                          spacing: widget.boxItemsSpacing,
+                          children: widget.reactions
+                              .map(
+                                (reaction) => ReactionsBoxItem(
+                                  onReactionClick: (reaction) {
+                                    _selectedReaction = reaction;
+                                    _scaleController.reverse();
+                                  },
+                                  splashColor: widget.splashColor,
+                                  highlightColor: widget.highlightColor,
+                                  reaction: reaction,
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
                   ),
