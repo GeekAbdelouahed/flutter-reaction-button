@@ -43,3 +43,7 @@
 ## 1.0.4
 
 * reactions box alignment
+
+## 1.0.5
+
+* items spacing / box padding
