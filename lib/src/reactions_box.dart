@@ -111,8 +111,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
                     child: Card(
                       color: widget.color,
                       elevation: widget.elevation,
+                      clipBehavior: Clip.antiAlias,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(widget.radius)),
+                        borderRadius: BorderRadius.circular(widget.radius),
+                      ),
                       child: Padding(
                         padding: widget.boxPadding,
                         child: Wrap(

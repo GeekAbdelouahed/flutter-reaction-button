@@ -59,13 +59,15 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .2,
-                    child: FlutterReactionButtonCheck(
-                      onReactionChanged: (reaction, isChecked) {
-                        print('reaction selected id: ${reaction.id}');
-                      },
-                      reactions: widget.reactions,
-                      initialReaction: Example.defaultInitialReaction,
-                      selectedReaction: widget.reactions[0],
+                    child: FittedBox(
+                      child: FlutterReactionButtonCheck(
+                        onReactionChanged: (reaction, isChecked) {
+                          print('reaction selected id: ${reaction.id}');
+                        },
+                        reactions: widget.reactions,
+                        initialReaction: Example.defaultInitialReaction,
+                        selectedReaction: widget.reactions[0],
+                      ),
                     ),
                   ),
                   InkWell(

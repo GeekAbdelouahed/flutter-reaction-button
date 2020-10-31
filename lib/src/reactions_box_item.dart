@@ -31,6 +31,36 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   double _scale = 1;
 
+  OverlayEntry _overlayEntry;
+
+  void _showTitle() {
+    _overlayEntry = _createOverlayEntry();
+    Overlay.of(context).insert(_overlayEntry);
+  }
+
+  void _hideTitle() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    RenderBox renderBox = context.findRenderObject();
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    return OverlayEntry(
+      builder: (_) => Positioned(
+        left: offset.dx,
+        top: offset.dy - size.height * .5,
+        child: Material(
+          elevation: 0,
+          color: Colors.transparent,
+          child: widget.reaction.title ?? const SizedBox(),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +75,12 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         setState(() {
           _scale = _scaleAnimation.value;
         });
+
+        if (_scale == 1.3 && _overlayEntry == null) {
+          _showTitle();
+        } else if (_scale == 1) {
+          _hideTitle();
+        }
       });
   }
 

@@ -5,29 +5,33 @@ import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 List<Reaction> flagsReactions = [
   Reaction(
     id: 1,
-    previewIcon:
-        _buildPreviewIcon('assets/images/united-kingdom-round.png', 'English'),
+    previewIcon: _builFlagsdPreviewIcon(
+        'assets/images/united-kingdom-round.png', 'English'),
     icon: _buildIcon('assets/images/united-kingdom.png'),
   ),
   Reaction(
     id: 2,
-    previewIcon: _buildPreviewIcon('assets/images/algeria-round.png', 'Arabic'),
+    previewIcon:
+        _builFlagsdPreviewIcon('assets/images/algeria-round.png', 'Arabic'),
     icon: _buildIcon('assets/images/algeria.png'),
   ),
   Reaction(
     id: 3,
     enabled: false,
-    previewIcon: _buildPreviewIcon('assets/images/germany-round.png', 'German'),
+    previewIcon:
+        _builFlagsdPreviewIcon('assets/images/germany-round.png', 'German'),
     icon: _buildIcon('assets/images/germany.png'),
   ),
   Reaction(
     id: 4,
-    previewIcon: _buildPreviewIcon('assets/images/spain-round.png', 'Spanish'),
+    previewIcon:
+        _builFlagsdPreviewIcon('assets/images/spain-round.png', 'Spanish'),
     icon: _buildIcon('assets/images/spain.png'),
   ),
   Reaction(
     id: 5,
-    previewIcon: _buildPreviewIcon('assets/images/china-round.png', 'Chinese'),
+    previewIcon:
+        _builFlagsdPreviewIcon('assets/images/china-round.png', 'Chinese'),
     icon: _buildIcon('assets/images/china.png'),
   ),
 ];
@@ -40,8 +44,9 @@ final defaultInitialReaction = Reaction(
 final reactions = [
   Reaction(
     id: 1,
-    previewIcon: _buildPreviewIconFacebook('assets/images/happy.png'),
-    icon: _buildIconFacebook(
+    title: _buildTitle('Happy'),
+    previewIcon: _buildReactionsPreviewIcon('assets/images/happy.png'),
+    icon: _buildReactionsIcon(
       'assets/images/happy.png',
       Text(
         'Happy',
@@ -53,8 +58,9 @@ final reactions = [
   ),
   Reaction(
     id: 2,
-    previewIcon: _buildPreviewIconFacebook('assets/images/angry.png'),
-    icon: _buildIconFacebook(
+    title: _buildTitle('Angry'),
+    previewIcon: _buildReactionsPreviewIcon('assets/images/angry.png'),
+    icon: _buildReactionsIcon(
       'assets/images/angry.png',
       Text(
         'Angry',
@@ -66,8 +72,9 @@ final reactions = [
   ),
   Reaction(
     id: 3,
-    previewIcon: _buildPreviewIconFacebook('assets/images/in-love.png'),
-    icon: _buildIconFacebook(
+    title: _buildTitle('In love'),
+    previewIcon: _buildReactionsPreviewIcon('assets/images/in-love.png'),
+    icon: _buildReactionsIcon(
       'assets/images/in-love.png',
       Text(
         'In love',
@@ -79,8 +86,9 @@ final reactions = [
   ),
   Reaction(
     id: 4,
-    previewIcon: _buildPreviewIconFacebook('assets/images/sad.png'),
-    icon: _buildIconFacebook(
+    title: _buildTitle('Sad'),
+    previewIcon: _buildReactionsPreviewIcon('assets/images/sad.png'),
+    icon: _buildReactionsIcon(
       'assets/images/sad.png',
       Text(
         'Sad',
@@ -92,8 +100,9 @@ final reactions = [
   ),
   Reaction(
     id: 5,
-    previewIcon: _buildPreviewIconFacebook('assets/images/surprised.png'),
-    icon: _buildIconFacebook(
+    title: _buildTitle('Surprised'),
+    previewIcon: _buildReactionsPreviewIcon('assets/images/surprised.png'),
+    icon: _buildReactionsIcon(
       'assets/images/surprised.png',
       Text(
         'Surprised',
@@ -105,8 +114,9 @@ final reactions = [
   ),
   Reaction(
     id: 6,
-    previewIcon: _buildPreviewIconFacebook('assets/images/mad.png'),
-    icon: _buildIconFacebook(
+    title: _buildTitle('Mad'),
+    previewIcon: _buildReactionsPreviewIcon('assets/images/mad.png'),
+    icon: _buildReactionsIcon(
       'assets/images/mad.png',
       Text(
         'Mad',
@@ -118,7 +128,7 @@ final reactions = [
   ),
 ];
 
-Widget _buildPreviewIcon(String path, String text) => Padding(
+Widget _builFlagsdPreviewIcon(String path, String text) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Column(
         children: [
@@ -136,7 +146,19 @@ Widget _buildPreviewIcon(String path, String text) => Padding(
       ),
     );
 
-Widget _buildPreviewIconFacebook(String path) => Padding(
+Widget _buildTitle(String title) => Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.black54,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        title,
+        style: TextStyle(color: Colors.white, fontSize: 10),
+      ),
+    );
+
+Widget _buildReactionsPreviewIcon(String path) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 3.5, vertical: 5),
       child: Image.asset(path, height: 40),
     );
@@ -147,7 +169,7 @@ Widget _buildIcon(String path) => Image.asset(
       width: 30,
     );
 
-Widget _buildIconFacebook(String path, Text text) => Container(
+Widget _buildReactionsIcon(String path, Text text) => Container(
       color: Colors.transparent,
       child: Row(
         children: <Widget>[
