@@ -47,3 +47,7 @@
 ## 1.0.5
 
 * items spacing / box padding
+
+## 1.0.6
+
+* reaction title
