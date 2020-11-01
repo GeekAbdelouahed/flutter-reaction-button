@@ -33,17 +33,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   OverlayEntry _overlayEntry;
 
-  void _showTitle() {
-    _overlayEntry = _createOverlayEntry();
-    Overlay.of(context).insert(_overlayEntry);
-  }
-
-  void _hideTitle() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
-
-  OverlayEntry _createOverlayEntry() {
+  OverlayEntry _createTitle() {
     RenderBox renderBox = context.findRenderObject();
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
@@ -59,6 +49,16 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         ),
       ),
     );
+  }
+
+  void _showTitle() {
+    _overlayEntry = _createTitle();
+    Overlay.of(context).insert(_overlayEntry);
+  }
+
+  void _hideTitle() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
   }
 
   @override

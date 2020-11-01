@@ -147,14 +147,18 @@ Widget _builFlagsdPreviewIcon(String path, String text) => Padding(
     );
 
 Widget _buildTitle(String title) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 2.5),
       decoration: BoxDecoration(
         color: Colors.black54,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Text(
         title,
-        style: TextStyle(color: Colors.white, fontSize: 10),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
 

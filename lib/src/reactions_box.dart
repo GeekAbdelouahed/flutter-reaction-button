@@ -102,7 +102,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
           color: Colors.transparent,
           child: Stack(
             alignment: widget.alignment,
-            children: <Widget>[
+            children: [
               Positioned(
                 top: _getPosition(context),
                 child: GestureDetector(
