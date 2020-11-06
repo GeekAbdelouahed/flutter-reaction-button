@@ -131,7 +131,9 @@ class _FlutterReactionButtonCheckState
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
     _updateReaction(
-      _isChecked ? widget.reactions[0] : widget.initialReaction,
+      _isChecked
+          ? widget.selectedReaction ?? widget.reactions[0]
+          : widget.initialReaction,
     );
   }
 

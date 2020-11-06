@@ -51,3 +51,7 @@
 ## 1.0.6
 
 * reaction title
+
+## 1.0.6+1
+
+* minor bugs fixed

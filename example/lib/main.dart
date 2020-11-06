@@ -30,7 +30,6 @@ class _MyAppState extends State<MyApp> {
                       ),
                     );
                   },
-                  shouldChangeReaction: false,
                   reactions: Example.flagsReactions,
                   initialReaction: Reaction(id: 0, icon: Icon(Icons.language)),
                   boxColor: Colors.black.withOpacity(0.5),
