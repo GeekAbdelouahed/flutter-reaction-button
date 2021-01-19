@@ -26,7 +26,7 @@ class ReactionsBox extends StatefulWidget {
 
   final Color splashColor;
 
-  final Alignment alignment;
+  final AlignmentGeometry alignment;
 
   final EdgeInsets boxPadding;
 
