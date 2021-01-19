@@ -9,26 +9,24 @@ class Reaction {
   /// Widget showing when reactions box appear.
   ///
   /// If it's null will replace by [icon].
-  Widget previewIcon;
+  final Widget previewIcon;
 
   /// Widget that describes the action that will occur when the button is pressed.
   ///
   ///This widget is displayed when the user hover on the button.
-  Widget title;
+  final Widget title;
 
   final bool enabled;
 
   Reaction({
     @required this.id,
     @required this.icon,
-    this.previewIcon,
+    Widget previewIcon,
     this.title,
     this.enabled = true,
-  }) {
-    assert(id != null);
-    assert(icon != null);
-    this.previewIcon = previewIcon ?? this.icon;
-  }
+  })  : this.previewIcon = previewIcon ?? icon,
+        assert(id != null),
+        assert(icon != null);
 
   @override
   bool operator ==(Object object) =>
