@@ -63,3 +63,4 @@
 ## 1.0.7
 
 * Remove reaction id
+* Clean code
