@@ -23,15 +23,15 @@ class _MyAppState extends State<MyApp> {
             actions: [
               Builder(
                 builder: (ctx) => FlutterReactionButton(
-                  onReactionChanged: (reaction) {
+                  onReactionChanged: (reaction, index) {
                     Scaffold.of(ctx).showSnackBar(
                       SnackBar(
-                        content: Text('reaction selected id: ${reaction.id}'),
+                        content: Text('reaction selected index: $index'),
                       ),
                     );
                   },
                   reactions: Example.flagsReactions,
-                  initialReaction: Reaction(id: 0, icon: Icon(Icons.language)),
+                  initialReaction: Reaction(icon: Icon(Icons.language)),
                   boxColor: Colors.black.withOpacity(0.5),
                   boxRadius: 10,
                   boxDuration: Duration(milliseconds: 500),

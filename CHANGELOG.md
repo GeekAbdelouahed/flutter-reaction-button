@@ -59,3 +59,7 @@
 ## 1.0.6+2
 
 * minor bugs fixed
+
+## 1.0.7
+
+* Remove reaction id

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Reaction {
-  final int id;
-
   /// Widget showing as button after selecting preview Icon from box appear.
   final Widget icon;
 
@@ -19,19 +17,24 @@ class Reaction {
   final bool enabled;
 
   Reaction({
-    @required this.id,
     @required this.icon,
     Widget previewIcon,
     this.title,
     this.enabled = true,
   })  : this.previewIcon = previewIcon ?? icon,
-        assert(id != null),
         assert(icon != null);
 
   @override
   bool operator ==(Object object) =>
-      object != null && object is Reaction && this.id == object.id;
+      object != null &&
+      object is Reaction &&
+      icon == object.icon &&
+      icon.key == object.icon.key &&
+      previewIcon == object.previewIcon &&
+      previewIcon?.key == object.previewIcon?.key &&
+      title == object.title &&
+      title?.key == object.title?.key;
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => hashValues(icon, previewIcon, title);
 }

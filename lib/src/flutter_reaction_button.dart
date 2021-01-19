@@ -7,7 +7,7 @@ import 'extensions.dart';
 
 class FlutterReactionButton extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final Function(Reaction) onReactionChanged;
+  final Function(Reaction, int) onReactionChanged;
 
   /// Default reaction button widget
   final Reaction initialReaction;
@@ -125,7 +125,10 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   }
 
   void _updateReaction(Reaction reaction) {
-    widget.onReactionChanged(reaction);
+    widget.onReactionChanged?.call(
+      reaction,
+      widget.reactions.indexOf(reaction),
+    );
     if (widget.shouldChangeReaction)
       setState(() {
         _selectedReaction = reaction;
