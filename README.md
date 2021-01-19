@@ -18,7 +18,7 @@ FlutterReactionButtonCheck(
     onReactionChanged: (reaction, isChecked) {
         print('reaction selected id: ${reaction.id}');
     },
-    reaction: <Reaction>[
+    reactions: <Reaction>[
         Reaction(
             previewIcon: buildWidgetPreview(
                 icon: 'like.gif',
