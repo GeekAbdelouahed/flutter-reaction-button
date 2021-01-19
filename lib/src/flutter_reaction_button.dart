@@ -34,7 +34,7 @@ class FlutterReactionButton extends StatefulWidget {
   final Duration boxDuration;
 
   /// Reactions box alignment [default = Alignment.center]
-  final Alignment boxAlignment;
+  final AlignmentGeometry boxAlignment;
 
   /// Change initial reaction after selected one [default = true]
   final bool shouldChangeReaction;
@@ -102,8 +102,8 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        transitionDuration: Duration(milliseconds: 200),
-        pageBuilder: (context, _, __) => ReactionsBox(
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (_, __, ___) => ReactionsBox(
           buttonOffset: buttonOffset,
           buttonSize: buttonSize,
           reactions: widget.reactions,
@@ -120,9 +120,8 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
         ),
       ),
     );
-    if (reactionButton != null) {
-      _updateReaction(reactionButton);
-    }
+
+    if (reactionButton != null) _updateReaction(reactionButton);
   }
 
   void _updateReaction(Reaction reaction) {

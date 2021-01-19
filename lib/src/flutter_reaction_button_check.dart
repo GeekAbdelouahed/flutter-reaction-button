@@ -39,7 +39,7 @@ class FlutterReactionButtonCheck extends StatefulWidget {
   final Duration boxDuration;
 
   /// Reactions box alignment [default = Alignment.center]
-  final Alignment boxAlignment;
+  final AlignmentGeometry boxAlignment;
 
   /// Flag for pre-set reactions if true @link selectedReaction will be
   /// displayed else @link initialReaction will be displayed [default = false]
@@ -143,8 +143,8 @@ class _FlutterReactionButtonCheckState
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        transitionDuration: Duration(milliseconds: 200),
-        pageBuilder: (context, _, __) => ReactionsBox(
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (_, __, ___) => ReactionsBox(
           buttonOffset: buttonOffset,
           buttonSize: buttonSize,
           reactions: widget.reactions,
@@ -161,9 +161,8 @@ class _FlutterReactionButtonCheckState
         ),
       ),
     );
-    if (reactionButton != null) {
-      _updateReaction(reactionButton, true);
-    }
+
+    if (reactionButton != null) _updateReaction(reactionButton, true);
   }
 
   void _updateReaction(Reaction reaction, [bool isSelectedFromDialog = false]) {
