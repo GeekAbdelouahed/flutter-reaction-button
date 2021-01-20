@@ -24,7 +24,7 @@ dependencies:
 Next, import 'flutter_reaction_button.dart' into your dart code.
 
 ```dart
-import 'package:flutter_places/flutter_reaction_button.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 ```
 
 ## Examples
