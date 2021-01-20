@@ -94,54 +94,51 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        // Hide box when clicking out
-        onTap: () => _scaleController.reverse(),
-        onTapDown: (_) => _scaleController.reverse(),
-        child: Container(
-          height: double.infinity,
-          color: Colors.transparent,
-          child: Stack(
-            alignment: widget.alignment,
-            children: [
-              Positioned(
-                top: _getPosition(context),
-                child: GestureDetector(
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: Card(
-                      color: widget.color,
-                      elevation: widget.elevation,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(widget.radius),
-                      ),
-                      child: Padding(
-                        padding: widget.boxPadding,
-                        child: Wrap(
-                          spacing: widget.boxItemsSpacing,
-                          children: widget.reactions
-                              .map(
-                                (reaction) => ReactionsBoxItem(
-                                  onReactionClick: (reaction) {
-                                    _selectedReaction = reaction;
-                                    _scaleController.reverse();
-                                  },
-                                  splashColor: widget.splashColor,
-                                  highlightColor: widget.highlightColor,
-                                  reaction: reaction,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
+  Widget build(BuildContext context) => Stack(
+        clipBehavior: Clip.none,
+        alignment: widget.alignment,
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTapDown: (_) => _scaleController.reverse(),
+              onVerticalDragUpdate: (_) => _scaleController.reverse(),
+              onHorizontalDragUpdate: (_) => _scaleController.reverse(),
+            ),
+          ),
+          Positioned(
+            top: _getPosition(context),
+            child: Transform.scale(
+              scale: _scale,
+              child: Card(
+                color: widget.color,
+                elevation: widget.elevation,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(widget.radius),
+                ),
+                child: Padding(
+                  padding: widget.boxPadding,
+                  child: Wrap(
+                    spacing: widget.boxItemsSpacing,
+                    children: widget.reactions
+                        .map(
+                          (reaction) => ReactionsBoxItem(
+                            onReactionClick: (reaction) {
+                              _selectedReaction = reaction;
+                              _scaleController.reverse();
+                            },
+                            splashColor: widget.splashColor,
+                            highlightColor: widget.highlightColor,
+                            reaction: reaction,
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       );
 
   double _getPosition(BuildContext context) =>

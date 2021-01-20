@@ -65,6 +65,6 @@
 * Remove reaction id
 * Clean code
 
-## 1.0.7+1
+## 1.0.7+2
 
 * Improvement box flow
