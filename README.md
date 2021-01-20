@@ -1,13 +1,35 @@
 # Flutter Reaction Button
 
+[![pub package](https://img.shields.io/pub/v/flutter_reaction_button.svg)](https://pub.dartlang.org/packages/flutter_reaction_button)
+
 Flutter button reaction it is fully customizable widget such as Facebook reaction button.
 
-- [Pub Package](https://pub.dev/packages/flutter_reaction_button)
-- [GitHub Repository](https://github.com/GeekAbdelouahed/flutter-reaction-button)
+## Preview
+
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Preview.png"/>
 
 ## Usage
 
-# flutter_reaction_button_example
+[Include 'flutter_places' from Dart Pub.](https://pub.dartlang.org/packages/flutter_reaction_button)
+
+```yaml
+# pubspec.yaml
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_reaction_button: <last-version>
+```
+
+Next, import 'flutter_reaction_button.dart' into your dart code.
+
+```dart
+import 'package:flutter_places/flutter_reaction_button.dart';
+```
+
+## Examples
+
+# flutter_reaction_button
 
 This is example Flutter Reaction Button Check:
 
