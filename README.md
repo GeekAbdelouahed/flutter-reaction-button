@@ -10,7 +10,7 @@ Flutter button reaction it is fully customizable widget such as Facebook reactio
 
 ## Usage
 
-[Include 'flutter_places' from Dart Pub.](https://pub.dartlang.org/packages/flutter_reaction_button)
+[Include 'flutter_reaction_button' from Dart Pub.](https://pub.dartlang.org/packages/flutter_reaction_button)
 
 ```yaml
 # pubspec.yaml
