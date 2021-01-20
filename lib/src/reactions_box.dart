@@ -97,6 +97,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
   Widget build(BuildContext context) => GestureDetector(
         // Hide box when clicking out
         onTap: () => _scaleController.reverse(),
+        onTapDown: (_) => _scaleController.reverse(),
         child: Container(
           height: double.infinity,
           color: Colors.transparent,
