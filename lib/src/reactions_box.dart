@@ -95,7 +95,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   @override
   Widget build(BuildContext context) => Stack(
-        clipBehavior: Clip.none,
         alignment: widget.alignment,
         children: [
           Positioned.fill(
