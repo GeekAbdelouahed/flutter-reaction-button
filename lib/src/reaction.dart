@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Reaction {
+  @deprecated
+  final int id;
+
   /// Widget showing as button after selecting preview Icon from box appear.
   final Widget icon;
 
@@ -17,6 +20,7 @@ class Reaction {
   final bool enabled;
 
   Reaction({
+    this.id,
     @required this.icon,
     Widget previewIcon,
     this.title,

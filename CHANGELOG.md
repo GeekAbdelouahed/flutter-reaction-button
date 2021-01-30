@@ -68,3 +68,7 @@
 ## 1.0.7+2
 
 * Improvement box flow
+
+## 1.0.7+3
+
+* Deprecated Reaction id
