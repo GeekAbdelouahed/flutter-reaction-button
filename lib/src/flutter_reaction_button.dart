@@ -5,9 +5,11 @@ import 'reactions_box.dart';
 import 'reaction.dart';
 import 'extensions.dart';
 
+typedef OnFlutterReactionButtonChanged = void Function(Reaction, int);
+
 class FlutterReactionButton extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final Function(Reaction, int) onReactionChanged;
+  final OnFlutterReactionButtonChanged onReactionChanged;
 
   /// Default reaction button widget
   final Reaction initialReaction;

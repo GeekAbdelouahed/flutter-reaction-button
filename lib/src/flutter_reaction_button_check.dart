@@ -7,9 +7,11 @@ import 'reactions_box.dart';
 import 'reaction.dart';
 import 'extensions.dart';
 
+typedef FlutterReactionButtonCheckChanged = void Function(Reaction, int, bool);
+
 class FlutterReactionButtonCheck extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final Function(Reaction, int, bool) onReactionChanged;
+  final FlutterReactionButtonCheckChanged onReactionChanged;
 
   /// Default reaction button widget if [isChecked == false]
   final Reaction initialReaction;
