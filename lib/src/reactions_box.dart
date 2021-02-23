@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'reactions_box_item.dart';
@@ -149,21 +151,17 @@ class _ReactionsBoxState extends State<ReactionsBox>
               ? _getTopPosition()
               : _getBottomPosition();
 
-  double _getXPosition(BuildContext context) => (_getLeftPosition() < 0)
-      ? _getRightPosition()
-      : (_getRightPosition() + 150 > context.screenSize.width)
-          ? _getLeftPosition()
-          : widget.position == Position.LEFT
-              ? _getLeftPosition()
-              : _getRightPosition();
+  double _getXPosition(BuildContext context) => widget.position == Position.LEFT
+              ? max(_getLeftPosition(), 10)
+              : min(_getRightPosition(), context.screenSize.width - 160);
 
-  double _getTopPosition() => widget.anchorOffset.dy - 10;
+  double _getTopPosition() => widget.anchorOffset.dy + 20;
 
   double _getBottomPosition() =>
-      widget.anchorOffset.dy + widget.anchorSize.height / 2;
+      widget.anchorOffset.dy + widget.anchorSize.height - 20;
 
   double _getRightPosition() =>
-      widget.anchorOffset.dx + widget.anchorSize.width + 8;
+      widget.anchorOffset.dx + widget.anchorSize.width - 75;
 
-  double _getLeftPosition() => widget.anchorOffset.dx - 150;
+  double _getLeftPosition() => widget.anchorOffset.dx - 75;
 }
