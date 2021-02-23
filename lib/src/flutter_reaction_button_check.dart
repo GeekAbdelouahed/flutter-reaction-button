@@ -147,8 +147,8 @@ class _FlutterReactionButtonCheckState
         opaque: false,
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (_, __, ___) => ReactionsBox(
-          buttonOffset: buttonOffset,
-          buttonSize: buttonSize,
+          anchorOffset: buttonOffset,
+          anchorSize: buttonSize,
           reactions: widget.reactions,
           position: widget.boxPosition,
           color: widget.boxColor,

@@ -6,9 +6,9 @@ import 'reaction.dart';
 import 'extensions.dart';
 
 class ReactionsBox extends StatefulWidget {
-  final Offset buttonOffset;
+  final Offset anchorOffset;
 
-  final Size buttonSize;
+  final Size anchorSize;
 
   final List<Reaction> reactions;
 
@@ -33,8 +33,8 @@ class ReactionsBox extends StatefulWidget {
   final double boxItemsSpacing;
 
   const ReactionsBox({
-    @required this.buttonOffset,
-    @required this.buttonSize,
+    @required this.anchorOffset,
+    @required this.anchorSize,
     @required this.reactions,
     @required this.position,
     this.color = Colors.white,
@@ -43,11 +43,11 @@ class ReactionsBox extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.highlightColor,
     this.splashColor,
-    this.alignment = Alignment.center,
+    this.alignment = Alignment.centerLeft,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
-  })  : assert(buttonOffset != null),
-        assert(buttonSize != null),
+  })  : assert(anchorOffset != null),
+        assert(anchorSize != null),
         assert(reactions != null),
         assert(position != null);
 
@@ -105,7 +105,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
             ),
           ),
           Positioned(
-            top: _getPosition(context),
+            top: _getYPosition(context),
+            left: _getXPosition(context),
             child: Transform.scale(
               scale: _scale,
               child: Card(
@@ -140,19 +141,35 @@ class _ReactionsBoxState extends State<ReactionsBox>
         ],
       );
 
-  double _getPosition(BuildContext context) =>
-      (_getTopPosition() - widget.buttonSize.height * 2 < 0)
+  double _getYPosition(BuildContext context) =>
+      (_getTopPosition() - widget.anchorSize.height * 2 < 0)
           ? _getBottomPosition()
-          : (_getBottomPosition() + widget.buttonSize.height * 2 >
+          : (_getBottomPosition() + widget.anchorSize.height * 2 >
                   context.screenSize.height)
               ? _getTopPosition()
               : widget.position == Position.TOP
                   ? _getTopPosition()
                   : _getBottomPosition();
 
+  double _getXPosition(BuildContext context) =>
+      (_getLeftPosition() - widget.anchorSize.width * 2 < 0)
+          ? _getRightPosition()
+          : (_getLeftPosition() + widget.anchorSize.width * 2 >
+          context.screenSize.width)
+          ? _getLeftPosition()
+          : widget.position == Position.LEFT
+          ? _getLeftPosition()
+          : _getRightPosition();
+
   double _getTopPosition() =>
-      widget.buttonOffset.dy - widget.buttonSize.height * 3.3;
+      widget.anchorOffset.dy - (widget.anchorSize.height + 10);
 
   double _getBottomPosition() =>
-      widget.buttonOffset.dy + widget.buttonSize.height;
+      widget.anchorOffset.dy + widget.anchorSize.height + 10;
+
+  double _getRightPosition() =>
+      widget.anchorOffset.dx - (widget.anchorSize.width + 10);
+
+  double _getLeftPosition() =>
+      widget.anchorOffset.dx + widget.anchorSize.width + 10;
 }
