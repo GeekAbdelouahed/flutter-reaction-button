@@ -141,35 +141,29 @@ class _ReactionsBoxState extends State<ReactionsBox>
         ],
       );
 
-  double _getYPosition(BuildContext context) =>
-      (_getTopPosition() - widget.anchorSize.height * 2 < 0)
-          ? _getBottomPosition()
-          : (_getBottomPosition() + widget.anchorSize.height * 2 >
-                  context.screenSize.height)
+  double _getYPosition(BuildContext context) => (_getTopPosition() - 30 < 0)
+      ? _getBottomPosition()
+      : (_getBottomPosition() + 30 > context.screenSize.height)
+          ? _getTopPosition()
+          : widget.position == Position.TOP
               ? _getTopPosition()
-              : widget.position == Position.TOP
-                  ? _getTopPosition()
-                  : _getBottomPosition();
+              : _getBottomPosition();
 
-  double _getXPosition(BuildContext context) =>
-      (_getLeftPosition() - 150 < 0)
-          ? _getRightPosition()
-          : (_getLeftPosition() + 150 >
-          context.screenSize.width)
+  double _getXPosition(BuildContext context) => (_getLeftPosition() < 0)
+      ? _getRightPosition()
+      : (_getRightPosition() + 150 > context.screenSize.width)
           ? _getLeftPosition()
           : widget.position == Position.LEFT
-          ? _getLeftPosition()
-          : _getRightPosition();
+              ? _getLeftPosition()
+              : _getRightPosition();
 
-  double _getTopPosition() =>
-      widget.anchorOffset.dy - (widget.anchorSize.height + 10);
+  double _getTopPosition() => widget.anchorOffset.dy - 10;
 
   double _getBottomPosition() =>
-      widget.anchorOffset.dy + widget.anchorSize.height + 10;
+      widget.anchorOffset.dy + widget.anchorSize.height / 2;
 
   double _getRightPosition() =>
-      widget.anchorOffset.dx + widget.anchorSize.width + 10;
+      widget.anchorOffset.dx + widget.anchorSize.width + 8;
 
-  double _getLeftPosition() =>
-      widget.anchorOffset.dx - 10;
+  double _getLeftPosition() => widget.anchorOffset.dx - 150;
 }
