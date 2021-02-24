@@ -190,6 +190,6 @@ class _Constants {
   static const double estimated_box_height = 38;
   static const double box_anchor_offset = 0;
   static const double vertical_margin = 150;
-  static const double box_anchor_margin = 8;
+  static const double box_anchor_margin = 0;
   static const double margin = 16;
 }
