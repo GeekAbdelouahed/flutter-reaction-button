@@ -93,11 +93,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   @override
   Widget build(BuildContext context) => Stack(
-        alignment: widget.alignment == Alignment.topCenter ||
-                widget.alignment == Alignment.bottomCenter ||
-                widget.alignment == Alignment.center
-            ? Alignment.center
-            : Alignment.centerLeft,
         children: [
           Positioned.fill(
             child: GestureDetector(
@@ -143,50 +138,58 @@ class _ReactionsBoxState extends State<ReactionsBox>
         ],
       );
 
-  double _getYPosition(BuildContext context) => (_getTopPosition() - _Constants.vertical_margin < 0)
-      ? _getBottomPosition()
-      : (_getBottomPosition() + _Constants.vertical_margin > context.screenSize.height)
-          ? _getTopPosition()
-          : widget.alignment == Alignment.topLeft ||
-                  widget.alignment == Alignment.topRight ||
-                  widget.alignment == Alignment.topCenter
+  double _getYPosition(BuildContext context) =>
+      (_getTopPosition() - _Constants.vertical_margin < 0)
+          ? _getBottomPosition()
+          : (_getBottomPosition() + _Constants.vertical_margin >
+                  context.screenSize.height)
               ? _getTopPosition()
-              : _getBottomPosition();
+              : widget.alignment == Alignment.topLeft ||
+                      widget.alignment == Alignment.topRight ||
+                      widget.alignment == Alignment.topCenter
+                  ? _getTopPosition()
+                  : _getBottomPosition();
 
   double _getXPosition(BuildContext context) =>
       widget.alignment == Alignment.bottomCenter ||
               widget.alignment == Alignment.topCenter ||
-              widget.alignment == Alignment.topCenter
-          ? null
+              widget.alignment == Alignment.center
+          ? context.screenSize.width / 2 - _Constants.estimated_box_width / 2
           : widget.alignment == Alignment.topLeft ||
                   widget.alignment == Alignment.bottomLeft
               ? min(
                   max(_getLeftPosition(), _Constants.margin),
                   context.screenSize.width -
-                      (_Constants.estimated_box_size + _Constants.margin))
+                      (_Constants.estimated_box_width + _Constants.margin))
               : max(
                   min(
                       _getRightPosition(),
                       context.screenSize.width -
-                          (_Constants.estimated_box_size + _Constants.margin)),
+                          (_Constants.estimated_box_width + _Constants.margin)),
                   _Constants.margin);
 
-  double _getTopPosition() => widget.anchorOffset.dy + _Constants.margin;
+  double _getTopPosition() =>
+      widget.anchorOffset.dy - _Constants.box_anchor_offset;
 
   double _getBottomPosition() =>
-      widget.anchorOffset.dy + widget.anchorSize.height - _Constants.margin;
+      widget.anchorOffset.dy +
+      widget.anchorSize.height -
+      _Constants.estimated_box_height +
+      _Constants.box_anchor_offset;
 
   double _getRightPosition() =>
       widget.anchorOffset.dx +
       widget.anchorSize.width -
-      _Constants.estimated_box_size / 2;
+      _Constants.estimated_box_width / 2;
 
   double _getLeftPosition() =>
-      widget.anchorOffset.dx - _Constants.estimated_box_size / 2;
+      widget.anchorOffset.dx - _Constants.estimated_box_width / 2;
 }
 
 class _Constants {
-  static const double estimated_box_size = 200;
+  static const double estimated_box_width = 200;
+  static const double estimated_box_height = 38;
+  static const double box_anchor_offset = 10;
   static const double vertical_margin = 150;
   static const double margin = 16;
 }
