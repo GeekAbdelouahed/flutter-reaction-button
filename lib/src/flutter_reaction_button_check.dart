@@ -25,9 +25,6 @@ class FlutterReactionButtonCheck extends StatefulWidget {
 
   final Color splashColor;
 
-  /// Position reactions box for the button [default = TOP]
-  final Position boxPosition;
-
   /// Reactions box color [default = white]
   final Color boxColor;
 
@@ -59,7 +56,6 @@ class FlutterReactionButtonCheck extends StatefulWidget {
     this.selectedReaction,
     this.highlightColor,
     this.splashColor,
-    this.boxPosition = Position.TOP,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -150,7 +146,6 @@ class _FlutterReactionButtonCheckState
           anchorOffset: buttonOffset,
           anchorSize: buttonSize,
           reactions: widget.reactions,
-          position: widget.boxPosition,
           color: widget.boxColor,
           elevation: widget.boxElevation,
           radius: widget.boxRadius,

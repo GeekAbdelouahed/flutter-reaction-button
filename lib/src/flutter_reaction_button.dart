@@ -20,9 +20,6 @@ class FlutterReactionButton extends StatefulWidget {
 
   final Color splashColor;
 
-  /// Position reactions box for the button [default = TOP]
-  final Position boxPosition;
-
   /// Reactions box color [default = white]
   final Color boxColor;
 
@@ -52,7 +49,6 @@ class FlutterReactionButton extends StatefulWidget {
     this.initialReaction,
     this.highlightColor,
     this.splashColor,
-    this.boxPosition = Position.TOP,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -109,7 +105,6 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
           anchorOffset: buttonOffset,
           anchorSize: buttonSize,
           reactions: widget.reactions,
-          position: widget.boxPosition,
           color: widget.boxColor,
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
