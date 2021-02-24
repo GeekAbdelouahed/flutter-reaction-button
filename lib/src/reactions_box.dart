@@ -152,8 +152,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
               : _getBottomPosition();
 
   double _getXPosition(BuildContext context) => widget.position == Position.LEFT
-              ? max(_getLeftPosition(), 10)
-              : min(_getRightPosition(), context.screenSize.width - 220);
+      ? min(max(_getLeftPosition(), 10), context.screenSize.width - 220)
+      : max(min(_getRightPosition(), context.screenSize.width - 220), 10);
 
   double _getTopPosition() => widget.anchorOffset.dy + 20;
 
