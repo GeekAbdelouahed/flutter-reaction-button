@@ -178,16 +178,19 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   double _getRightPosition() =>
       widget.anchorOffset.dx +
-      widget.anchorSize.width + _Constants.box_anchor_margin;
+      widget.anchorSize.width +
+      _Constants.box_anchor_margin;
 
   double _getLeftPosition() =>
-      widget.anchorOffset.dx - _Constants.estimated_box_width - _Constants.box_anchor_margin;
+      widget.anchorOffset.dx -
+      _Constants.estimated_box_width -
+      _Constants.box_anchor_margin;
 }
 
 class _Constants {
-  static const double estimated_box_width = 180;
-  static const double estimated_box_height = 44;
-  static const double box_anchor_offset = 10;
+  static const double estimated_box_width = 190;
+  static const double estimated_box_height = 40;
+  static const double box_anchor_offset = 5;
   static const double vertical_margin = 150;
   static const double box_anchor_margin = 0;
   static const double margin = 16;
