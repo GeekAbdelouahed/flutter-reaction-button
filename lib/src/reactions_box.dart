@@ -174,8 +174,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
   double _getBottomPosition() =>
       widget.anchorOffset.dy +
       widget.anchorSize.height -
-      _Constants.estimated_box_height +
-      _Constants.box_anchor_offset;
+      _Constants.estimated_box_height;
 
   double _getRightPosition() =>
       widget.anchorOffset.dx +
@@ -186,9 +185,9 @@ class _ReactionsBoxState extends State<ReactionsBox>
 }
 
 class _Constants {
-  static const double estimated_box_width = 200;
-  static const double estimated_box_height = 38;
-  static const double box_anchor_offset = 0;
+  static const double estimated_box_width = 180;
+  static const double estimated_box_height = 44;
+  static const double box_anchor_offset = 10;
   static const double vertical_margin = 150;
   static const double box_anchor_margin = 0;
   static const double margin = 16;
