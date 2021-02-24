@@ -188,9 +188,9 @@ class _ReactionsBoxState extends State<ReactionsBox>
 }
 
 class _Constants {
-  static const double estimated_box_width = 190;
+  static const double estimated_box_width = 210;
   static const double estimated_box_height = 40;
-  static const double box_anchor_offset = 5;
+  static const double box_anchor_offset = 6;
   static const double vertical_margin = 150;
   static const double box_anchor_margin = 0;
   static const double margin = 16;
