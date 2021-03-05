@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
               Builder(
                 builder: (ctx) => FlutterReactionButton(
                   onReactionChanged: (reaction, index) {
-                    Scaffold.of(ctx).showSnackBar(
+                    ScaffoldMessenger.of(ctx).showSnackBar(
                       SnackBar(
                         content: Text('reaction selected index: $index'),
                       ),
