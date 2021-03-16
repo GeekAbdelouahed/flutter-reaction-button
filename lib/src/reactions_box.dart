@@ -10,7 +10,7 @@ class ReactionsBox extends StatefulWidget {
 
   final Size buttonSize;
 
-  final List<Reaction> reactions;
+  final List<Reaction?> reactions;
 
   final Position position;
 
@@ -22,9 +22,9 @@ class ReactionsBox extends StatefulWidget {
 
   final Duration duration;
 
-  final Color highlightColor;
+  final Color? highlightColor;
 
-  final Color splashColor;
+  final Color? splashColor;
 
   final AlignmentGeometry alignment;
 
@@ -33,10 +33,11 @@ class ReactionsBox extends StatefulWidget {
   final double boxItemsSpacing;
 
   const ReactionsBox({
-    @required this.buttonOffset,
-    @required this.buttonSize,
-    @required this.reactions,
-    @required this.position,
+    Key? key,
+    required this.buttonOffset,
+    required this.buttonSize,
+    required this.reactions,
+    required this.position,
     this.color = Colors.white,
     this.elevation = 5,
     this.radius = 50,
@@ -46,10 +47,7 @@ class ReactionsBox extends StatefulWidget {
     this.alignment = Alignment.center,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
-  })  : assert(buttonOffset != null),
-        assert(buttonSize != null),
-        assert(reactions != null),
-        assert(position != null);
+  }) : super(key: key);
 
   @override
   _ReactionsBoxState createState() => _ReactionsBoxState();
@@ -57,13 +55,13 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
-  AnimationController _scaleController;
+  late AnimationController _scaleController;
 
-  Animation<double> _scaleAnimation;
+  late Animation<double> _scaleAnimation;
 
   double _scale = 0;
 
-  Reaction _selectedReaction;
+  Reaction? _selectedReaction;
 
   @override
   void initState() {

@@ -12,13 +12,13 @@ class FlutterReactionButton extends StatefulWidget {
   final OnFlutterReactionButtonChanged onReactionChanged;
 
   /// Default reaction button widget
-  final Reaction initialReaction;
+  final Reaction? initialReaction;
 
   final List<Reaction> reactions;
 
-  final Color highlightColor;
+  final Color? highlightColor;
 
-  final Color splashColor;
+  final Color? splashColor;
 
   /// Position reactions box for the button [default = TOP]
   final Position boxPosition;
@@ -46,9 +46,9 @@ class FlutterReactionButton extends StatefulWidget {
   final double boxItemsSpacing;
 
   FlutterReactionButton({
-    Key key,
-    @required this.onReactionChanged,
-    @required this.reactions,
+    Key? key,
+    required this.onReactionChanged,
+    required this.reactions,
     this.initialReaction,
     this.highlightColor,
     this.splashColor,
@@ -61,8 +61,7 @@ class FlutterReactionButton extends StatefulWidget {
     this.shouldChangeReaction = true,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
-  })  : assert(reactions != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _FlutterReactionButtonState createState() => _FlutterReactionButtonState();
@@ -71,7 +70,7 @@ class FlutterReactionButton extends StatefulWidget {
 class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   final GlobalKey _buttonKey = GlobalKey();
 
-  Reaction _selectedReaction;
+  Reaction? _selectedReaction;
 
   void _init() {
     _selectedReaction = widget.initialReaction;
@@ -127,7 +126,7 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   }
 
   void _updateReaction(Reaction reaction) {
-    widget.onReactionChanged?.call(
+    widget.onReactionChanged.call(
       reaction,
       widget.reactions.indexOf(reaction),
     );

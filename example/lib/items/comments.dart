@@ -12,13 +12,7 @@ class Comments extends StatefulWidget {
 }
 
 class _CommentsState extends State<Comments> {
-  TextEditingController _textEditingController;
-
-  @override
-  void initState() {
-    super.initState();
-    _textEditingController = TextEditingController();
-  }
+  TextEditingController _textEditingController = TextEditingController();
 
   @override
   void dispose() {
@@ -77,8 +71,7 @@ class _CommentsState extends State<Comments> {
               child: CircleAvatar(
                 radius: 100,
                 child: CircleAvatar(
-                  child:
-                      Text(comment.name?.substring(0, 1)?.toUpperCase() ?? ' '),
+                  child: Text(comment.name.substring(0, 1).toUpperCase()),
                 ),
               ),
             ),
@@ -129,7 +122,7 @@ class _CommentsState extends State<Comments> {
   Widget buildCommentField() => Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.grey[300].withOpacity(.5),
+          color: Colors.grey[300]?.withOpacity(.5),
           borderRadius: BorderRadius.circular(30),
         ),
         child: TextFormField(

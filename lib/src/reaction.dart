@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Reaction {
   @deprecated
-  final int id;
+  final int? id;
 
   /// Widget showing as button after selecting preview Icon from box appear.
   final Widget icon;
@@ -15,27 +15,26 @@ class Reaction {
   /// Widget that describes the action that will occur when the button is pressed.
   ///
   ///This widget is displayed when the user hover on the button.
-  final Widget title;
+  final Widget? title;
 
   final bool enabled;
 
   Reaction({
     this.id,
-    @required this.icon,
-    Widget previewIcon,
+    required this.icon,
+    Widget? previewIcon,
     this.title,
     this.enabled = true,
-  })  : this.previewIcon = previewIcon ?? icon,
-        assert(icon != null);
+  }) : this.previewIcon = previewIcon ?? icon;
 
   @override
-  bool operator ==(Object object) =>
+  bool operator ==(Object? object) =>
       object != null &&
       object is Reaction &&
       icon == object.icon &&
       icon.key == object.icon.key &&
       previewIcon == object.previewIcon &&
-      previewIcon?.key == object.previewIcon?.key &&
+      previewIcon.key == object.previewIcon.key &&
       title == object.title &&
       title?.key == object.title?.key;
 
