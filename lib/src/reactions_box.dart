@@ -2,10 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'reactions_box_item.dart';
-import 'reactions_position.dart';
-import 'reaction.dart';
 import 'extensions.dart';
+import 'reaction.dart';
+import 'reactions_box_item.dart';
 
 class ReactionsBox extends StatefulWidget {
   final Offset anchorOffset;
@@ -169,29 +168,31 @@ class _ReactionsBoxState extends State<ReactionsBox>
                   _Constants.margin);
 
   double _getTopPosition() =>
-      widget.anchorOffset.dy - _Constants.box_anchor_offset;
+      widget.anchorOffset.dy -
+      _Constants.estimated_box_height -
+      _Constants.box_anchor_margin;
 
   double _getBottomPosition() =>
       widget.anchorOffset.dy +
-      widget.anchorSize.height -
-      _Constants.estimated_box_height;
+      widget.anchorSize.height +
+      _Constants.box_anchor_margin;
 
   double _getRightPosition() =>
       widget.anchorOffset.dx +
-      widget.anchorSize.width +
-      _Constants.box_anchor_margin;
+      widget.anchorSize.width -
+      _Constants.box_anchor_inset;
 
   double _getLeftPosition() =>
       widget.anchorOffset.dx -
-      _Constants.estimated_box_width -
-      _Constants.box_anchor_margin;
+      _Constants.estimated_box_width +
+      _Constants.box_anchor_inset;
 }
 
 class _Constants {
-  static const double estimated_box_width = 210;
+  static const double estimated_box_width = 170;
   static const double estimated_box_height = 40;
-  static const double box_anchor_offset = 6;
   static const double vertical_margin = 150;
-  static const double box_anchor_margin = 0;
+  static const double box_anchor_margin = 8;
+  static const double box_anchor_inset = 50;
   static const double margin = 16;
 }
