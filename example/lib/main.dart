@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'data/example_data.dart' as Example;
 
+import 'data/example_data.dart' as Example;
 import 'items/item.dart';
 
 void main() => runApp(MyApp());
@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
               Builder(
                 builder: (ctx) => FlutterReactionButton(
                   onReactionChanged: (reaction, index) {
-                    Scaffold.of(ctx).showSnackBar(
+                    ScaffoldMessenger.of(ctx).showSnackBar(
                       SnackBar(
                         content: Text('reaction selected index: $index'),
                       ),

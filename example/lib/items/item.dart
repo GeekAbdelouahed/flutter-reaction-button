@@ -89,7 +89,8 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                     ),
                   ),
                   InkWell(
-                    onTap: () => Scaffold.of(context).showSnackBar(SnackBar(
+                    onTap: () =>
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       duration: Duration(seconds: 2),
                       content: Text(
                         'Share image ${widget.title}',

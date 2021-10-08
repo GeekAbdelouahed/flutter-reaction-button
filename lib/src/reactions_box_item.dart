@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'reaction.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
-  final Function(Reaction) onReactionClick;
+  final Function(Reaction?) onReactionClick;
 
-  final Reaction reaction;
+  final Reaction? reaction;
 
-  final Color highlightColor;
+  final Color? highlightColor;
 
-  final Color splashColor;
+  final Color? splashColor;
 
   const ReactionsBoxItem({
-    Key key,
-    @required this.reaction,
-    @required this.onReactionClick,
+    Key? key,
+    required this.reaction,
+    required this.onReactionClick,
     this.highlightColor,
     this.splashColor,
   }) : super(key: key);
@@ -25,16 +25,16 @@ class ReactionsBoxItem extends StatefulWidget {
 
 class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     with TickerProviderStateMixin {
-  AnimationController _scaleController;
+  late AnimationController _scaleController;
 
-  Animation<double> _scaleAnimation;
+  late Animation<double> _scaleAnimation;
 
   double _scale = 1;
 
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
 
   OverlayEntry _createTitle() {
-    RenderBox renderBox = context.findRenderObject();
+    RenderBox renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
 
@@ -45,7 +45,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         child: Material(
           elevation: 0,
           color: Colors.transparent,
-          child: widget.reaction.title ?? const SizedBox(),
+          child: widget.reaction!.title ?? const SizedBox(),
         ),
       ),
     );
@@ -53,7 +53,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   void _showTitle() {
     _overlayEntry = _createTitle();
-    Overlay.of(context).insert(_overlayEntry);
+    Overlay.of(context)!.insert(_overlayEntry!);
   }
 
   void _hideTitle() {
@@ -92,7 +92,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
-        ignoring: !widget.reaction.enabled,
+        ignoring: !widget.reaction!.enabled,
         child: Transform.scale(
           scale: _scale,
           child: InkWell(
@@ -108,7 +108,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
             },
             splashColor: widget.splashColor,
             highlightColor: widget.highlightColor,
-            child: widget.reaction.previewIcon,
+            child: widget.reaction!.previewIcon,
           ),
         ),
       );

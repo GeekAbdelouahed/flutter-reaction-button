@@ -1,4 +1,3 @@
-import 'package:avataaar_image/avataaar_image.dart';
 import 'package:flutter/material.dart';
 
 import '../models/comment.dart';
@@ -13,13 +12,7 @@ class Comments extends StatefulWidget {
 }
 
 class _CommentsState extends State<Comments> {
-  TextEditingController _textEditingController;
-
-  @override
-  void initState() {
-    super.initState();
-    _textEditingController = TextEditingController();
-  }
+  TextEditingController _textEditingController = TextEditingController();
 
   @override
   void dispose() {
@@ -31,7 +24,6 @@ class _CommentsState extends State<Comments> {
     if (_textEditingController.text.isEmpty) return;
     setState(() {
       final comment = Comment(
-        avatar: Avataaar.random(),
         name: 'Person ${widget.comments.length}',
         content: _textEditingController.text,
       );
@@ -68,7 +60,7 @@ class _CommentsState extends State<Comments> {
         ],
       );
 
-  Widget buildComment(comment) => SizedBox(
+  Widget buildComment(Comment comment) => SizedBox(
         height: 75,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,16 +70,8 @@ class _CommentsState extends State<Comments> {
               width: 40,
               child: CircleAvatar(
                 radius: 100,
-                child: AvataaarImage(
-                  avatar: comment.avatar,
-                  errorImage: CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 100,
-                  ),
-                  placeholder: CircleAvatar(
-                    backgroundColor: Colors.grey[200],
-                    radius: 100,
-                  ),
+                child: CircleAvatar(
+                  child: Text(comment.name.substring(0, 1).toUpperCase()),
                 ),
               ),
             ),
@@ -138,7 +122,7 @@ class _CommentsState extends State<Comments> {
   Widget buildCommentField() => Container(
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.grey[300].withOpacity(.5),
+          color: Colors.grey[300]?.withOpacity(.5),
           borderRadius: BorderRadius.circular(30),
         ),
         child: TextFormField(

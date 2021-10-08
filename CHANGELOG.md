@@ -72,3 +72,7 @@
 ## 1.0.7+3
 
 * Deprecated Reaction id
+
+## 1.0.8
+
+*  Added support null safety

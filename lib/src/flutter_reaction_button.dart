@@ -12,13 +12,16 @@ class FlutterReactionButton extends StatefulWidget {
   final OnFlutterReactionButtonChanged onReactionChanged;
 
   /// Default reaction button widget
-  final Reaction initialReaction;
+  final Reaction? initialReaction;
 
   final List<Reaction> reactions;
 
-  final Color highlightColor;
+  final Color? highlightColor;
 
-  final Color splashColor;
+  final Color? splashColor;
+
+  /// Position reactions box for the button [default = TOP]
+  final Position boxPosition;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -43,12 +46,13 @@ class FlutterReactionButton extends StatefulWidget {
   final double boxItemsSpacing;
 
   FlutterReactionButton({
-    Key key,
-    @required this.onReactionChanged,
-    @required this.reactions,
+    Key? key,
+    required this.onReactionChanged,
+    required this.reactions,
     this.initialReaction,
     this.highlightColor,
     this.splashColor,
+    this.boxPosition = Position.TOP,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -57,8 +61,7 @@ class FlutterReactionButton extends StatefulWidget {
     this.shouldChangeReaction = true,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
-  })  : assert(reactions != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _FlutterReactionButtonState createState() => _FlutterReactionButtonState();
@@ -67,7 +70,7 @@ class FlutterReactionButton extends StatefulWidget {
 class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   final GlobalKey _buttonKey = GlobalKey();
 
-  Reaction _selectedReaction;
+  Reaction? _selectedReaction;
 
   void _init() {
     _selectedReaction = widget.initialReaction;
@@ -102,9 +105,10 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
         opaque: false,
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (_, __, ___) => ReactionsBox(
-          anchorOffset: buttonOffset,
+          buttonOffset: buttonOffset,
           anchorSize: buttonSize,
           reactions: widget.reactions,
+          position: widget.boxPosition,
           color: widget.boxColor,
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
@@ -122,7 +126,7 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   }
 
   void _updateReaction(Reaction reaction) {
-    widget.onReactionChanged?.call(
+    widget.onReactionChanged.call(
       reaction,
       widget.reactions.indexOf(reaction),
     );

@@ -1,3 +1,6 @@
+#Flutter versions manager
+.fvm/
+
 ./idea
 ./vscode
 

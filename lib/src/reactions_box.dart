@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'extensions.dart';
 import 'reaction.dart';
 import 'reactions_box_item.dart';
+import 'reactions_position.dart';
 
 class ReactionsBox extends StatefulWidget {
-  final Offset anchorOffset;
+  final Offset buttonOffset;
 
   final Size anchorSize;
 
-  final List<Reaction> reactions;
+  final List<Reaction?> reactions;
+
+  final Position position;
 
   final Color color;
 
@@ -21,9 +24,9 @@ class ReactionsBox extends StatefulWidget {
 
   final Duration duration;
 
-  final Color highlightColor;
+  final Color? highlightColor;
 
-  final Color splashColor;
+  final Color? splashColor;
 
   final AlignmentGeometry alignment;
 
@@ -32,9 +35,11 @@ class ReactionsBox extends StatefulWidget {
   final double boxItemsSpacing;
 
   const ReactionsBox({
-    @required this.anchorOffset,
-    @required this.anchorSize,
-    @required this.reactions,
+    Key? key,
+    required this.buttonOffset,
+    required this.anchorSize,
+    required this.reactions,
+    required this.position,
     this.color = Colors.white,
     this.elevation = 5,
     this.radius = 50,
@@ -44,9 +49,7 @@ class ReactionsBox extends StatefulWidget {
     this.alignment = Alignment.centerLeft,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
-  })  : assert(anchorOffset != null),
-        assert(anchorSize != null),
-        assert(reactions != null);
+  }) : super(key: key);
 
   @override
   _ReactionsBoxState createState() => _ReactionsBoxState();
@@ -54,13 +57,13 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
-  AnimationController _scaleController;
+  late AnimationController _scaleController;
 
-  Animation<double> _scaleAnimation;
+  late Animation<double> _scaleAnimation;
 
   double _scale = 0;
 
-  Reaction _selectedReaction;
+  Reaction? _selectedReaction;
 
   @override
   void initState() {
@@ -168,22 +171,22 @@ class _ReactionsBoxState extends State<ReactionsBox>
                   _Constants.margin);
 
   double _getTopPosition() =>
-      widget.anchorOffset.dy -
+      widget.buttonOffset.dy -
       _Constants.estimated_box_height -
       _Constants.box_anchor_margin;
 
   double _getBottomPosition() =>
-      widget.anchorOffset.dy +
+      widget.buttonOffset.dy +
       widget.anchorSize.height +
       _Constants.box_anchor_margin;
 
   double _getRightPosition() =>
-      widget.anchorOffset.dx +
+      widget.buttonOffset.dx +
       widget.anchorSize.width -
       _Constants.box_anchor_inset;
 
   double _getLeftPosition() =>
-      widget.anchorOffset.dx -
+      widget.buttonOffset.dx -
       _Constants.estimated_box_width +
       _Constants.box_anchor_inset;
 }
