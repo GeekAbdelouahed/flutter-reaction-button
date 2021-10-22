@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../models/drag.dart';
+import '../models/reaction.dart';
+import '../utils/extensions.dart';
+import '../utils/reactions_position.dart';
 import 'reactions_box_item.dart';
-import 'reactions_position.dart';
-import 'reaction.dart';
-import 'extensions.dart';
-import 'drag.dart';
 
 class ReactionsBox extends StatefulWidget {
   final Offset buttonOffset;

@@ -1,25 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import 'reactions_position.dart';
+import '../models/reaction.dart';
+import '../utils/extensions.dart';
+import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
-import 'reaction.dart';
-import 'extensions.dart';
 
-typedef FlutterReactionButtonCheckChanged = void Function(Reaction?, int, bool);
+typedef OnFlutterReactionButtonChanged = void Function(Reaction, int);
 
-class FlutterReactionButtonCheck extends StatefulWidget {
+class FlutterReactionButton extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final FlutterReactionButtonCheckChanged onReactionChanged;
+  final OnFlutterReactionButtonChanged onReactionChanged;
 
-  /// Default reaction button widget if [isChecked == false]
+  /// Default reaction button widget
   final Reaction? initialReaction;
 
-  /// Default reaction button widget if [isChecked == true]
-  final Reaction? selectedReaction;
-
-  final List<Reaction?> reactions;
+  final List<Reaction> reactions;
 
   final Color? highlightColor;
 
@@ -43,20 +38,18 @@ class FlutterReactionButtonCheck extends StatefulWidget {
   /// Reactions box alignment [default = Alignment.center]
   final AlignmentGeometry boxAlignment;
 
-  /// Flag for pre-set reactions if true @link selectedReaction will be
-  /// displayed else @link initialReaction will be displayed [default = false]
-  final bool isChecked;
+  /// Change initial reaction after selected one [default = true]
+  final bool shouldChangeReaction;
 
   final EdgeInsets boxPadding;
 
   final double boxItemsSpacing;
 
-  FlutterReactionButtonCheck({
+  FlutterReactionButton({
     Key? key,
     required this.onReactionChanged,
     required this.reactions,
     this.initialReaction,
-    this.selectedReaction,
     this.highlightColor,
     this.splashColor,
     this.boxPosition = Position.TOP,
@@ -65,36 +58,26 @@ class FlutterReactionButtonCheck extends StatefulWidget {
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.boxAlignment = Alignment.center,
-    this.isChecked = false,
+    this.shouldChangeReaction = true,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
   }) : super(key: key);
 
   @override
-  _FlutterReactionButtonCheckState createState() =>
-      _FlutterReactionButtonCheckState();
+  _FlutterReactionButtonState createState() => _FlutterReactionButtonState();
 }
 
-class _FlutterReactionButtonCheckState
-    extends State<FlutterReactionButtonCheck> {
+class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   final GlobalKey _buttonKey = GlobalKey();
-
-  final int _maxTick = 2;
-
-  Timer? _timer;
 
   Reaction? _selectedReaction;
 
-  bool _isChecked = false;
-
   void _init() {
-    _isChecked = widget.isChecked;
-    _selectedReaction =
-        _isChecked ? widget.selectedReaction : widget.initialReaction;
+    _selectedReaction = widget.initialReaction;
   }
 
   @override
-  void didUpdateWidget(FlutterReactionButtonCheck oldWidget) {
+  void didUpdateWidget(FlutterReactionButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     _init();
   }
@@ -110,23 +93,9 @@ class _FlutterReactionButtonCheckState
         key: _buttonKey,
         highlightColor: widget.highlightColor,
         splashColor: widget.splashColor,
-        onTap: () {
-          _onClickReactionButton();
-        },
-        onLongPress: () {
-          _showReactionButtons(context);
-        },
-        child: (_selectedReaction ?? widget.reactions[0])!.icon,
+        onTap: () => _showReactionButtons(context),
+        child: (_selectedReaction ?? widget.reactions[0]).icon,
       );
-
-  void _onClickReactionButton() {
-    _isChecked = !_isChecked;
-    _updateReaction(
-      _isChecked
-          ? widget.selectedReaction ?? widget.reactions[0]
-          : widget.initialReaction,
-    );
-  }
 
   void _showReactionButtons(BuildContext context) async {
     final buttonOffset = _buttonKey.widgetOffset;
@@ -153,20 +122,17 @@ class _FlutterReactionButtonCheckState
       ),
     );
 
-    if (reactionButton != null) _updateReaction(reactionButton, true);
+    if (reactionButton != null) _updateReaction(reactionButton);
   }
 
-  void _updateReaction(Reaction? reaction,
-      [bool isSelectedFromDialog = false]) {
-    _isChecked =
-        isSelectedFromDialog ? true : reaction != widget.initialReaction;
+  void _updateReaction(Reaction reaction) {
     widget.onReactionChanged.call(
       reaction,
       widget.reactions.indexOf(reaction),
-      _isChecked,
     );
-    setState(() {
-      _selectedReaction = reaction;
-    });
+    if (widget.shouldChangeReaction)
+      setState(() {
+        _selectedReaction = reaction;
+      });
   }
 }

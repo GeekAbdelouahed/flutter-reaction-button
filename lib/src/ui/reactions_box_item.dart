@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'extensions.dart';
-import 'reaction.dart';
-import 'drag.dart';
+import '../models/drag.dart';
+import '../models/reaction.dart';
+import '../utils/extensions.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
   final Function(Reaction?) onReactionClick;
