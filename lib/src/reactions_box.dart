@@ -6,6 +6,7 @@ import 'reactions_box_item.dart';
 import 'reactions_position.dart';
 import 'reaction.dart';
 import 'extensions.dart';
+import 'drag.dart';
 
 class ReactionsBox extends StatefulWidget {
   final Offset buttonOffset;
@@ -57,8 +58,9 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
-  StreamController<Offset> _offsetStreamController = StreamController<Offset>();
-  late Stream<Offset> _offsetStream;
+  StreamController<DragData> _dragStreamController =
+      StreamController<DragData>();
+  late Stream<DragData> _dragStream;
 
   late AnimationController _scaleController;
 
@@ -67,6 +69,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
   double _scale = 0;
 
   Reaction? _selectedReaction;
+
+  late DragData _dragData;
 
   @override
   void initState() {
@@ -89,13 +93,13 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
     _scaleController.forward();
 
-    _offsetStream = _offsetStreamController.stream.asBroadcastStream();
+    _dragStream = _dragStreamController.stream.asBroadcastStream();
   }
 
   @override
   void dispose() {
     _scaleController.dispose();
-    _offsetStreamController.close();
+    _dragStreamController.close();
     super.dispose();
   }
 
@@ -125,7 +129,12 @@ class _ReactionsBoxState extends State<ReactionsBox>
                   padding: widget.boxPadding,
                   child: GestureDetector(
                     onHorizontalDragUpdate: (details) {
-                      _offsetStreamController.add(details.globalPosition);
+                      _dragData = DragData(offset: details.globalPosition);
+                      _dragStreamController.add(_dragData);
+                    },
+                    onHorizontalDragEnd: (details) {
+                      _dragData = _dragData.copyWith(isEnd: true);
+                      _dragStreamController.add(_dragData);
                     },
                     child: Wrap(
                       spacing: widget.boxItemsSpacing,
@@ -140,7 +149,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
                               splashColor: widget.splashColor,
                               highlightColor: widget.highlightColor,
                               reaction: reaction,
-                              offsetStream: _offsetStream,
+                              dragStream: _dragStream,
                             ),
                           )
                           .toList(),

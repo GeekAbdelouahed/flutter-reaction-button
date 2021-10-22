@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'extensions.dart';
 import 'reaction.dart';
+import 'drag.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
   // TODO remove it later
@@ -17,7 +18,7 @@ class ReactionsBoxItem extends StatefulWidget {
 
   final Color? splashColor;
 
-  final Stream<Offset> offsetStream;
+  final Stream<DragData> dragStream;
 
   const ReactionsBoxItem({
     Key? key,
@@ -26,7 +27,7 @@ class ReactionsBoxItem extends StatefulWidget {
     required this.onReactionClick,
     this.highlightColor,
     this.splashColor,
-    required this.offsetStream,
+    required this.dragStream,
   }) : super(key: key);
 
   @override
@@ -41,11 +42,15 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   late Animation<double> _scaleAnimation;
 
-  late StreamSubscription _streamSubscription;
-
   double _scale = 1;
 
   OverlayEntry? _overlayEntry;
+
+  void _onSelected() {
+    _hideTitle();
+    _scaleController.reverse();
+    widget.onReactionClick(widget.reaction);
+  }
 
   OverlayEntry _createTitle() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -96,53 +101,45 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
           _hideTitle();
         }
       });
-
-    _streamSubscription = widget.offsetStream.listen((offset) {
-      final Size widgetSize = _key.widgetSize;
-      final Offset deltaOffset = offset - _key.widgetOffset;
-
-      if (widgetSize.width > deltaOffset.distance) {
-        _showTitle();
-        setState(() {
-          _scale = 1.5;
-        });
-      } else {
-        _hideTitle();
-        setState(() {
-          _scale = 1;
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
     _scaleController.dispose();
-    _streamSubscription.cancel();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => IgnorePointer(
-        key: _key,
-        ignoring: !widget.reaction!.enabled,
-        child: Transform.scale(
-          scale: _scale,
-          child: InkWell(
-            onTap: () {
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      key: _key,
+      ignoring: !widget.reaction!.enabled,
+      child: StreamBuilder<DragData>(
+          stream: widget.dragStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final widgetSize = _key.widgetSize;
+              final deltaOffset =
+                  (snapshot.data?.offset ?? Offset.zero) - _key.widgetOffset;
+              if (widgetSize.width > deltaOffset.distance) {
+                if (snapshot.data?.isEnd ?? false) {
+                  _onSelected();
+                } else
+                  _scaleController.forward();
+              } else
+                _scaleController.reverse();
+            } else
               _scaleController.reverse();
-              widget.onReactionClick(widget.reaction);
-            },
-            /*onTapDown: (_) {
-              _scaleController.forward();
-            },
-            onTapCancel: () {
-              _scaleController.reverse();
-            },*/
-            splashColor: widget.splashColor,
-            highlightColor: widget.highlightColor,
-            child: widget.reaction!.previewIcon,
-          ),
-        ),
-      );
+            return Transform.scale(
+              scale: _scale,
+              child: InkWell(
+                onTap: _onSelected,
+                splashColor: widget.splashColor,
+                highlightColor: widget.highlightColor,
+                child: widget.reaction!.previewIcon,
+              ),
+            );
+          }),
+    );
+  }
 }
