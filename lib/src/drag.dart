@@ -11,12 +11,12 @@ class DragData {
 
   DragData copyWith({
     Offset? offset,
-    bool? isEnd,
+    bool? isDragEnd,
   }) {
-    if (isEnd == null) isEnd = this.isDragEnd;
+    if (isDragEnd == null) isDragEnd = this.isDragEnd;
     return DragData(
       offset: offset ?? this.offset,
-      isDragEnd: isEnd,
+      isDragEnd: isDragEnd,
     );
   }
 }

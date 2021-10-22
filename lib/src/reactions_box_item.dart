@@ -32,6 +32,7 @@ class ReactionsBoxItem extends StatefulWidget {
 
 class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     with TickerProviderStateMixin {
+  static const double _MIN_SCALE = .8, _NORMAL_SCALE = 1, _MAX_SCALE = 1.2;
   final GlobalKey _widgetKey = GlobalKey();
 
   late AnimationController _scaleController;
@@ -41,6 +42,9 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   late Animation<double> _scaleAnimation;
 
   double _scale = 1;
+
+  double? _height;
+  double? _width;
 
   OverlayEntry? _overlayEntry;
 
@@ -86,16 +90,16 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     _scaleController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
 
-    _startTween = Tween(begin: 1, end: 1.5);
+    _startTween = Tween(begin: _NORMAL_SCALE, end: _MAX_SCALE);
     _scaleAnimation = _startTween.animate(_scaleController)
       ..addListener(() {
         setState(() {
           _scale = _scaleAnimation.value;
         });
 
-        if (_scale == 1.5 && _overlayEntry == null) {
+        if (_scale == _MAX_SCALE && _overlayEntry == null) {
           _showTitle();
-        } else if (_scale <= 1) {
+        } else if (_scale <= _NORMAL_SCALE) {
           _hideTitle();
         }
       });
@@ -119,9 +123,13 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               final dragData = snapshot.data;
               final Offset currentOffset = dragData?.offset ?? Offset.zero;
               final widgetSize = _widgetKey.widgetSize;
+              if (_height == null && _width == null) {
+                _height = widgetSize.height;
+                _width = widgetSize.width;
+              }
               final deltaOffset = currentOffset - _widgetKey.widgetOffset;
-              final isHovered = widgetSize.width > deltaOffset.distance &&
-                  widget.reaction!.enabled;
+              final isHovered =
+                  _width! > deltaOffset.distance && widget.reaction!.enabled;
               if (isHovered) {
                 bool isSelected = snapshot.data?.isDragEnd ?? false;
                 if (isSelected) {
@@ -132,26 +140,33 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               } else {
                 bool isDraggingEnded = dragData?.isDragEnd ?? false;
                 if (isDraggingEnded) {
-                  _startTween.begin = 1;
+                  _startTween.begin = _NORMAL_SCALE;
                   WidgetsBinding.instance!.addPostFrameCallback((_) {
                     _scaleController.reset();
                   });
                 } else {
-                  _startTween.begin = .75;
+                  _startTween.begin = _MIN_SCALE;
                   _scaleController.reverse();
                 }
               }
             } else {
-              _startTween.begin = 1;
+              _startTween.begin = _NORMAL_SCALE;
               _scaleController.reverse();
             }
             return Transform.scale(
               scale: _scale,
-              child: InkWell(
-                onTap: _onSelected,
-                splashColor: widget.splashColor,
-                highlightColor: widget.highlightColor,
-                child: widget.reaction!.previewIcon,
+              child: AnimatedContainer(
+                height: _height != null ? _height! * _scale : null,
+                width: _width != null ? _width! * _scale : null,
+                duration: const Duration(milliseconds: 250),
+                child: FittedBox(
+                  child: InkWell(
+                    onTap: _onSelected,
+                    splashColor: widget.splashColor,
+                    highlightColor: widget.highlightColor,
+                    child: widget.reaction!.previewIcon,
+                  ),
+                ),
               ),
             );
           }),

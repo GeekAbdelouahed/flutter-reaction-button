@@ -21,7 +21,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
 
   List<Comment> _comments = [];
 
-  _showBottomSheetCommets() {
+  void _showBottomSheetCommets() {
     showBottomSheet(
       context: context,
       builder: (context) => Comments(_comments),

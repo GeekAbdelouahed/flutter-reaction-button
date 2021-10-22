@@ -134,7 +134,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
                   ignoring: true,
                   child: Opacity(
                     opacity: 0,
-                    child: _buildItems(),
+                    child: _buildDumpItems(),
                   ),
                 ),
               ),
@@ -152,6 +152,28 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
+  Padding _buildDumpItems() {
+    return Padding(
+      padding: widget.boxPadding,
+      child: GestureDetector(
+        onHorizontalDragUpdate: (details) {
+          _dragData = DragData(offset: details.globalPosition);
+          _dragStreamController.add(_dragData);
+        },
+        onHorizontalDragEnd: (details) {
+          _dragData = _dragData.copyWith(isDragEnd: true);
+          _dragStreamController.add(_dragData);
+        },
+        child: Wrap(
+          spacing: widget.boxItemsSpacing,
+          children: widget.reactions.map((reaction) {
+            return reaction!.previewIcon;
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   Padding _buildItems() {
     return Padding(
       padding: widget.boxPadding,
@@ -161,11 +183,11 @@ class _ReactionsBoxState extends State<ReactionsBox>
           _dragStreamController.add(_dragData);
         },
         onHorizontalDragEnd: (details) {
-          _dragData = _dragData.copyWith(isEnd: true);
+          _dragData = _dragData.copyWith(isDragEnd: true);
           _dragStreamController.add(_dragData);
         },
-        child: Wrap(
-          spacing: widget.boxItemsSpacing,
+        child: Row(
+          //spacing: widget.boxItemsSpacing,
           children: widget.reactions
               .map(
                 (reaction) => ReactionsBoxItem(

@@ -114,19 +114,10 @@ class _FlutterReactionButtonCheckState
           _onClickReactionButton();
         },
         onLongPress: () {
-          _onTapReactionButton(context);
+          _showReactionButtons(context);
         },
         child: (_selectedReaction ?? widget.reactions[0])!.icon,
       );
-
-  void _onTapReactionButton(BuildContext context) {
-    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
-      if (_timer!.tick >= _maxTick) {
-        _showReactionButtons(context);
-        _timer!.cancel();
-      }
-    });
-  }
 
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
