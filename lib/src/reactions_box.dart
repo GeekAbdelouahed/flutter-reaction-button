@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'reactions_box_item.dart';
@@ -55,6 +57,9 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
+  StreamController<Offset> _offsetStreamController = StreamController<Offset>();
+  late Stream<Offset> _offsetStream;
+
   late AnimationController _scaleController;
 
   late Animation<double> _scaleAnimation;
@@ -83,11 +88,14 @@ class _ReactionsBoxState extends State<ReactionsBox>
       });
 
     _scaleController.forward();
+
+    _offsetStream = _offsetStreamController.stream.asBroadcastStream();
   }
 
   @override
   void dispose() {
     _scaleController.dispose();
+    _offsetStreamController.close();
     super.dispose();
   }
 
@@ -115,21 +123,28 @@ class _ReactionsBoxState extends State<ReactionsBox>
                 ),
                 child: Padding(
                   padding: widget.boxPadding,
-                  child: Wrap(
-                    spacing: widget.boxItemsSpacing,
-                    children: widget.reactions
-                        .map(
-                          (reaction) => ReactionsBoxItem(
-                            onReactionClick: (reaction) {
-                              _selectedReaction = reaction;
-                              _scaleController.reverse();
-                            },
-                            splashColor: widget.splashColor,
-                            highlightColor: widget.highlightColor,
-                            reaction: reaction,
-                          ),
-                        )
-                        .toList(),
+                  child: GestureDetector(
+                    onHorizontalDragUpdate: (details) {
+                      _offsetStreamController.add(details.globalPosition);
+                    },
+                    child: Wrap(
+                      spacing: widget.boxItemsSpacing,
+                      children: widget.reactions
+                          .map(
+                            (reaction) => ReactionsBoxItem(
+                              index: widget.reactions.indexOf(reaction),
+                              onReactionClick: (reaction) {
+                                _selectedReaction = reaction;
+                                _scaleController.reverse();
+                              },
+                              splashColor: widget.splashColor,
+                              highlightColor: widget.highlightColor,
+                              reaction: reaction,
+                              offsetStream: _offsetStream,
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ),
               ),

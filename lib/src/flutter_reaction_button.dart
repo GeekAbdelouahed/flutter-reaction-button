@@ -98,8 +98,8 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
       );
 
   void _showReactionButtons(BuildContext context) async {
-    final buttonOffset = _buttonKey.buttonOffset;
-    final buttonSize = _buttonKey.buttonSize;
+    final buttonOffset = _buttonKey.widgetOffset;
+    final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
