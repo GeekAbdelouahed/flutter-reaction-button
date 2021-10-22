@@ -186,8 +186,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
           _dragData = _dragData.copyWith(isDragEnd: true);
           _dragStreamController.add(_dragData);
         },
-        child: Row(
-          //spacing: widget.boxItemsSpacing,
+        child: Wrap(
+          spacing: widget.boxItemsSpacing,
           children: widget.reactions
               .map(
                 (reaction) => ReactionsBoxItem(
