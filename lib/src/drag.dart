@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 
 class DragData {
   final Offset offset;
-  final bool isEnd;
+  final bool isDragEnd;
 
   DragData({
     required this.offset,
-    this.isEnd = false,
+    this.isDragEnd = false,
   });
 
   DragData copyWith({
     Offset? offset,
     bool? isEnd,
   }) {
-    if (isEnd == null) isEnd = this.isEnd;
+    if (isEnd == null) isEnd = this.isDragEnd;
     return DragData(
       offset: offset ?? this.offset,
-      isEnd: isEnd,
+      isDragEnd: isEnd,
     );
   }
 }

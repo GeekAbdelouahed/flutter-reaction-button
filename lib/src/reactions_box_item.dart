@@ -7,9 +7,6 @@ import 'reaction.dart';
 import 'drag.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
-  // TODO remove it later
-  final int index;
-
   final Function(Reaction?) onReactionClick;
 
   final Reaction? reaction;
@@ -22,7 +19,6 @@ class ReactionsBoxItem extends StatefulWidget {
 
   const ReactionsBoxItem({
     Key? key,
-    required this.index,
     required this.reaction,
     required this.onReactionClick,
     this.highlightColor,
@@ -36,9 +32,11 @@ class ReactionsBoxItem extends StatefulWidget {
 
 class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     with TickerProviderStateMixin {
-  final GlobalKey _key = GlobalKey();
+  final GlobalKey _widgetKey = GlobalKey();
 
   late AnimationController _scaleController;
+
+  late Tween<double> _startTween;
 
   late Animation<double> _scaleAnimation;
 
@@ -86,10 +84,10 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
     // Start animation
     _scaleController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
 
-    final Tween<double> startTween = Tween(begin: 1, end: 1.5);
-    _scaleAnimation = startTween.animate(_scaleController)
+    _startTween = Tween(begin: 1, end: 1.5);
+    _scaleAnimation = _startTween.animate(_scaleController)
       ..addListener(() {
         setState(() {
           _scale = _scaleAnimation.value;
@@ -97,7 +95,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
         if (_scale == 1.5 && _overlayEntry == null) {
           _showTitle();
-        } else if (_scale == 1) {
+        } else if (_scale <= 1) {
           _hideTitle();
         }
       });
@@ -112,24 +110,41 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      key: _key,
+      key: _widgetKey,
       ignoring: !widget.reaction!.enabled,
       child: StreamBuilder<DragData>(
           stream: widget.dragStream,
-          builder: (context, snapshot) {
+          builder: (_, snapshot) {
             if (snapshot.hasData) {
-              final widgetSize = _key.widgetSize;
-              final deltaOffset =
-                  (snapshot.data?.offset ?? Offset.zero) - _key.widgetOffset;
-              if (widgetSize.width > deltaOffset.distance) {
-                if (snapshot.data?.isEnd ?? false) {
+              final dragData = snapshot.data;
+              final Offset currentOffset = dragData?.offset ?? Offset.zero;
+              final widgetSize = _widgetKey.widgetSize;
+              final deltaOffset = currentOffset - _widgetKey.widgetOffset;
+              final isHovered = widgetSize.width > deltaOffset.distance &&
+                  widget.reaction!.enabled;
+              if (isHovered) {
+                bool isSelected = snapshot.data?.isDragEnd ?? false;
+                if (isSelected) {
                   _onSelected();
-                } else
+                } else {
                   _scaleController.forward();
-              } else
-                _scaleController.reverse();
-            } else
+                }
+              } else {
+                bool isDraggingEnded = dragData?.isDragEnd ?? false;
+                if (isDraggingEnded) {
+                  _startTween.begin = 1;
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    _scaleController.reset();
+                  });
+                } else {
+                  _startTween.begin = .75;
+                  _scaleController.reverse();
+                }
+              }
+            } else {
+              _startTween.begin = 1;
               _scaleController.reverse();
+            }
             return Transform.scale(
               scale: _scale,
               child: InkWell(

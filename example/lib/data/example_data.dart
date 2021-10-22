@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-
 List<Reaction> flagsReactions = [
   Reaction(
     previewIcon: _builFlagsdPreviewIcon(
@@ -14,7 +13,6 @@ List<Reaction> flagsReactions = [
     icon: _buildIcon('assets/images/algeria.png'),
   ),
   Reaction(
-    enabled: false,
     previewIcon:
         _builFlagsdPreviewIcon('assets/images/germany-round.png', 'German'),
     icon: _buildIcon('assets/images/germany.png'),

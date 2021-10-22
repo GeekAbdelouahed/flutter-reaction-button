@@ -104,7 +104,12 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) {
+    double top = _getPosition(context);
+    return Material(
+      elevation: 0,
+      color: Colors.transparent,
+      child: Stack(
         alignment: widget.alignment,
         children: [
           Positioned.fill(
@@ -115,52 +120,70 @@ class _ReactionsBoxState extends State<ReactionsBox>
             ),
           ),
           Positioned(
-            top: _getPosition(context),
+            top: top,
             child: Transform.scale(
               scale: _scale,
-              child: Card(
+              child: Material(
                 color: widget.color,
                 elevation: widget.elevation,
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(widget.radius),
                 ),
-                child: Padding(
-                  padding: widget.boxPadding,
-                  child: GestureDetector(
-                    onHorizontalDragUpdate: (details) {
-                      _dragData = DragData(offset: details.globalPosition);
-                      _dragStreamController.add(_dragData);
-                    },
-                    onHorizontalDragEnd: (details) {
-                      _dragData = _dragData.copyWith(isEnd: true);
-                      _dragStreamController.add(_dragData);
-                    },
-                    child: Wrap(
-                      spacing: widget.boxItemsSpacing,
-                      children: widget.reactions
-                          .map(
-                            (reaction) => ReactionsBoxItem(
-                              index: widget.reactions.indexOf(reaction),
-                              onReactionClick: (reaction) {
-                                _selectedReaction = reaction;
-                                _scaleController.reverse();
-                              },
-                              splashColor: widget.splashColor,
-                              highlightColor: widget.highlightColor,
-                              reaction: reaction,
-                              dragStream: _dragStream,
-                            ),
-                          )
-                          .toList(),
-                    ),
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: Opacity(
+                    opacity: 0,
+                    child: _buildItems(),
                   ),
                 ),
               ),
             ),
           ),
+          Positioned(
+            top: top,
+            child: Transform.scale(
+              scale: _scale,
+              child: _buildItems(),
+            ),
+          ),
         ],
-      );
+      ),
+    );
+  }
+
+  Padding _buildItems() {
+    return Padding(
+      padding: widget.boxPadding,
+      child: GestureDetector(
+        onHorizontalDragUpdate: (details) {
+          _dragData = DragData(offset: details.globalPosition);
+          _dragStreamController.add(_dragData);
+        },
+        onHorizontalDragEnd: (details) {
+          _dragData = _dragData.copyWith(isEnd: true);
+          _dragStreamController.add(_dragData);
+        },
+        child: Wrap(
+          spacing: widget.boxItemsSpacing,
+          children: widget.reactions
+              .map(
+                (reaction) => ReactionsBoxItem(
+                  onReactionClick: (reaction) {
+                    _selectedReaction = reaction;
+                    _scaleController.reverse();
+                  },
+                  splashColor: widget.splashColor,
+                  highlightColor: widget.highlightColor,
+                  reaction: reaction,
+                  dragStream: _dragStream,
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
+  }
 
   double _getPosition(BuildContext context) =>
       (_getTopPosition() - widget.buttonSize.height * 2 < 0)
