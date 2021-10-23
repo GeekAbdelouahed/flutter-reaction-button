@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
@@ -78,10 +76,6 @@ class FlutterReactionButtonCheck extends StatefulWidget {
 class _FlutterReactionButtonCheckState
     extends State<FlutterReactionButtonCheck> {
   final GlobalKey _buttonKey = GlobalKey();
-
-  final int _maxTick = 2;
-
-  Timer? _timer;
 
   Reaction? _selectedReaction;
 
