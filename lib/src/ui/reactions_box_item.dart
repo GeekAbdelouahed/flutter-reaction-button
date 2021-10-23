@@ -7,23 +7,30 @@ import '../models/reaction.dart';
 import '../utils/extensions.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
+  // TODO for test
+  final int index;
+
   final Function(Reaction?) onReactionClick;
 
-  final Reaction? reaction;
+  final Reaction reaction;
+
+  final int itemsCount;
+
+  final Stream<DragData> dragStream;
 
   final Color? highlightColor;
 
   final Color? splashColor;
 
-  final Stream<DragData> dragStream;
-
   const ReactionsBoxItem({
     Key? key,
+    required this.index,
     required this.reaction,
     required this.onReactionClick,
+    required this.itemsCount,
+    required this.dragStream,
     this.highlightColor,
     this.splashColor,
-    required this.dragStream,
   }) : super(key: key);
 
   @override
@@ -32,8 +39,12 @@ class ReactionsBoxItem extends StatefulWidget {
 
 class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     with TickerProviderStateMixin {
-  static const double _MIN_SCALE = .8, _NORMAL_SCALE = 1, _MAX_SCALE = 1.2;
   final GlobalKey _widgetKey = GlobalKey();
+
+  final StreamController<double> _scaleControllerStream =
+      StreamController<double>()..add(1);
+
+  late Stream<double> _scaleStream;
 
   late AnimationController _scaleController;
 
@@ -41,9 +52,10 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   late Animation<double> _scaleAnimation;
 
+  double _minScale = 1, _normalScale = 1, _maxScale = 1.2;
+
   double _scale = 1;
 
-  double? _height;
   double? _width;
 
   OverlayEntry? _overlayEntry;
@@ -51,7 +63,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   void _onSelected() {
     _hideTitle();
     _scaleController.reverse();
-    widget.onReactionClick(widget.reaction);
+    widget.onReactionClick.call(widget.reaction);
   }
 
   OverlayEntry _createTitle() {
@@ -66,7 +78,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         child: Material(
           elevation: 0,
           color: Colors.transparent,
-          child: widget.reaction!.title ?? const SizedBox(),
+          child: widget.reaction.title ?? const SizedBox(),
         ),
       ),
     );
@@ -86,20 +98,28 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   void initState() {
     super.initState();
 
+    // Calculating how much we should scale down unselected items
+    _minScale = 1 - (.2 / widget.itemsCount);
+
+    _scaleStream = _scaleControllerStream.stream;
+
     // Start animation
     _scaleController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
 
-    _startTween = Tween(begin: _NORMAL_SCALE, end: _MAX_SCALE);
+    _startTween = Tween(begin: _normalScale, end: _maxScale);
+
     _scaleAnimation = _startTween.animate(_scaleController)
       ..addListener(() {
-        setState(() {
+        /*setState(() {
           _scale = _scaleAnimation.value;
-        });
+        });*/
+        _scale = _scaleAnimation.value;
+        _scaleControllerStream.add(_scale);
 
-        if (_scale == _MAX_SCALE && _overlayEntry == null) {
+        if (_scale == _maxScale && _overlayEntry == null) {
           _showTitle();
-        } else if (_scale <= _NORMAL_SCALE) {
+        } else if (_scale <= _normalScale) {
           _hideTitle();
         }
       });
@@ -108,6 +128,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   @override
   void dispose() {
     _scaleController.dispose();
+    _scaleControllerStream.close();
     super.dispose();
   }
 
@@ -115,7 +136,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   Widget build(BuildContext context) {
     return IgnorePointer(
       key: _widgetKey,
-      ignoring: !widget.reaction!.enabled,
+      ignoring: !widget.reaction.enabled,
       child: StreamBuilder<DragData>(
           stream: widget.dragStream,
           builder: (_, snapshot) {
@@ -123,13 +144,12 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               final dragData = snapshot.data;
               final Offset currentOffset = dragData?.offset ?? Offset.zero;
               final widgetSize = _widgetKey.widgetSize;
-              if (_height == null && _width == null) {
-                _height = widgetSize.height;
+              if (_width == null) {
                 _width = widgetSize.width;
               }
               final deltaOffset = currentOffset - _widgetKey.widgetOffset;
               final isHovered =
-                  _width! > deltaOffset.distance && widget.reaction!.enabled;
+                  _width! > deltaOffset.distance && widget.reaction.enabled;
               if (isHovered) {
                 bool isSelected = snapshot.data?.isDragEnd ?? false;
                 if (isSelected) {
@@ -140,35 +160,38 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               } else {
                 bool isDraggingEnded = dragData?.isDragEnd ?? false;
                 if (isDraggingEnded) {
-                  _startTween.begin = _NORMAL_SCALE;
+                  _startTween.begin = _normalScale;
                   WidgetsBinding.instance!.addPostFrameCallback((_) {
                     _scaleController.reset();
                   });
                 } else {
-                  _startTween.begin = _MIN_SCALE;
+                  _startTween.begin = _minScale;
                   _scaleController.reverse();
                 }
               }
             } else {
-              _startTween.begin = _NORMAL_SCALE;
+              _startTween.begin = _normalScale;
               _scaleController.reverse();
             }
-            return Transform.scale(
-              scale: _scale,
-              child: AnimatedContainer(
-                height: _height != null ? _height! * _scale : null,
-                width: _width != null ? _width! * _scale : null,
-                duration: const Duration(milliseconds: 250),
-                child: FittedBox(
-                  child: InkWell(
-                    onTap: _onSelected,
-                    splashColor: widget.splashColor,
-                    highlightColor: widget.highlightColor,
-                    child: widget.reaction!.previewIcon,
-                  ),
-                ),
-              ),
-            );
+            return StreamBuilder<double>(
+                stream: _scaleStream,
+                builder: (context, snapshot) {
+                  return Transform.scale(
+                    scale: snapshot.data!,
+                    child: AnimatedContainer(
+                      width: _width != null ? _width! * _scale : null,
+                      duration: const Duration(milliseconds: 250),
+                      child: FittedBox(
+                        child: InkWell(
+                          onTap: _onSelected,
+                          splashColor: widget.splashColor,
+                          highlightColor: widget.highlightColor,
+                          child: widget.reaction.previewIcon,
+                        ),
+                      ),
+                    ),
+                  );
+                });
           }),
     );
   }

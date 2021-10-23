@@ -113,10 +113,11 @@ class _ReactionsBoxState extends State<ReactionsBox>
         alignment: widget.alignment,
         children: [
           Positioned.fill(
-            child: GestureDetector(
-              onTapDown: (_) => _scaleController.reverse(),
-              onVerticalDragUpdate: (_) => _scaleController.reverse(),
-              onHorizontalDragUpdate: (_) => _scaleController.reverse(),
+            child: Listener(
+              onPointerDown: (_) => _scaleController.reverse(),
+              child: Container(
+                color: Colors.transparent,
+              ),
             ),
           ),
           Positioned(
@@ -152,37 +153,27 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
-  Padding _buildDumpItems() {
+  Widget _buildDumpItems() {
     return Padding(
       padding: widget.boxPadding,
-      child: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          _dragData = DragData(offset: details.globalPosition);
-          _dragStreamController.add(_dragData);
-        },
-        onHorizontalDragEnd: (details) {
-          _dragData = _dragData.copyWith(isDragEnd: true);
-          _dragStreamController.add(_dragData);
-        },
-        child: Wrap(
-          spacing: widget.boxItemsSpacing,
-          children: widget.reactions.map((reaction) {
-            return reaction!.previewIcon;
-          }).toList(),
-        ),
+      child: Wrap(
+        spacing: widget.boxItemsSpacing,
+        children: widget.reactions.map((reaction) {
+          return reaction!.previewIcon;
+        }).toList(),
       ),
     );
   }
 
-  Padding _buildItems() {
+  Widget _buildItems() {
     return Padding(
       padding: widget.boxPadding,
-      child: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          _dragData = DragData(offset: details.globalPosition);
+      child: Listener(
+        onPointerMove: (point) {
+          _dragData = DragData(offset: point.position);
           _dragStreamController.add(_dragData);
         },
-        onHorizontalDragEnd: (details) {
+        onPointerUp: (point) {
           _dragData = _dragData.copyWith(isDragEnd: true);
           _dragStreamController.add(_dragData);
         },
@@ -191,13 +182,15 @@ class _ReactionsBoxState extends State<ReactionsBox>
           children: widget.reactions
               .map(
                 (reaction) => ReactionsBoxItem(
+                  index: widget.reactions.indexOf(reaction),
                   onReactionClick: (reaction) {
                     _selectedReaction = reaction;
                     _scaleController.reverse();
                   },
                   splashColor: widget.splashColor,
                   highlightColor: widget.highlightColor,
-                  reaction: reaction,
+                  itemsCount: widget.reactions.length,
+                  reaction: reaction!,
                   dragStream: _dragStream,
                 ),
               )
