@@ -19,10 +19,6 @@ class ReactionsBoxItem extends StatefulWidget {
 
   final Stream<DragData> dragStream;
 
-  final Color? highlightColor;
-
-  final Color? splashColor;
-
   const ReactionsBoxItem({
     Key? key,
     required this.index,
@@ -30,8 +26,6 @@ class ReactionsBoxItem extends StatefulWidget {
     required this.onReactionClick,
     required this.itemsCount,
     required this.dragStream,
-    this.highlightColor,
-    this.splashColor,
   }) : super(key: key);
 
   @override
@@ -154,6 +148,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               _startTween.begin = _normalScale;
               _scaleController.reverse();
             }
+
             return AnimatedBuilder(
                 animation: _scaleAnimation,
                 builder: (_, snapshot) {
@@ -163,10 +158,8 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
                       width: _width != null ? _width! * _scale : null,
                       duration: const Duration(milliseconds: 250),
                       child: FittedBox(
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: _onSelected,
-                          splashColor: widget.splashColor,
-                          highlightColor: widget.highlightColor,
                           child: widget.reaction.previewIcon,
                         ),
                       ),

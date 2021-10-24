@@ -19,10 +19,6 @@ class FlutterReactionButtonCheck extends StatefulWidget {
 
   final List<Reaction?> reactions;
 
-  final Color? highlightColor;
-
-  final Color? splashColor;
-
   /// Position reactions box for the button [default = TOP]
   final Position boxPosition;
 
@@ -55,8 +51,6 @@ class FlutterReactionButtonCheck extends StatefulWidget {
     required this.reactions,
     this.initialReaction,
     this.selectedReaction,
-    this.highlightColor,
-    this.splashColor,
     this.boxPosition = Position.TOP,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
@@ -102,8 +96,6 @@ class _FlutterReactionButtonCheckState
   @override
   Widget build(BuildContext context) => InkWell(
         key: _buttonKey,
-        highlightColor: widget.highlightColor,
-        splashColor: widget.splashColor,
         onTap: () {
           _onClickReactionButton();
         },
@@ -138,8 +130,6 @@ class _FlutterReactionButtonCheckState
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
           duration: widget.boxDuration,
-          highlightColor: widget.highlightColor,
-          splashColor: widget.splashColor,
           alignment: widget.boxAlignment,
           boxPadding: widget.boxPadding,
           boxItemsSpacing: widget.boxItemsSpacing,

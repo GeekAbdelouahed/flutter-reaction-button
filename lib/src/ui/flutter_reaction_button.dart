@@ -16,10 +16,6 @@ class FlutterReactionButton extends StatefulWidget {
 
   final List<Reaction> reactions;
 
-  final Color? highlightColor;
-
-  final Color? splashColor;
-
   /// Position reactions box for the button [default = TOP]
   final Position boxPosition;
 
@@ -50,8 +46,6 @@ class FlutterReactionButton extends StatefulWidget {
     required this.onReactionChanged,
     required this.reactions,
     this.initialReaction,
-    this.highlightColor,
-    this.splashColor,
     this.boxPosition = Position.TOP,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
@@ -91,8 +85,6 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   @override
   Widget build(BuildContext context) => InkWell(
         key: _buttonKey,
-        highlightColor: widget.highlightColor,
-        splashColor: widget.splashColor,
         onTap: () => _showReactionButtons(context),
         child: (_selectedReaction ?? widget.reactions[0]).icon,
       );
@@ -113,8 +105,6 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
           duration: widget.boxDuration,
-          highlightColor: widget.highlightColor,
-          splashColor: widget.splashColor,
           alignment: widget.boxAlignment,
           boxPadding: widget.boxPadding,
           boxItemsSpacing: widget.boxItemsSpacing,

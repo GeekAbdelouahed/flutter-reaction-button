@@ -25,10 +25,6 @@ class ReactionsBox extends StatefulWidget {
 
   final Duration duration;
 
-  final Color? highlightColor;
-
-  final Color? splashColor;
-
   final AlignmentGeometry alignment;
 
   final EdgeInsets boxPadding;
@@ -45,8 +41,6 @@ class ReactionsBox extends StatefulWidget {
     this.elevation = 5,
     this.radius = 50,
     this.duration = const Duration(milliseconds: 200),
-    this.highlightColor,
-    this.splashColor,
     this.alignment = Alignment.center,
     this.boxPadding = const EdgeInsets.all(0),
     this.boxItemsSpacing = 0,
@@ -187,8 +181,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
                     _selectedReaction = reaction;
                     _scaleController.reverse();
                   },
-                  splashColor: widget.splashColor,
-                  highlightColor: widget.highlightColor,
                   itemsCount: widget.reactions.length,
                   reaction: reaction!,
                   dragStream: _dragStream,
