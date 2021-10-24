@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/drag.dart';
 import '../models/reaction.dart';
 import '../utils/extensions.dart';
+import 'title.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
   // TODO for test
@@ -41,11 +42,6 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     with TickerProviderStateMixin {
   final GlobalKey _widgetKey = GlobalKey();
 
-  final StreamController<double> _scaleControllerStream =
-      StreamController<double>()..add(1);
-
-  late Stream<double> _scaleStream;
-
   late AnimationController _scaleController;
 
   late Tween<double> _startTween;
@@ -66,27 +62,19 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     widget.onReactionClick.call(widget.reaction);
   }
 
-  OverlayEntry _createTitle() {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
+  void _showTitle() {
+    final size = _widgetKey.widgetSize;
+    final offset = _widgetKey.widgetOffset;
 
-    return OverlayEntry(
-      builder: (_) => Positioned(
-        left: offset.dx,
-        top: offset.dy - size.height * .5,
-        child: Material(
-          elevation: 0,
-          color: Colors.transparent,
-          child: widget.reaction.title ?? const SizedBox(),
-        ),
+    _overlayEntry = OverlayEntry(
+      builder: (_) => TitleWidget(
+        title: widget.reaction.title,
+        parentSize: size,
+        parentOffset: offset,
       ),
     );
-  }
 
-  void _showTitle() {
-    _overlayEntry = _createTitle();
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context)?.insert(_overlayEntry!);
   }
 
   void _hideTitle() {
@@ -101,8 +89,6 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     // Calculating how much we should scale down unselected items
     _minScale = 1 - (.2 / widget.itemsCount);
 
-    _scaleStream = _scaleControllerStream.stream;
-
     // Start animation
     _scaleController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
@@ -111,11 +97,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
     _scaleAnimation = _startTween.animate(_scaleController)
       ..addListener(() {
-        /*setState(() {
-          _scale = _scaleAnimation.value;
-        });*/
         _scale = _scaleAnimation.value;
-        _scaleControllerStream.add(_scale);
 
         if (_scale == _maxScale && _overlayEntry == null) {
           _showTitle();
@@ -128,7 +110,6 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   @override
   void dispose() {
     _scaleController.dispose();
-    _scaleControllerStream.close();
     super.dispose();
   }
 
@@ -173,11 +154,11 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               _startTween.begin = _normalScale;
               _scaleController.reverse();
             }
-            return StreamBuilder<double>(
-                stream: _scaleStream,
-                builder: (context, snapshot) {
+            return AnimatedBuilder(
+                animation: _scaleAnimation,
+                builder: (_, snapshot) {
                   return Transform.scale(
-                    scale: snapshot.data!,
+                    scale: _scaleAnimation.value,
                     child: AnimatedContainer(
                       width: _width != null ? _width! * _scale : null,
                       duration: const Duration(milliseconds: 250),
