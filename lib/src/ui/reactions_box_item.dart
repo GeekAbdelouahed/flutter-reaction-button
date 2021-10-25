@@ -38,11 +38,17 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   late AnimationController _scaleController;
 
-  late Tween<double> _startTween;
+  late Tween<double> _scaleTween;
 
   late Animation<double> _scaleAnimation;
 
-  double _minScale = 1, _normalScale = 1, _maxScale = 1.2;
+  static const double _DELTA_SCALE = .2;
+
+  double _minScale = 1;
+
+  double _normalScale = 1;
+
+  double _maxScale = 1 + _DELTA_SCALE;
 
   double _scale = 1;
 
@@ -76,29 +82,37 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     _overlayEntry = null;
   }
 
+  late void Function() _listener;
+
+  void _updateAnimation({double? begin, double? end}) {
+    _scaleTween = Tween(begin: begin ?? _normalScale, end: end ?? _maxScale);
+    _scaleAnimation = _scaleTween.animate(_scaleController);
+    _scaleAnimation
+      ..removeListener(_listener)
+      ..addListener(_listener);
+  }
+
   @override
   void initState() {
     super.initState();
 
     // Calculating how much we should scale down unselected items
-    _minScale = 1 - (.2 / widget.itemsCount);
+    _minScale = 1 - (_DELTA_SCALE / widget.itemsCount);
 
-    // Start animation
     _scaleController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
 
-    _startTween = Tween(begin: _normalScale, end: _maxScale);
+    _listener = () {
+      _scale = _scaleAnimation.value;
 
-    _scaleAnimation = _startTween.animate(_scaleController)
-      ..addListener(() {
-        _scale = _scaleAnimation.value;
+      if (_scale == _maxScale && _overlayEntry == null) {
+        _showTitle();
+      } else if (_scale <= _normalScale) {
+        _hideTitle();
+      }
+    };
 
-        if (_scale == _maxScale && _overlayEntry == null) {
-          _showTitle();
-        } else if (_scale <= _normalScale) {
-          _hideTitle();
-        }
-      });
+    _updateAnimation(begin: _normalScale, end: _maxScale);
   }
 
   @override
@@ -113,60 +127,63 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
       key: _widgetKey,
       ignoring: !widget.reaction.enabled,
       child: StreamBuilder<DragData>(
-          stream: widget.dragStream,
-          builder: (_, snapshot) {
-            if (snapshot.hasData) {
-              final dragData = snapshot.data;
-              final Offset currentOffset = dragData?.offset ?? Offset.zero;
-              final widgetSize = _widgetKey.widgetSize;
-              if (_width == null) {
-                _width = widgetSize.width;
-              }
-              final deltaOffset = currentOffset - _widgetKey.widgetOffset;
-              final isHovered =
-                  _width! > deltaOffset.distance && widget.reaction.enabled;
-              if (isHovered) {
-                bool isSelected = snapshot.data?.isDragEnd ?? false;
-                if (isSelected) {
-                  _onSelected();
-                } else {
-                  _scaleController.forward();
-                }
+        stream: widget.dragStream,
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            final dragData = snapshot.data;
+            final Offset currentOffset = dragData?.offset ?? Offset.zero;
+            final widgetSize = _widgetKey.widgetSize;
+            if (_width == null) {
+              _width = widgetSize.width;
+            }
+            final deltaOffset = currentOffset - _widgetKey.widgetOffset;
+            final isHovered =
+                _width! > deltaOffset.distance && widget.reaction.enabled;
+            if (isHovered) {
+              bool isSelected = snapshot.data?.isDragEnd ?? false;
+              if (isSelected) {
+                _onSelected();
               } else {
-                bool isDraggingEnded = dragData?.isDragEnd ?? false;
-                if (isDraggingEnded) {
-                  _startTween.begin = _normalScale;
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
-                    _scaleController.reset();
-                  });
-                } else {
-                  _startTween.begin = _minScale;
-                  _scaleController.reverse();
-                }
+                _scaleController.forward();
               }
             } else {
-              _startTween.begin = _normalScale;
-              _scaleController.reverse();
-            }
-
-            return AnimatedBuilder(
-                animation: _scaleAnimation,
-                builder: (_, snapshot) {
-                  return Transform.scale(
-                    scale: _scaleAnimation.value,
-                    child: AnimatedContainer(
-                      width: _width != null ? _width! * _scale : null,
-                      duration: const Duration(milliseconds: 250),
-                      child: FittedBox(
-                        child: GestureDetector(
-                          onTap: _onSelected,
-                          child: widget.reaction.previewIcon,
-                        ),
-                      ),
-                    ),
-                  );
+              bool isDraggingEnded = dragData?.isDragEnd ?? false;
+              if (isDraggingEnded) {
+                _updateAnimation(begin: _normalScale, end: _normalScale);
+                _scaleController.forward();
+              } else {
+                _updateAnimation(begin: _minScale);
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  _scaleController.reset();
                 });
-          }),
+              }
+            }
+          } else {
+            _updateAnimation(begin: _normalScale);
+            _scaleController.reverse();
+          }
+
+          return AnimatedBuilder(
+            animation: _scaleAnimation,
+            child: FittedBox(
+              child: GestureDetector(
+                onTap: _onSelected,
+                child: widget.reaction.previewIcon,
+              ),
+            ),
+            builder: (_, child) {
+              return Transform.scale(
+                scale: _scaleAnimation.value,
+                child: AnimatedContainer(
+                  width: _width != null ? _width! * _scale : null,
+                  duration: const Duration(milliseconds: 250),
+                  child: child,
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
