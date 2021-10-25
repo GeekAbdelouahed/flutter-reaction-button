@@ -138,7 +138,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
             }
             final deltaOffset = currentOffset - _widgetKey.widgetOffset;
             final isHovered =
-                _width! > deltaOffset.distance && widget.reaction.enabled;
+                _width! * .9 > deltaOffset.distance && widget.reaction.enabled;
             if (isHovered) {
               bool isSelected = snapshot.data?.isDragEnd ?? false;
               if (isSelected) {
@@ -159,17 +159,14 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               }
             }
           } else {
-            _updateAnimation(begin: _normalScale);
+            _updateAnimation(begin: _minScale);
             _scaleController.reverse();
           }
 
           return AnimatedBuilder(
             animation: _scaleAnimation,
             child: FittedBox(
-              child: GestureDetector(
-                onTap: _onSelected,
-                child: widget.reaction.previewIcon,
-              ),
+              child: widget.reaction.previewIcon,
             ),
             builder: (_, child) {
               return Transform.scale(

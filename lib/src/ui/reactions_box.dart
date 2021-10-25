@@ -165,6 +165,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
     return Padding(
       padding: widget.boxPadding,
       child: Listener(
+        onPointerDown: (point) {
+          _dragData = DragData(offset: point.position);
+          _dragStreamController.add(_dragData);
+        },
         onPointerMove: (point) {
           _dragData = DragData(offset: point.position);
           _dragStreamController.add(_dragData);
