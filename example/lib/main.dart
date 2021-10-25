@@ -13,17 +13,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowMaterialGrid: true,
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Reaction Button',
-        home: Scaffold(
-          backgroundColor: Colors.grey[200],
-          appBar: AppBar(
-            title: const Text('Flutter Reaction Button'),
-            actions: [
-              Builder(
-                builder: (ctx) => FlutterReactionButton(
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Reaction Button',
+      home: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: const Text('Flutter Reaction Button'),
+          actions: [
+            Builder(
+              builder: (ctx) {
+                return FlutterReactionButton(
                   onReactionChanged: (reaction, index) {
                     ScaffoldMessenger.of(ctx).showSnackBar(
                       SnackBar(
@@ -37,13 +38,15 @@ class _MyAppState extends State<MyApp> {
                   boxRadius: 10,
                   boxDuration: Duration(milliseconds: 500),
                   boxAlignment: AlignmentDirectional.bottomEnd,
-                ),
-              ),
-              SizedBox(width: 10),
-            ],
-          ),
-          body: Builder(
-            builder: (context) => ListView(
+                );
+              },
+            ),
+            SizedBox(width: 10),
+          ],
+        ),
+        body: Builder(
+          builder: (_) {
+            return ListView(
               padding: const EdgeInsets.symmetric(vertical: 5),
               children: [
                 Item(
@@ -72,8 +75,10 @@ class _MyAppState extends State<MyApp> {
                   Example.reactions,
                 ),
               ],
-            ),
-          ),
+            );
+          },
         ),
-      );
+      ),
+    );
+  }
 }

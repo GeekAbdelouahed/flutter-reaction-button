@@ -8,20 +8,16 @@ import '../utils/extensions.dart';
 import 'title.dart';
 
 class ReactionsBoxItem extends StatefulWidget {
-  // TODO for test
-  final int index;
-
   final Function(Reaction?) onReactionClick;
 
   final Reaction reaction;
 
   final int itemsCount;
 
-  final Stream<DragData> dragStream;
+  final Stream<DragData?> dragStream;
 
   const ReactionsBoxItem({
     Key? key,
-    required this.index,
     required this.reaction,
     required this.onReactionClick,
     required this.itemsCount,
@@ -67,11 +63,13 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     final offset = _widgetKey.widgetOffset;
 
     _overlayEntry = OverlayEntry(
-      builder: (_) => TitleWidget(
-        title: widget.reaction.title,
-        parentSize: size,
-        parentOffset: offset,
-      ),
+      builder: (_) {
+        return TitleWidget(
+          title: widget.reaction.title,
+          parentSize: size,
+          parentOffset: offset,
+        );
+      },
     );
 
     Overlay.of(context)?.insert(_overlayEntry!);
@@ -99,8 +97,10 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     // Calculating how much we should scale down unselected items
     _minScale = 1 - (_DELTA_SCALE / widget.itemsCount);
 
-    _scaleController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    );
 
     _listener = () {
       _scale = _scaleAnimation.value;
@@ -126,7 +126,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     return IgnorePointer(
       key: _widgetKey,
       ignoring: !widget.reaction.enabled,
-      child: StreamBuilder<DragData>(
+      child: StreamBuilder<DragData?>(
         stream: widget.dragStream,
         builder: (_, snapshot) {
           if (snapshot.hasData) {

@@ -25,7 +25,9 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
   void _showBottomSheetCommets() {
     showBottomSheet(
       context: context,
-      builder: (context) => Comments(_comments),
+      builder: (context) {
+        return Comments(_comments);
+      },
     );
   }
 
@@ -36,7 +38,9 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       elevation: 2,
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
         child: Column(
           children: [
             AspectRatio(
@@ -83,21 +87,26 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                         const SizedBox(width: 5),
                         Text(
                           'Comment',
-                          style:
-                              TextStyle(fontSize: 17, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ],
                     ),
                   ),
                   InkWell(
-                    onTap: () =>
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      duration: Duration(seconds: 2),
-                      content: Text(
-                        'Share image ${widget.title}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: Duration(seconds: 2),
+                          content: Text(
+                            'Share image ${widget.title}',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      );
+                    },
                     child: Row(
                       children: <Widget>[
                         Icon(
@@ -108,8 +117,10 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                         const SizedBox(width: 5),
                         Text(
                           'Share',
-                          style:
-                              TextStyle(fontSize: 17, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ],
                     ),

@@ -20,7 +20,7 @@ class _CommentsState extends State<Comments> {
     super.dispose();
   }
 
-  _onSubmiteComment() {
+  void _onSubmiteComment() {
     if (_textEditingController.text.isEmpty) return;
     setState(() {
       final comment = Comment(
@@ -33,115 +33,124 @@ class _CommentsState extends State<Comments> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 20),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: widget.comments.isEmpty
+                ? Center(
+                    child: const Text(
+                      'No comment yet',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: widget.comments.length,
+                    itemBuilder: (context, index) {
+                      return buildComment(widget.comments[index]);
+                    },
+                  ),
+          ),
+        ),
+        buildCommentField(),
+      ],
+    );
+  }
+
+  SizedBox buildComment(Comment comment) {
+    return SizedBox(
+      height: 75,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: widget.comments.isEmpty
-                  ? Center(
-                      child: const Text(
-                        'No comment yet',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    )
-                  : ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: widget.comments.length,
-                      itemBuilder: (context, index) =>
-                          buildComment(widget.comments[index]),
-                    ),
-            ),
-          ),
-          buildCommentField(),
-        ],
-      );
-
-  Widget buildComment(Comment comment) => SizedBox(
-        height: 75,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 40,
-              width: 40,
+          SizedBox(
+            height: 40,
+            width: 40,
+            child: CircleAvatar(
+              radius: 100,
               child: CircleAvatar(
-                radius: 100,
-                child: CircleAvatar(
-                  child: Text(comment.name.substring(0, 1).toUpperCase()),
+                child: Text(
+                  comment.name.substring(0, 1).toUpperCase(),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[200],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      comment.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black.withOpacity(.9),
-                      ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 5,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.grey[200],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    comment.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black.withOpacity(.9),
                     ),
-                    Text(
-                      comment.content,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black.withOpacity(.75),
-                      ),
+                  ),
+                  Text(
+                    comment.content,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black.withOpacity(.75),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 
-  Widget buildCommentField() => Container(
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.grey[300]?.withOpacity(.5),
-          borderRadius: BorderRadius.circular(30),
+  Container buildCommentField() {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey[300]?.withOpacity(.5),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextFormField(
+        controller: _textEditingController,
+        style: TextStyle(
+          fontSize: 18,
         ),
-        child: TextFormField(
-          controller: _textEditingController,
-          style: TextStyle(
-            fontSize: 18,
+        decoration: InputDecoration(
+          hintText: 'Write a comment...',
+          border: InputBorder.none,
+          icon: SizedBox(
+            width: 10,
           ),
-          decoration: InputDecoration(
-            hintText: 'Write a comment...',
-            border: InputBorder.none,
-            icon: SizedBox(
-              width: 10,
-            ),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.send),
-              onPressed: () => _onSubmiteComment(),
-            ),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.send),
+            onPressed: _onSubmiteComment,
           ),
-          onFieldSubmitted: (_) => _onSubmiteComment(),
         ),
-      );
+        onFieldSubmitted: (_) => _onSubmiteComment(),
+      ),
+    );
+  }
 }

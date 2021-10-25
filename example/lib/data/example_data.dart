@@ -114,58 +114,68 @@ final reactions = [
   ),
 ];
 
-Widget _builFlagsdPreviewIcon(String path, String text) => Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Column(
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w300,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 7.5),
-          Image.asset(path, height: 30),
-        ],
-      ),
-    );
-
-Widget _buildTitle(String title) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 2.5),
-      decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Text(
-        title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-
-Widget _buildReactionsPreviewIcon(String path) => Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3.5, vertical: 5),
-      child: Image.asset(path, height: 40),
-    );
-
-Widget _buildIcon(String path) => Image.asset(
-      path,
-      height: 30,
-      width: 30,
-    );
-
-Widget _buildReactionsIcon(String path, Text text) => Container(
-      color: Colors.transparent,
-      child: Row(
-        children: <Widget>[
-          Image.asset(path, height: 20),
-          const SizedBox(width: 5),
+Padding _builFlagsdPreviewIcon(String path, String text) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    child: Column(
+      children: [
+        Text(
           text,
-        ],
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w300,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 7.5),
+        Image.asset(path, height: 30),
+      ],
+    ),
+  );
+}
+
+Container _buildTitle(String title) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 2.5),
+    decoration: BoxDecoration(
+      color: Colors.red,
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 10,
+        fontWeight: FontWeight.bold,
       ),
-    );
+    ),
+  );
+}
+
+Padding _buildReactionsPreviewIcon(String path) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 3.5, vertical: 5),
+    child: Image.asset(path, height: 40),
+  );
+}
+
+Image _buildIcon(String path) {
+  return Image.asset(
+    path,
+    height: 30,
+    width: 30,
+  );
+}
+
+Container _buildReactionsIcon(String path, Text text) {
+  return Container(
+    color: Colors.transparent,
+    child: Row(
+      children: <Widget>[
+        Image.asset(path, height: 20),
+        const SizedBox(width: 5),
+        text,
+      ],
+    ),
+  );
+}

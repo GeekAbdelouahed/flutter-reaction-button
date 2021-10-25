@@ -28,16 +28,19 @@ class Reaction {
   }) : this.previewIcon = previewIcon ?? icon;
 
   @override
-  bool operator ==(Object? object) =>
-      object != null &&
-      object is Reaction &&
-      icon == object.icon &&
-      icon.key == object.icon.key &&
-      previewIcon == object.previewIcon &&
-      previewIcon.key == object.previewIcon.key &&
-      title == object.title &&
-      title?.key == object.title?.key;
+  bool operator ==(Object? object) {
+    return object != null &&
+        object is Reaction &&
+        icon == object.icon &&
+        icon.key == object.icon.key &&
+        previewIcon == object.previewIcon &&
+        previewIcon.key == object.previewIcon.key &&
+        title == object.title &&
+        title?.key == object.title?.key;
+  }
 
   @override
-  int get hashCode => hashValues(icon, previewIcon, title);
+  int get hashCode {
+    return hashValues(icon, previewIcon, title);
+  }
 }

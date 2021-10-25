@@ -52,9 +52,9 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
-  StreamController<DragData> _dragStreamController =
-      StreamController<DragData>();
-  late Stream<DragData> _dragStream;
+  StreamController<DragData?> _dragStreamController =
+      StreamController<DragData?>();
+  late Stream<DragData?> _dragStream;
 
   late AnimationController _scaleController;
 
@@ -64,7 +64,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   Reaction? _selectedReaction;
 
-  late DragData _dragData;
+  DragData? _dragData;
 
   @override
   void initState() {
@@ -108,7 +108,9 @@ class _ReactionsBoxState extends State<ReactionsBox>
         children: [
           Positioned.fill(
             child: Listener(
-              onPointerDown: (_) => _scaleController.reverse(),
+              onPointerDown: (_) {
+                _scaleController.reverse();
+              },
               child: Container(
                 color: Colors.transparent,
               ),
@@ -147,7 +149,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
-  Widget _buildDumpItems() {
+  Padding _buildDumpItems() {
     return Padding(
       padding: widget.boxPadding,
       child: Wrap(
@@ -159,7 +161,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
-  Widget _buildItems() {
+  Padding _buildItems() {
     return Padding(
       padding: widget.boxPadding,
       child: Listener(
@@ -168,43 +170,45 @@ class _ReactionsBoxState extends State<ReactionsBox>
           _dragStreamController.add(_dragData);
         },
         onPointerUp: (point) {
-          _dragData = _dragData.copyWith(isDragEnd: true);
+          _dragData = _dragData?.copyWith(isDragEnd: true);
           _dragStreamController.add(_dragData);
         },
         child: Wrap(
           spacing: widget.boxItemsSpacing,
-          children: widget.reactions
-              .map(
-                (reaction) => ReactionsBoxItem(
-                  index: widget.reactions.indexOf(reaction),
-                  onReactionClick: (reaction) {
-                    _selectedReaction = reaction;
-                    _scaleController.reverse();
-                  },
-                  itemsCount: widget.reactions.length,
-                  reaction: reaction!,
-                  dragStream: _dragStream,
-                ),
-              )
-              .toList(),
+          children: widget.reactions.map(
+            (reaction) {
+              return ReactionsBoxItem(
+                onReactionClick: (reaction) {
+                  _selectedReaction = reaction;
+                  _scaleController.reverse();
+                },
+                itemsCount: widget.reactions.length,
+                reaction: reaction!,
+                dragStream: _dragStream,
+              );
+            },
+          ).toList(),
         ),
       ),
     );
   }
 
-  double _getPosition(BuildContext context) =>
-      (_getTopPosition() - widget.buttonSize.height * 2 < 0)
-          ? _getBottomPosition()
-          : (_getBottomPosition() + widget.buttonSize.height * 2 >
-                  context.screenSize.height)
-              ? _getTopPosition()
-              : widget.position == Position.TOP
-                  ? _getTopPosition()
-                  : _getBottomPosition();
+  double _getPosition(BuildContext context) {
+    return (_getTopPosition() - widget.buttonSize.height * 2 < 0)
+        ? _getBottomPosition()
+        : (_getBottomPosition() + widget.buttonSize.height * 2 >
+                context.screenSize.height)
+            ? _getTopPosition()
+            : widget.position == Position.TOP
+                ? _getTopPosition()
+                : _getBottomPosition();
+  }
 
-  double _getTopPosition() =>
-      widget.buttonOffset.dy - widget.buttonSize.height * 3.3;
+  double _getTopPosition() {
+    return widget.buttonOffset.dy - widget.buttonSize.height * 3.3;
+  }
 
-  double _getBottomPosition() =>
-      widget.buttonOffset.dy + widget.buttonSize.height;
+  double _getBottomPosition() {
+    return widget.buttonOffset.dy + widget.buttonSize.height;
+  }
 }

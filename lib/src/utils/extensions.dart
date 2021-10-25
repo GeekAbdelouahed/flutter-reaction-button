@@ -15,5 +15,7 @@ extension KeyExtensions on GlobalKey {
 }
 
 extension ContextExtensions on BuildContext {
-  Size get screenSize => MediaQuery.of(this).size;
+  Size get screenSize {
+    return MediaQuery.of(this).size;
+  }
 }

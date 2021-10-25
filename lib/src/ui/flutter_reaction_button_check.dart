@@ -94,16 +94,18 @@ class _FlutterReactionButtonCheckState
   }
 
   @override
-  Widget build(BuildContext context) => InkWell(
-        key: _buttonKey,
-        onTap: () {
-          _onClickReactionButton();
-        },
-        onLongPress: () {
-          _showReactionButtons(context);
-        },
-        child: (_selectedReaction ?? widget.reactions[0])!.icon,
-      );
+  Widget build(BuildContext context) {
+    return InkWell(
+      key: _buttonKey,
+      onTap: () {
+        _onClickReactionButton();
+      },
+      onLongPress: () {
+        _showReactionButtons(context);
+      },
+      child: (_selectedReaction ?? widget.reactions[0])!.icon,
+    );
+  }
 
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
@@ -121,27 +123,31 @@ class _FlutterReactionButtonCheckState
       PageRouteBuilder(
         opaque: false,
         transitionDuration: const Duration(milliseconds: 200),
-        pageBuilder: (_, __, ___) => ReactionsBox(
-          buttonOffset: buttonOffset,
-          buttonSize: buttonSize,
-          reactions: widget.reactions,
-          position: widget.boxPosition,
-          color: widget.boxColor,
-          elevation: widget.boxElevation,
-          radius: widget.boxRadius,
-          duration: widget.boxDuration,
-          alignment: widget.boxAlignment,
-          boxPadding: widget.boxPadding,
-          boxItemsSpacing: widget.boxItemsSpacing,
-        ),
+        pageBuilder: (_, __, ___) {
+          return ReactionsBox(
+            buttonOffset: buttonOffset,
+            buttonSize: buttonSize,
+            reactions: widget.reactions,
+            position: widget.boxPosition,
+            color: widget.boxColor,
+            elevation: widget.boxElevation,
+            radius: widget.boxRadius,
+            duration: widget.boxDuration,
+            alignment: widget.boxAlignment,
+            boxPadding: widget.boxPadding,
+            boxItemsSpacing: widget.boxItemsSpacing,
+          );
+        },
       ),
     );
 
     if (reactionButton != null) _updateReaction(reactionButton, true);
   }
 
-  void _updateReaction(Reaction? reaction,
-      [bool isSelectedFromDialog = false]) {
+  void _updateReaction(
+    Reaction? reaction, [
+    bool isSelectedFromDialog = false,
+  ]) {
     _isChecked =
         isSelectedFromDialog ? true : reaction != widget.initialReaction;
     widget.onReactionChanged.call(
