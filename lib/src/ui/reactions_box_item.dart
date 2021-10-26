@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import '../models/drag.dart';
 import '../models/reaction.dart';
 import '../utils/extensions.dart';
-import 'title.dart';
+
+typedef OnReactionClick = void Function(Reaction?);
 
 class ReactionsBoxItem extends StatefulWidget {
-  final Function(Reaction?) onReactionClick;
+  final OnReactionClick onReactionClick;
 
   final Reaction reaction;
 
@@ -50,37 +51,12 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   double? _width;
 
-  OverlayEntry? _overlayEntry;
-
   void _onSelected() {
-    _hideTitle();
     _scaleController.reverse();
     widget.onReactionClick.call(widget.reaction);
   }
 
-  void _showTitle() {
-    final size = _widgetKey.widgetSize;
-    final offset = _widgetKey.widgetOffset;
-
-    _overlayEntry = OverlayEntry(
-      builder: (_) {
-        return TitleWidget(
-          title: widget.reaction.title,
-          parentSize: size,
-          parentOffset: offset,
-        );
-      },
-    );
-
-    Overlay.of(context)?.insert(_overlayEntry!);
-  }
-
-  void _hideTitle() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
-
-  late void Function() _listener;
+  late VoidCallback _listener;
 
   void _updateAnimation({double? begin, double? end}) {
     _scaleTween = Tween(begin: begin ?? _normalScale, end: end ?? _maxScale);
@@ -104,12 +80,6 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
     _listener = () {
       _scale = _scaleAnimation.value;
-
-      if (_scale == _maxScale && _overlayEntry == null) {
-        _showTitle();
-      } else if (_scale <= _normalScale) {
-        _hideTitle();
-      }
     };
 
     _updateAnimation(begin: _normalScale, end: _maxScale);
@@ -173,7 +143,18 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
                 child: AnimatedContainer(
                   width: _width != null ? _width! * _scale : null,
                   duration: const Duration(milliseconds: 250),
-                  child: child,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Opacity(
+                        opacity: _scale == _maxScale ? 1 : 0,
+                        child: FittedBox(
+                          child: widget.reaction.title,
+                        ),
+                      ),
+                      child!,
+                    ],
+                  ),
                 ),
               );
             },

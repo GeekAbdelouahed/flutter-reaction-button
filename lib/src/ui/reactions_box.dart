@@ -7,6 +7,7 @@ import '../models/reaction.dart';
 import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box_item.dart';
+import 'widget_size_render_object.dart';
 
 class ReactionsBox extends StatefulWidget {
   final Offset buttonOffset;
@@ -56,25 +57,49 @@ class _ReactionsBoxState extends State<ReactionsBox>
       StreamController<DragData?>();
   late Stream<DragData?> _dragStream;
 
+  late AnimationController _boxSizeController;
+
+  late Animation<Size?> _boxSizeAnimation;
+
+  late Tween<Size?> _boxSizeTween;
+
   late AnimationController _scaleController;
 
   late Animation<double> _scaleAnimation;
-
-  double _scale = 0;
 
   Reaction? _selectedReaction;
 
   DragData? _dragData;
 
+  double _scale = 0;
+
+  double? _getBoxHeight() {
+    if (_boxSizeAnimation.value == null) return null;
+
+    bool anyItemHasTitle = widget.reactions.any(
+      (item) => item?.title != null,
+    );
+
+    if (anyItemHasTitle) return _boxSizeAnimation.value!.height * .75;
+
+    return _boxSizeAnimation.value!.height;
+  }
+
   @override
   void initState() {
     super.initState();
 
+    _boxSizeController =
+        AnimationController(vsync: this, duration: widget.duration);
+
+    _boxSizeTween = Tween();
+    _boxSizeAnimation = _boxSizeTween.animate(_boxSizeController);
+
     _scaleController =
         AnimationController(vsync: this, duration: widget.duration);
 
-    final Tween<double> startTween = Tween(begin: 0, end: 1);
-    _scaleAnimation = startTween.animate(_scaleController)
+    final Tween<double> scaleTween = Tween(begin: 0, end: 1);
+    _scaleAnimation = scaleTween.animate(_scaleController)
       ..addListener(() {
         setState(() {
           _scale = _scaleAnimation.value;
@@ -92,6 +117,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   @override
   void dispose() {
+    _boxSizeController.dispose();
     _scaleController.dispose();
     _dragStreamController.close();
     super.dispose();
@@ -100,6 +126,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
   @override
   Widget build(BuildContext context) {
     double top = _getPosition(context);
+
     return Material(
       elevation: 0,
       color: Colors.transparent,
@@ -120,28 +147,33 @@ class _ReactionsBoxState extends State<ReactionsBox>
             top: top,
             child: Transform.scale(
               scale: _scale,
-              child: Material(
-                color: widget.color,
-                elevation: widget.elevation,
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(widget.radius),
-                ),
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: Opacity(
-                    opacity: 0,
-                    child: _buildDumpItems(),
-                  ),
-                ),
+              child: AnimatedBuilder(
+                animation: _boxSizeAnimation,
+                child: _buildItems(),
+                builder: (_, child) {
+                  return SizedBox(
+                    height: _boxSizeAnimation.value?.height,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Material(
+                          color: widget.color,
+                          elevation: widget.elevation,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(widget.radius),
+                          ),
+                          child: SizedBox(
+                            height: _getBoxHeight(),
+                            width: _boxSizeAnimation.value?.width,
+                          ),
+                        ),
+                        child!,
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-          ),
-          Positioned(
-            top: top,
-            child: Transform.scale(
-              scale: _scale,
-              child: _buildItems(),
             ),
           ),
         ],
@@ -149,49 +181,45 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
-  Padding _buildDumpItems() {
-    return Padding(
-      padding: widget.boxPadding,
-      child: Wrap(
-        spacing: widget.boxItemsSpacing,
-        children: widget.reactions.map((reaction) {
-          return reaction!.previewIcon;
-        }).toList(),
-      ),
-    );
-  }
-
-  Padding _buildItems() {
-    return Padding(
-      padding: widget.boxPadding,
-      child: Listener(
-        onPointerDown: (point) {
-          _dragData = DragData(offset: point.position);
-          _dragStreamController.add(_dragData);
-        },
-        onPointerMove: (point) {
-          _dragData = DragData(offset: point.position);
-          _dragStreamController.add(_dragData);
-        },
-        onPointerUp: (point) {
-          _dragData = _dragData?.copyWith(isDragEnd: true);
-          _dragStreamController.add(_dragData);
-        },
-        child: Wrap(
-          spacing: widget.boxItemsSpacing,
-          children: widget.reactions.map(
-            (reaction) {
-              return ReactionsBoxItem(
-                onReactionClick: (reaction) {
-                  _selectedReaction = reaction;
-                  _scaleController.reverse();
-                },
-                itemsCount: widget.reactions.length,
-                reaction: reaction!,
-                dragStream: _dragStream,
-              );
-            },
-          ).toList(),
+  Widget _buildItems() {
+    return WidgetSizeOffsetWrapper(
+      onSizeChange: (Size size) {
+        _boxSizeTween
+          ..begin = size
+          ..end = size;
+        _boxSizeController.forward();
+      },
+      child: Padding(
+        padding: widget.boxPadding,
+        child: Listener(
+          onPointerDown: (point) {
+            _dragData = DragData(offset: point.position);
+            _dragStreamController.add(_dragData);
+          },
+          onPointerMove: (point) {
+            _dragData = DragData(offset: point.position);
+            _dragStreamController.add(_dragData);
+          },
+          onPointerUp: (point) {
+            _dragData = _dragData?.copyWith(isDragEnd: true);
+            _dragStreamController.add(_dragData);
+          },
+          child: Wrap(
+            spacing: widget.boxItemsSpacing,
+            children: widget.reactions.map(
+              (reaction) {
+                return ReactionsBoxItem(
+                  onReactionClick: (reaction) {
+                    _selectedReaction = reaction;
+                    _scaleController.reverse();
+                  },
+                  itemsCount: widget.reactions.length,
+                  reaction: reaction!,
+                  dragStream: _dragStream,
+                );
+              },
+            ).toList(),
+          ),
         ),
       ),
     );
