@@ -148,17 +148,14 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               }
             } else {
               bool isDraggingEnded = dragData?.isDragEnd ?? false;
-              if (isDraggingEnded) {
+              if (isDraggingEnded)
                 _updateAnimation(begin: _normalScale, end: _maxScale);
-                WidgetsBinding.instance?.addPostFrameCallback((_) {
-                  _scaleController.reset();
-                });
-              } else {
+              else
                 _updateAnimation(begin: _minScale);
-                WidgetsBinding.instance?.addPostFrameCallback((_) {
-                  _scaleController.reset();
-                });
-              }
+
+              WidgetsBinding.instance?.addPostFrameCallback((_) {
+                _scaleController.reset();
+              });
             }
           } else {
             _updateAnimation(begin: _minScale);
