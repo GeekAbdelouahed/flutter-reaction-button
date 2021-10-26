@@ -149,8 +149,10 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
             } else {
               bool isDraggingEnded = dragData?.isDragEnd ?? false;
               if (isDraggingEnded) {
-                _updateAnimation(begin: _normalScale, end: _normalScale);
-                _scaleController.forward();
+                _updateAnimation(begin: _normalScale, end: _maxScale);
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  _scaleController.reset();
+                });
               } else {
                 _updateAnimation(begin: _minScale);
                 WidgetsBinding.instance?.addPostFrameCallback((_) {
