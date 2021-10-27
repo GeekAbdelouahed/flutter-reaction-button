@@ -201,6 +201,14 @@ class _ReactionsBoxState extends State<ReactionsBox>
             _dragData = _dragData?.copyWith(isDragEnd: true);
             _dragStreamController.add(_dragData);
           },
+          onPointerHover: (point) {
+            _dragData = DragData(offset: point.position);
+            _dragStreamController.add(_dragData);
+          },
+          onPointerCancel: (point) {
+            _dragData = _dragData?.copyWith(isDragEnd: true);
+            _dragStreamController.add(_dragData);
+          },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: widget.reactions.map(

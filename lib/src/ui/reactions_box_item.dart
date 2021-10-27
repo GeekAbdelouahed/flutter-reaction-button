@@ -41,29 +41,24 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   static const double _DELTA_SCALE = .2;
 
+  final double _maxScale = 1 + _DELTA_SCALE;
+
+  final double _normalScale = 1;
+
   double _minScale = 1;
 
-  double _normalScale = 1;
-
-  double _maxScale = 1 + _DELTA_SCALE;
-
-  double _scale = 1;
-
   double? _width;
+
+  bool _isHovered = false;
 
   void _onSelected() {
     _scaleController.reverse();
     widget.onReactionClick.call(widget.reaction);
   }
 
-  late VoidCallback _listener;
-
   void _updateAnimation({double? begin, double? end}) {
     _scaleTween = Tween(begin: begin ?? _normalScale, end: end ?? _maxScale);
     _scaleAnimation = _scaleTween.animate(_scaleController);
-    _scaleAnimation
-      ..removeListener(_listener)
-      ..addListener(_listener);
   }
 
   bool _isWidgetHovered(DragData? dragData) {
@@ -77,11 +72,10 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
     final double deltaX =
         (widgetOffset.dx + widgetSize.width / 1.9) - currentOffset.dx;
-    final double deltaY =
-        widgetOffset.dy + widgetSize.height * 1.5 - currentOffset.dy;
+    final double deltaY = widgetOffset.dy - currentOffset.dy;
 
     return deltaX.abs() <= widgetSize.width / 2 &&
-        deltaY.abs() <= widgetSize.height &&
+        deltaY.abs() <= widgetSize.height * 2 &&
         widget.reaction.enabled;
   }
 
@@ -96,10 +90,6 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
-
-    _listener = () {
-      _scale = _scaleAnimation.value;
-    };
 
     _updateAnimation(begin: _normalScale, end: _maxScale);
   }
@@ -119,8 +109,8 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         builder: (_, snapshot) {
           if (snapshot.hasData) {
             final dragData = snapshot.data;
-            bool isHovered = _isWidgetHovered(dragData);
-            if (isHovered) {
+            _isHovered = _isWidgetHovered(dragData);
+            if (_isHovered) {
               bool isSelected = snapshot.data?.isDragEnd ?? false;
               if (isSelected) {
                 _onSelected();
@@ -129,49 +119,47 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               }
             } else {
               bool isDraggingEnded = dragData?.isDragEnd ?? false;
-              if (isDraggingEnded)
-                _updateAnimation(begin: _normalScale, end: _maxScale);
-              else
+              if (isDraggingEnded) {
+                _updateAnimation();
+              } else {
                 _updateAnimation(begin: _minScale);
-
+              }
               WidgetsBinding.instance?.addPostFrameCallback((_) {
                 _scaleController.reset();
               });
             }
-          } else {
-            _updateAnimation(begin: _minScale);
-            _scaleController.reverse();
           }
 
-          return FittedBox(
-            child: AnimatedBuilder(
-              animation: _scaleAnimation,
-              child: FittedBox(
-                key: _widgetKey,
-                child: widget.reaction.previewIcon,
-              ),
-              builder: (_, child) {
-                return Transform.scale(
-                  scale: _scaleAnimation.value,
-                  child: AnimatedContainer(
-                    width: _width != null ? _width! * _scale : null,
-                    duration: const Duration(milliseconds: 250),
-                    child: Column(
-                      children: [
-                        Opacity(
-                          opacity: _scale == _maxScale ? 1 : 0,
-                          child: FittedBox(
-                            fit: BoxFit.none,
-                            child: widget.reaction.title,
-                          ),
-                        ),
-                        child!,
-                      ],
-                    ),
-                  ),
-                );
-              },
+          return AnimatedBuilder(
+            animation: _scaleAnimation,
+            child: FittedBox(
+              key: _widgetKey,
+              fit: BoxFit.scaleDown,
+              child: widget.reaction.previewIcon,
             ),
+            builder: (_, child) {
+              return Transform.scale(
+                scale: _scaleAnimation.value,
+                child: AnimatedContainer(
+                  width:
+                      _width != null ? _width! * _scaleAnimation.value : null,
+                  duration: const Duration(milliseconds: 250),
+                  child: Column(
+                    children: [
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 50),
+                        opacity: _isHovered ? 1 : 0,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: widget.reaction.title,
+                        ),
+                      ),
+                      child!,
+                    ],
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
