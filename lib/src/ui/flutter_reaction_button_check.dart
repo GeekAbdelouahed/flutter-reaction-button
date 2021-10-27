@@ -5,19 +5,17 @@ import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
-typedef FlutterReactionButtonCheckChanged = void Function(Reaction?, int, bool);
-
-class FlutterReactionButtonCheck extends StatefulWidget {
+class FlutterReactionButtonCheck<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final FlutterReactionButtonCheckChanged onReactionChanged;
+  final void Function(T?, bool) onReactionChanged;
 
   /// Default reaction button widget if [isChecked == false]
-  final Reaction? initialReaction;
+  final Reaction<T>? initialReaction;
 
   /// Default reaction button widget if [isChecked == true]
-  final Reaction? selectedReaction;
+  final Reaction<T>? selectedReaction;
 
-  final List<Reaction?> reactions;
+  final List<Reaction<T>?> reactions;
 
   /// Position reactions box for the button [default = TOP]
   final Position boxPosition;
@@ -61,14 +59,14 @@ class FlutterReactionButtonCheck extends StatefulWidget {
 
   @override
   _FlutterReactionButtonCheckState createState() =>
-      _FlutterReactionButtonCheckState();
+      _FlutterReactionButtonCheckState<T>();
 }
 
-class _FlutterReactionButtonCheckState
-    extends State<FlutterReactionButtonCheck> {
+class _FlutterReactionButtonCheckState<T>
+    extends State<FlutterReactionButtonCheck<T>> {
   final GlobalKey _buttonKey = GlobalKey();
 
-  Reaction? _selectedReaction;
+  Reaction<T>? _selectedReaction;
 
   bool _isChecked = false;
 
@@ -79,7 +77,7 @@ class _FlutterReactionButtonCheckState
   }
 
   @override
-  void didUpdateWidget(FlutterReactionButtonCheck oldWidget) {
+  void didUpdateWidget(FlutterReactionButtonCheck<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     _init();
   }
@@ -141,14 +139,13 @@ class _FlutterReactionButtonCheckState
   }
 
   void _updateReaction(
-    Reaction? reaction, [
+    Reaction<T>? reaction, [
     bool isSelectedFromDialog = false,
   ]) {
     _isChecked =
         isSelectedFromDialog ? true : reaction != widget.initialReaction;
     widget.onReactionChanged.call(
-      reaction,
-      widget.reactions.indexOf(reaction),
+      reaction?.value,
       _isChecked,
     );
     setState(() {

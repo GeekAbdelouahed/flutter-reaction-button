@@ -5,16 +5,14 @@ import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
-typedef OnFlutterReactionButtonChanged = void Function(Reaction, int);
-
-class FlutterReactionButton extends StatefulWidget {
+class FlutterReactionButton<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final OnFlutterReactionButtonChanged onReactionChanged;
+  final void Function(T?) onReactionChanged;
 
   /// Default reaction button widget
-  final Reaction? initialReaction;
+  final Reaction<T>? initialReaction;
 
-  final List<Reaction> reactions;
+  final List<Reaction<T>> reactions;
 
   /// Position reactions box for the button [default = TOP]
   final Position boxPosition;
@@ -55,10 +53,10 @@ class FlutterReactionButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FlutterReactionButtonState createState() => _FlutterReactionButtonState();
+  _FlutterReactionButtonState createState() => _FlutterReactionButtonState<T>();
 }
 
-class _FlutterReactionButtonState extends State<FlutterReactionButton> {
+class _FlutterReactionButtonState<T> extends State<FlutterReactionButton<T>> {
   final GlobalKey _buttonKey = GlobalKey();
 
   Reaction? _selectedReaction;
@@ -68,7 +66,7 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
   }
 
   @override
-  void didUpdateWidget(FlutterReactionButton oldWidget) {
+  void didUpdateWidget(FlutterReactionButton<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     _init();
   }
@@ -117,11 +115,8 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
     if (reactionButton != null) _updateReaction(reactionButton);
   }
 
-  void _updateReaction(Reaction reaction) {
-    widget.onReactionChanged.call(
-      reaction,
-      widget.reactions.indexOf(reaction),
-    );
+  void _updateReaction(Reaction<T> reaction) {
+    widget.onReactionChanged.call(reaction.value);
     if (widget.shouldChangeReaction)
       setState(() {
         _selectedReaction = reaction;

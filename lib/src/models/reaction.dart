@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Reaction {
+class Reaction<T> {
   @deprecated
   final int? id;
 
@@ -19,9 +19,12 @@ class Reaction {
 
   final bool enabled;
 
+  final T? value;
+
   Reaction({
     this.id,
     required this.icon,
+    required this.value,
     Widget? previewIcon,
     this.title,
     this.enabled = true,

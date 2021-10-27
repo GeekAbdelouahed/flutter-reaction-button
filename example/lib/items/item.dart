@@ -8,7 +8,7 @@ import 'comments.dart';
 class Item extends StatefulWidget {
   final String title;
   final String imgPath;
-  final List<Reaction> reactions;
+  final List<Reaction<String>> reactions;
 
   const Item(this.title, this.imgPath, this.reactions);
 
@@ -65,9 +65,10 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .2,
                     child: FittedBox(
-                      child: FlutterReactionButtonCheck(
-                        onReactionChanged: (reaction, index, isChecked) {
-                          print('reaction selected index: $index');
+                      fit: BoxFit.scaleDown,
+                      child: FlutterReactionButtonCheck<String>(
+                        onReactionChanged: (String? value, bool isChcked) {
+                          print('Selected value: $value, isChecked: $isChcked');
                         },
                         reactions: widget.reactions,
                         initialReaction: Example.defaultInitialReaction,

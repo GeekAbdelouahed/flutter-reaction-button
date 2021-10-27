@@ -24,16 +24,21 @@ class _MyAppState extends State<MyApp> {
           actions: [
             Builder(
               builder: (ctx) {
-                return FlutterReactionButton(
-                  onReactionChanged: (reaction, index) {
+                return FlutterReactionButton<String>(
+                  onReactionChanged: (String? value) {
                     ScaffoldMessenger.of(ctx).showSnackBar(
                       SnackBar(
-                        content: Text('reaction selected index: $index'),
+                        content: Text('Selected value: $value'),
                       ),
                     );
                   },
                   reactions: Example.flagsReactions,
-                  initialReaction: Reaction(icon: Icon(Icons.language)),
+                  initialReaction: Reaction<String>(
+                    value: null,
+                    icon: Icon(
+                      Icons.language,
+                    ),
+                  ),
                   boxColor: Colors.black.withOpacity(0.5),
                   boxRadius: 10,
                   boxDuration: Duration(milliseconds: 500),
