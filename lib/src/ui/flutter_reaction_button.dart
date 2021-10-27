@@ -39,8 +39,6 @@ class FlutterReactionButton extends StatefulWidget {
 
   final EdgeInsets boxPadding;
 
-  final double boxItemsSpacing;
-
   FlutterReactionButton({
     Key? key,
     required this.onReactionChanged,
@@ -54,7 +52,6 @@ class FlutterReactionButton extends StatefulWidget {
     this.boxAlignment = Alignment.center,
     this.shouldChangeReaction = true,
     this.boxPadding = const EdgeInsets.all(0),
-    this.boxItemsSpacing = 0,
   }) : super(key: key);
 
   @override
@@ -112,7 +109,6 @@ class _FlutterReactionButtonState extends State<FlutterReactionButton> {
             duration: widget.boxDuration,
             alignment: widget.boxAlignment,
             boxPadding: widget.boxPadding,
-            boxItemsSpacing: widget.boxItemsSpacing,
           );
         },
       ),

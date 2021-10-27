@@ -94,7 +94,6 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      key: _widgetKey,
       ignoring: !widget.reaction.enabled,
       child: StreamBuilder<DragData?>(
         stream: widget.dragStream,
@@ -107,8 +106,9 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
               _width = widgetSize.width;
             }
             final deltaOffset = currentOffset - _widgetKey.widgetOffset;
-            final isHovered =
-                _width! * .9 > deltaOffset.distance && widget.reaction.enabled;
+            final isHovered = widgetSize.width * widgetSize.height >=
+                    deltaOffset.distanceSquared &&
+                widget.reaction.enabled;
             if (isHovered) {
               bool isSelected = snapshot.data?.isDragEnd ?? false;
               if (isSelected) {
@@ -132,32 +132,35 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
             _scaleController.reverse();
           }
 
-          return AnimatedBuilder(
-            animation: _scaleAnimation,
-            child: FittedBox(
-              child: widget.reaction.previewIcon,
-            ),
-            builder: (_, child) {
-              return Transform.scale(
-                scale: _scaleAnimation.value,
-                child: AnimatedContainer(
-                  width: _width != null ? _width! * _scale : null,
-                  duration: const Duration(milliseconds: 250),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Opacity(
-                        opacity: _scale == _maxScale ? 1 : 0,
-                        child: FittedBox(
-                          child: widget.reaction.title,
+          return FittedBox(
+            child: AnimatedBuilder(
+              animation: _scaleAnimation,
+              child: FittedBox(
+                key: _widgetKey,
+                child: widget.reaction.previewIcon,
+              ),
+              builder: (_, child) {
+                return Transform.scale(
+                  scale: _scaleAnimation.value,
+                  child: AnimatedContainer(
+                    width: _width != null ? _width! * _scale : null,
+                    duration: const Duration(milliseconds: 250),
+                    child: Column(
+                      children: [
+                        Opacity(
+                          opacity: _scale == _maxScale ? 1 : 0,
+                          child: FittedBox(
+                            fit: BoxFit.none,
+                            child: widget.reaction.title,
+                          ),
                         ),
-                      ),
-                      child!,
-                    ],
+                        child!,
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         },
       ),

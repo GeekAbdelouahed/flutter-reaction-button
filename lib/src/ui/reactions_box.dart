@@ -30,8 +30,6 @@ class ReactionsBox extends StatefulWidget {
 
   final EdgeInsets boxPadding;
 
-  final double boxItemsSpacing;
-
   const ReactionsBox({
     Key? key,
     required this.buttonOffset,
@@ -44,7 +42,6 @@ class ReactionsBox extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.alignment = Alignment.center,
     this.boxPadding = const EdgeInsets.all(0),
-    this.boxItemsSpacing = 0,
   }) : super(key: key);
 
   @override
@@ -204,8 +201,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
             _dragData = _dragData?.copyWith(isDragEnd: true);
             _dragStreamController.add(_dragData);
           },
-          child: Wrap(
-            spacing: widget.boxItemsSpacing,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: widget.reactions.map(
               (reaction) {
                 return ReactionsBoxItem(
