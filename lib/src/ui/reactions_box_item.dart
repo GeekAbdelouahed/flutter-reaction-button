@@ -66,6 +66,25 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
       ..addListener(_listener);
   }
 
+  bool _isWidgetHovered(DragData? dragData) {
+    final Offset currentOffset = dragData?.offset ?? Offset.zero;
+    final widgetOffset = _widgetKey.widgetOffset;
+    final widgetSize = _widgetKey.widgetSize;
+
+    if (_width == null) {
+      _width = widgetSize.width;
+    }
+
+    final double deltaX =
+        (widgetOffset.dx + widgetSize.width / 1.9) - currentOffset.dx;
+    final double deltaY =
+        widgetOffset.dy + widgetSize.height * 1.5 - currentOffset.dy;
+
+    return deltaX.abs() <= widgetSize.width / 2 &&
+        deltaY.abs() <= widgetSize.height &&
+        widget.reaction.enabled;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -100,15 +119,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
         builder: (_, snapshot) {
           if (snapshot.hasData) {
             final dragData = snapshot.data;
-            final Offset currentOffset = dragData?.offset ?? Offset.zero;
-            final widgetSize = _widgetKey.widgetSize;
-            if (_width == null) {
-              _width = widgetSize.width;
-            }
-            final deltaOffset = currentOffset - _widgetKey.widgetOffset;
-            final isHovered = widgetSize.width * widgetSize.height >=
-                    deltaOffset.distanceSquared &&
-                widget.reaction.enabled;
+            bool isHovered = _isWidgetHovered(dragData);
             if (isHovered) {
               bool isSelected = snapshot.data?.isDragEnd ?? false;
               if (isSelected) {
