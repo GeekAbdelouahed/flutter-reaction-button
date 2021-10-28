@@ -128,7 +128,6 @@ class _FlutterReactionButtonCheckState<T>
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
             duration: widget.boxDuration,
-            alignment: widget.boxAlignment,
             boxPadding: widget.boxPadding,
           );
         },

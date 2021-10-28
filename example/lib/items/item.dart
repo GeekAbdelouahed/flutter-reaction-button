@@ -22,7 +22,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
 
   List<Comment> _comments = [];
 
-  void _showBottomSheetCommets() {
+  void _showBottomSheetComments() {
     showBottomSheet(
       context: context,
       builder: (context) {
@@ -67,8 +67,9 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: FlutterReactionButtonCheck<String>(
-                        onReactionChanged: (String? value, bool isChcked) {
-                          print('Selected value: $value, isChecked: $isChcked');
+                        onReactionChanged: (String? value, bool isChecked) {
+                          print(
+                              'Selected value: $value, isChecked: $isChecked');
                         },
                         reactions: widget.reactions,
                         initialReaction: Example.defaultInitialReaction,
@@ -77,7 +78,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                     ),
                   ),
                   InkWell(
-                    onTap: () => _showBottomSheetCommets(),
+                    onTap: () => _showBottomSheetComments(),
                     child: Row(
                       children: [
                         Icon(

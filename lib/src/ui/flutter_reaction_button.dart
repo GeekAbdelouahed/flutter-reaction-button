@@ -105,7 +105,6 @@ class _FlutterReactionButtonState<T> extends State<FlutterReactionButton<T>> {
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
             duration: widget.boxDuration,
-            alignment: widget.boxAlignment,
             boxPadding: widget.boxPadding,
           );
         },

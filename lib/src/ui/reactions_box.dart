@@ -26,8 +26,6 @@ class ReactionsBox extends StatefulWidget {
 
   final Duration duration;
 
-  final AlignmentGeometry alignment;
-
   final EdgeInsets boxPadding;
 
   final double itemScale;
@@ -42,7 +40,6 @@ class ReactionsBox extends StatefulWidget {
     this.elevation = 5,
     this.radius = 50,
     this.duration = const Duration(milliseconds: 200),
-    this.alignment = Alignment.center,
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,
   })  : assert(itemScale > 0.0 && itemScale < 1),
@@ -75,8 +72,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   DragData? _dragData;
 
-  double _scale = 0;
-
   double? _getBoxHeight() {
     if (_boxSizeAnimation.value == null) return null;
 
@@ -107,14 +102,12 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
     final Tween<double> scaleTween = Tween(begin: 0, end: 1);
     _scaleAnimation = scaleTween.animate(_scaleController)
-      ..addListener(() {
-        setState(() {
-          _scale = _scaleAnimation.value;
-        });
-      })
       ..addStatusListener((status) {
         if (status == AnimationStatus.reverse)
           Navigator.of(context).pop(_selectedReaction);
+      })
+      ..addListener(() {
+        setState(() {});
       });
 
     _scaleController.forward();
@@ -132,13 +125,12 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   @override
   Widget build(BuildContext context) {
-    double top = _getPosition(context);
+    double top = _getVerticalPosition();
 
     return Material(
       elevation: 0,
       color: Colors.transparent,
       child: Stack(
-        alignment: widget.alignment,
         children: [
           Positioned.fill(
             child: Listener(
@@ -150,10 +142,11 @@ class _ReactionsBoxState extends State<ReactionsBox>
               ),
             ),
           ),
-          Positioned(
+          PositionedDirectional(
             top: top,
+            start: _getHorizontalPosition(),
             child: Transform.scale(
-              scale: _scale,
+              scale: _scaleAnimation.value,
               child: AnimatedBuilder(
                 animation: _boxSizeAnimation,
                 child: _buildItems(),
@@ -191,9 +184,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
   Widget _buildItems() {
     return WidgetSizeOffsetWrapper(
       onSizeChange: (Size size) {
-        _boxSizeTween
-          ..begin = size
-          ..end = size;
+        if (_boxSizeTween.begin == null)
+          _boxSizeTween
+            ..begin = size
+            ..end = size;
         if (_boxSizeController.isCompleted)
           _boxSizeController.reverse();
         else
@@ -239,18 +233,27 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
-  double _getPosition(BuildContext context) {
+  double _getVerticalPosition() {
     // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 2 < 0)
+    if (_getTopPosition() - widget.buttonSize.height * 1.5 < 0)
       return _getBottomPosition();
 
     // check if BOTTOM space not enough for the box
-    if (_getBottomPosition() + widget.buttonSize.height * 2 >
+    if (_getBottomPosition() + widget.buttonSize.height * 1.5 >
         context.screenSize.height) return _getTopPosition();
 
     if (widget.position == Position.TOP) return _getTopPosition();
 
     return _getBottomPosition();
+  }
+
+  double _getHorizontalPosition() {
+    if (widget.buttonOffset.dx + (_boxSizeAnimation.value?.width ?? 0) <
+        MediaQuery.of(context).size.width) return widget.buttonOffset.dx;
+
+    return widget.buttonOffset.dx +
+        widget.buttonSize.width -
+        (_boxSizeAnimation.value?.width ?? 0);
   }
 
   double _getTopPosition() {
