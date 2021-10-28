@@ -13,9 +13,7 @@ class ReactionsBoxItem extends StatefulWidget {
 
   final Reaction reaction;
 
-  final double maxScale;
-
-  final double normaScale;
+  final double scale;
 
   final Stream<DragData?> dragStream;
 
@@ -23,8 +21,7 @@ class ReactionsBoxItem extends StatefulWidget {
     Key? key,
     required this.reaction,
     required this.onReactionSelected,
-    required this.maxScale,
-    required this.normaScale,
+    required this.scale,
     required this.dragStream,
   }) : super(key: key);
 
@@ -76,8 +73,8 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
     );
 
     _scaleTween = Tween(
-      begin: widget.normaScale,
-      end: widget.maxScale,
+      begin: 1,
+      end: widget.scale,
     );
 
     _scaleAnimation = _scaleTween.animate(_scaleController);

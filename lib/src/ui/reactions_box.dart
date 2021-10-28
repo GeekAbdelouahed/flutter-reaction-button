@@ -69,9 +69,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   late Animation<double> _scaleAnimation;
 
-  late double _maxScale;
-
-  late double _normaScale;
+  late double _itemScale;
 
   Reaction? _selectedReaction;
 
@@ -95,9 +93,8 @@ class _ReactionsBoxState extends State<ReactionsBox>
   void initState() {
     super.initState();
 
-    _normaScale = 1;
     // Calculating how much we should scale up when item hovered
-    _maxScale = _normaScale + widget.itemScale;
+    _itemScale = 1 + widget.itemScale;
 
     _boxSizeController =
         AnimationController(vsync: this, duration: widget.duration);
@@ -230,8 +227,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
                     _selectedReaction = reaction;
                     _scaleController.reverse();
                   },
-                  maxScale: _maxScale,
-                  normaScale: _normaScale,
+                  scale: _itemScale,
                   reaction: reaction!,
                   dragStream: _dragStream,
                 );
