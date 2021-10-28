@@ -30,6 +30,8 @@ class ReactionsBox extends StatefulWidget {
 
   final EdgeInsets boxPadding;
 
+  final double itemScale;
+
   const ReactionsBox({
     Key? key,
     required this.buttonOffset,
@@ -42,7 +44,9 @@ class ReactionsBox extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.alignment = Alignment.center,
     this.boxPadding = const EdgeInsets.all(0),
-  }) : super(key: key);
+    this.itemScale = .3,
+  })  : assert(itemScale > 0.0 && itemScale < 1),
+        super(key: key);
 
   @override
   _ReactionsBoxState createState() => _ReactionsBoxState();
@@ -50,8 +54,9 @@ class ReactionsBox extends StatefulWidget {
 
 class _ReactionsBoxState extends State<ReactionsBox>
     with TickerProviderStateMixin {
-  StreamController<DragData?> _dragStreamController =
+  final StreamController<DragData?> _dragStreamController =
       StreamController<DragData?>();
+
   late Stream<DragData?> _dragStream;
 
   late AnimationController _boxSizeController;
@@ -63,6 +68,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
   late AnimationController _scaleController;
 
   late Animation<double> _scaleAnimation;
+
+  late double _maxScale;
+
+  late double _normaScale;
 
   Reaction? _selectedReaction;
 
@@ -85,6 +94,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
   @override
   void initState() {
     super.initState();
+
+    _normaScale = 1;
+    // Calculating how much we should scale up when item hovered
+    _maxScale = _normaScale + widget.itemScale;
 
     _boxSizeController =
         AnimationController(vsync: this, duration: widget.duration);
@@ -184,7 +197,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
         _boxSizeTween
           ..begin = size
           ..end = size;
-        _boxSizeController.forward();
+        if (_boxSizeController.isCompleted)
+          _boxSizeController.reverse();
+        else
+          _boxSizeController.forward();
       },
       child: Padding(
         padding: widget.boxPadding,
@@ -201,10 +217,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
             _dragData = _dragData?.copyWith(isDragEnd: true);
             _dragStreamController.add(_dragData);
           },
-          onPointerHover: (point) {
-            _dragData = DragData(offset: point.position);
-            _dragStreamController.add(_dragData);
-          },
           onPointerCancel: (point) {
             _dragData = _dragData?.copyWith(isDragEnd: true);
             _dragStreamController.add(_dragData);
@@ -214,11 +226,12 @@ class _ReactionsBoxState extends State<ReactionsBox>
             children: widget.reactions.map(
               (reaction) {
                 return ReactionsBoxItem(
-                  onReactionClick: (reaction) {
+                  onReactionSelected: (reaction) {
                     _selectedReaction = reaction;
                     _scaleController.reverse();
                   },
-                  itemsCount: widget.reactions.length,
+                  maxScale: _maxScale,
+                  normaScale: _normaScale,
                   reaction: reaction!,
                   dragStream: _dragStream,
                 );

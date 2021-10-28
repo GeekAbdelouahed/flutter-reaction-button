@@ -9,19 +9,22 @@ import '../utils/extensions.dart';
 typedef OnReactionClick = void Function(Reaction?);
 
 class ReactionsBoxItem extends StatefulWidget {
-  final OnReactionClick onReactionClick;
+  final OnReactionClick onReactionSelected;
 
   final Reaction reaction;
 
-  final int itemsCount;
+  final double maxScale;
+
+  final double normaScale;
 
   final Stream<DragData?> dragStream;
 
   const ReactionsBoxItem({
     Key? key,
     required this.reaction,
-    required this.onReactionClick,
-    required this.itemsCount,
+    required this.onReactionSelected,
+    required this.maxScale,
+    required this.normaScale,
     required this.dragStream,
   }) : super(key: key);
 
@@ -39,43 +42,27 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   late Animation<double> _scaleAnimation;
 
-  static const double _DELTA_SCALE = .2;
-
-  final double _maxScale = 1 + _DELTA_SCALE;
-
-  final double _normalScale = 1;
-
-  double _minScale = 1;
-
-  double? _width;
-
-  bool _isHovered = false;
+  Size? _widgetSize;
 
   void _onSelected() {
     _scaleController.reverse();
-    widget.onReactionClick.call(widget.reaction);
-  }
-
-  void _updateAnimation({double? begin, double? end}) {
-    _scaleTween = Tween(begin: begin ?? _normalScale, end: end ?? _maxScale);
-    _scaleAnimation = _scaleTween.animate(_scaleController);
+    widget.onReactionSelected.call(widget.reaction);
   }
 
   bool _isWidgetHovered(DragData? dragData) {
     final Offset currentOffset = dragData?.offset ?? Offset.zero;
     final widgetOffset = _widgetKey.widgetOffset;
-    final widgetSize = _widgetKey.widgetSize;
 
-    if (_width == null) {
-      _width = widgetSize.width;
+    if (_widgetSize == null) {
+      _widgetSize = _widgetKey.widgetSize;
     }
 
     final double deltaX =
-        (widgetOffset.dx + widgetSize.width / 1.9) - currentOffset.dx;
+        (widgetOffset.dx + _widgetSize!.width / 1.9) - currentOffset.dx;
     final double deltaY = widgetOffset.dy - currentOffset.dy;
 
-    return deltaX.abs() <= widgetSize.width / 2 &&
-        deltaY.abs() <= widgetSize.height * 2 &&
+    return deltaX.abs() <= _widgetSize!.width / 2 &&
+        deltaY.abs() <= _widgetSize!.height * 2 &&
         widget.reaction.enabled;
   }
 
@@ -83,15 +70,17 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   void initState() {
     super.initState();
 
-    // Calculating how much we should scale down unselected items
-    _minScale = 1 - (_DELTA_SCALE / widget.itemsCount);
-
     _scaleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
 
-    _updateAnimation(begin: _normalScale, end: _maxScale);
+    _scaleTween = Tween(
+      begin: widget.normaScale,
+      end: widget.maxScale,
+    );
+
+    _scaleAnimation = _scaleTween.animate(_scaleController);
   }
 
   @override
@@ -107,10 +96,11 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
       child: StreamBuilder<DragData?>(
         stream: widget.dragStream,
         builder: (_, snapshot) {
+          bool isHovered = false;
           if (snapshot.hasData) {
             final dragData = snapshot.data;
-            _isHovered = _isWidgetHovered(dragData);
-            if (_isHovered) {
+            isHovered = _isWidgetHovered(dragData);
+            if (isHovered) {
               bool isSelected = snapshot.data?.isDragEnd ?? false;
               if (isSelected) {
                 _onSelected();
@@ -118,48 +108,44 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
                 _scaleController.forward();
               }
             } else {
-              bool isDraggingEnded = dragData?.isDragEnd ?? false;
-              if (isDraggingEnded) {
-                _updateAnimation();
-              } else {
-                _updateAnimation(begin: _minScale);
-              }
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
-                _scaleController.reset();
-              });
+              _scaleController.reverse();
             }
           }
 
-          return AnimatedBuilder(
-            animation: _scaleAnimation,
-            child: FittedBox(
-              key: _widgetKey,
-              fit: BoxFit.scaleDown,
-              child: widget.reaction.previewIcon,
-            ),
-            builder: (_, child) {
-              return Transform.scale(
-                scale: _scaleAnimation.value,
-                child: AnimatedContainer(
-                  width:
-                      _width != null ? _width! * _scaleAnimation.value : null,
-                  duration: const Duration(milliseconds: 250),
-                  child: Column(
-                    children: [
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 50),
-                        opacity: _isHovered ? 1 : 0,
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: widget.reaction.title,
+          return FittedBox(
+            fit: BoxFit.scaleDown,
+            child: AnimatedBuilder(
+              animation: _scaleAnimation,
+              child: FittedBox(
+                key: _widgetKey,
+                fit: BoxFit.scaleDown,
+                child: widget.reaction.previewIcon,
+              ),
+              builder: (_, child) {
+                return Transform.scale(
+                  scale: _scaleAnimation.value,
+                  child: AnimatedContainer(
+                    width: _widgetSize != null
+                        ? _widgetSize!.width * _scaleAnimation.value
+                        : null,
+                    duration: const Duration(milliseconds: 250),
+                    child: Column(
+                      children: [
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 50),
+                          opacity: isHovered ? 1 : 0,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: widget.reaction.title,
+                          ),
                         ),
-                      ),
-                      child!,
-                    ],
+                        child!,
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         },
       ),
