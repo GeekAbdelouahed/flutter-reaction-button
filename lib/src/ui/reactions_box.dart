@@ -183,10 +183,9 @@ class _ReactionsBoxState extends State<ReactionsBox>
   Widget _buildItems() {
     return WidgetSizeOffsetWrapper(
       onSizeChange: (Size size) {
-        if (_boxSizeTween.begin == null)
-          _boxSizeTween
-            ..begin = size
-            ..end = size;
+        _boxSizeTween
+          ..begin = size
+          ..end = size;
         if (_boxSizeController.isCompleted)
           _boxSizeController.reverse();
         else

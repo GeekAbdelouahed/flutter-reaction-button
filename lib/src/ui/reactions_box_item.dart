@@ -110,11 +110,11 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
           }
 
           return FittedBox(
+            key: _widgetKey,
             fit: BoxFit.scaleDown,
             child: AnimatedBuilder(
               animation: _scaleAnimation,
               child: FittedBox(
-                key: _widgetKey,
                 fit: BoxFit.scaleDown,
                 child: widget.reaction.previewIcon,
               ),
