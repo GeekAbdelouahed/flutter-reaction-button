@@ -81,14 +81,12 @@ class _FlutterReactionButtonState<T> extends State<FlutterReactionButton<T>> {
   Widget build(BuildContext context) {
     return InkWell(
       key: _buttonKey,
-      onTap: () {
-        _showReactionButtons(context);
-      },
+      onTap: _showReactionsBox,
       child: (_selectedReaction ?? widget.reactions[0]).icon,
     );
   }
 
-  void _showReactionButtons(BuildContext context) async {
+  void _showReactionsBox() async {
     final buttonOffset = _buttonKey.widgetOffset;
     final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(

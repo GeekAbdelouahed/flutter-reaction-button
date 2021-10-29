@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
@@ -68,6 +70,8 @@ class _FlutterReactionButtonCheckState<T>
 
   Reaction<T>? _selectedReaction;
 
+  Timer? _timer;
+
   bool _isChecked = false;
 
   void _init() {
@@ -90,16 +94,28 @@ class _FlutterReactionButtonCheckState<T>
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Listener(
       key: _buttonKey,
-      onTap: () {
-        _onClickReactionButton();
+      onPointerDown: (_) {
+        _onTapReactionButton();
       },
-      onLongPress: () {
-        _showReactionButtons(context);
+      onPointerUp: (_) {
+        if (_timer?.isActive ?? false) {
+          _timer?.cancel();
+          _timer = null;
+          _onClickReactionButton();
+        }
       },
       child: (_selectedReaction ?? widget.reactions[0])!.icon,
     );
+  }
+
+  void _onTapReactionButton() {
+    if (_timer != null) return;
+    _timer = Timer(Duration(milliseconds: 100), () {
+      _timer = null;
+      _showReactionsBox();
+    });
   }
 
   void _onClickReactionButton() {
@@ -111,7 +127,7 @@ class _FlutterReactionButtonCheckState<T>
     );
   }
 
-  void _showReactionButtons(BuildContext context) async {
+  void _showReactionsBox() async {
     final buttonOffset = _buttonKey.widgetOffset;
     final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(
