@@ -232,21 +232,23 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   double _getHorizontalPosition() {
-    if (widget.buttonOffset.dx + (_boxSizeAnimation.value?.width ?? 0) <
-        MediaQuery.of(context).size.width) return widget.buttonOffset.dx;
+    final buttonX = widget.buttonOffset.dx;
+    final buttonRadius = (widget.buttonSize.width / 2);
+    final screenWidth = MediaQuery.of(context).size.width;
 
-    return widget.buttonOffset.dx +
-        widget.buttonSize.width -
-        (_boxSizeAnimation.value?.width ?? 0);
+    if (buttonX + (_boxSizeAnimation.value?.width ?? 0) < screenWidth)
+      return buttonX - buttonRadius;
+
+    return buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
   }
 
   double _getVerticalPosition() {
     // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 3.3 < 0)
+    if (_getTopPosition() - widget.buttonSize.height * 5.5 < 0)
       return _getBottomPosition();
 
     // check if BOTTOM space not enough for the box
-    if (_getBottomPosition() + widget.buttonSize.height * 3.3 >
+    if (_getBottomPosition() + (widget.buttonSize.height * 5.5) >
         context.screenSize.height) return _getTopPosition();
 
     if (widget.position == Position.TOP) return _getTopPosition();
@@ -255,10 +257,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   double _getTopPosition() {
-    return widget.buttonOffset.dy - (widget.buttonSize.height * 3.3);
+    return widget.buttonOffset.dy - (widget.buttonSize.height * 5.5);
   }
 
   double _getBottomPosition() {
-    return widget.buttonOffset.dy + widget.buttonSize.height;
+    return widget.buttonOffset.dy + (widget.buttonSize.height / 3);
   }
 }

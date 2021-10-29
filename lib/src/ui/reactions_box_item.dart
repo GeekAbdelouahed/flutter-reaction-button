@@ -48,7 +48,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
   bool _isWidgetHovered(DragData? dragData) {
     final Offset currentOffset = dragData?.offset ?? Offset.zero;
-    final widgetOffset = _widgetKey.widgetOffset;
+    final widgetOffset = _widgetKey.widgetPosition;
 
     if (_widgetSize == null) {
       _widgetSize = _widgetKey.widgetSize;

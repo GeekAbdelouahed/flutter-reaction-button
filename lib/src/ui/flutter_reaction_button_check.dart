@@ -131,7 +131,7 @@ class _FlutterReactionButtonCheckState<T>
   }
 
   void _showReactionsBox() async {
-    final buttonOffset = _buttonKey.widgetOffset;
+    final buttonOffset = _buttonKey.widgetPosition;
     final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
