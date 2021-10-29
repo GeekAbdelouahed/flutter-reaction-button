@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
@@ -5,14 +7,17 @@ import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
-class FlutterReactionButton<T> extends StatefulWidget {
+class ReactionButtonToggle<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final void Function(T?) onReactionChanged;
+  final void Function(T?, bool) onReactionChanged;
 
-  /// Default reaction button widget
+  /// Default reaction button widget if [isChecked == false]
   final Reaction<T>? initialReaction;
 
-  final List<Reaction<T>> reactions;
+  /// Default reaction button widget if [isChecked == true]
+  final Reaction<T>? selectedReaction;
+
+  final List<Reaction<T>?> reactions;
 
   /// Position reactions box for the button [default = TOP]
   final Position boxPosition;
@@ -32,44 +37,52 @@ class FlutterReactionButton<T> extends StatefulWidget {
   /// Reactions box alignment [default = Alignment.center]
   final AlignmentGeometry boxAlignment;
 
-  /// Change initial reaction after selected one [default = true]
-  final bool shouldChangeReaction;
+  /// Flag for pre-set reactions if true @link selectedReaction will be
+  /// displayed else @link initialReaction will be displayed [default = false]
+  final bool isChecked;
 
   final EdgeInsets boxPadding;
 
   final double itemScale;
 
-  FlutterReactionButton({
+  ReactionButtonToggle({
     Key? key,
     required this.onReactionChanged,
     required this.reactions,
     this.initialReaction,
+    this.selectedReaction,
     this.boxPosition = Position.TOP,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.boxAlignment = Alignment.center,
-    this.shouldChangeReaction = true,
+    this.isChecked = false,
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,
   }) : super(key: key);
 
   @override
-  _FlutterReactionButtonState createState() => _FlutterReactionButtonState<T>();
+  _ReactionButtonToggleState createState() => _ReactionButtonToggleState<T>();
 }
 
-class _FlutterReactionButtonState<T> extends State<FlutterReactionButton<T>> {
+class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   final GlobalKey _buttonKey = GlobalKey();
 
-  Reaction? _selectedReaction;
+  Reaction<T>? _selectedReaction;
+
+  Timer? _timer;
+
+  bool _isChecked = false;
 
   void _init() {
-    _selectedReaction = widget.initialReaction;
+    _isChecked = widget.isChecked;
+    _selectedReaction =
+        _isChecked ? widget.selectedReaction : widget.initialReaction;
   }
 
   @override
-  void didUpdateWidget(FlutterReactionButton<T> oldWidget) {
+  void didUpdateWidget(ReactionButtonToggle<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     _init();
   }
@@ -82,10 +95,36 @@ class _FlutterReactionButtonState<T> extends State<FlutterReactionButton<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Listener(
       key: _buttonKey,
-      onTap: _showReactionsBox,
-      child: (_selectedReaction ?? widget.reactions[0]).icon,
+      onPointerDown: (_) {
+        _onTapReactionButton();
+      },
+      onPointerUp: (_) {
+        if (_timer?.isActive ?? false) {
+          _timer?.cancel();
+          _timer = null;
+          _onClickReactionButton();
+        }
+      },
+      child: (_selectedReaction ?? widget.reactions[0])!.icon,
+    );
+  }
+
+  void _onTapReactionButton() {
+    if (_timer != null) return;
+    _timer = Timer(Duration(milliseconds: 100), () {
+      _timer = null;
+      _showReactionsBox();
+    });
+  }
+
+  void _onClickReactionButton() {
+    _isChecked = !_isChecked;
+    _updateReaction(
+      _isChecked
+          ? widget.selectedReaction ?? widget.reactions[0]
+          : widget.initialReaction,
     );
   }
 
@@ -113,14 +152,21 @@ class _FlutterReactionButtonState<T> extends State<FlutterReactionButton<T>> {
       ),
     );
 
-    if (reactionButton != null) _updateReaction(reactionButton);
+    if (reactionButton != null) _updateReaction(reactionButton, true);
   }
 
-  void _updateReaction(Reaction<T> reaction) {
-    widget.onReactionChanged.call(reaction.value);
-    if (widget.shouldChangeReaction)
-      setState(() {
-        _selectedReaction = reaction;
-      });
+  void _updateReaction(
+    Reaction<T>? reaction, [
+    bool isSelectedFromDialog = false,
+  ]) {
+    _isChecked =
+        isSelectedFromDialog ? true : reaction != widget.initialReaction;
+    widget.onReactionChanged.call(
+      reaction?.value,
+      _isChecked,
+    );
+    setState(() {
+      _selectedReaction = reaction;
+    });
   }
 }
