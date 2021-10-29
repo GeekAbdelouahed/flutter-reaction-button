@@ -6,7 +6,9 @@ Flutter button reaction it is fully customizable widget such as Facebook reactio
 
 ## Preview
 
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Preview.png"/>
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/preview.png"/>
+
+<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/preview.gif"/>
 
 ## Usage
 
