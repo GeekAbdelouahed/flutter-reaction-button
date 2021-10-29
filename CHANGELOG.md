@@ -2,10 +2,10 @@
 
 * Change `FlutterReactionButton` to `ReactionButton`
 * Change `FlutterReactionButtonCheck` to `ReactionButtonToggle`
+* Change `Function(Reaction, int, bool)` to `Function(T?, bool) onReactionChanged`
+* Change `Function(Reaction, int)` to `Function(T?) onReactionChanged`
 * Dynamic scale depending on the hover position
 * Dynamic horizontal alignment
-* Using value for result `Function(Reaction, int, bool)` changed to `Function(T?, bool) onReactionChanged` 
-* Using value for result `Function(Reaction, int)` changed to `Function(T?) onReactionChanged` 
 * Scrollable position
 * Minor bugs fixed
 
