@@ -1,142 +1,61 @@
 # flutter_reaction_button_example
 
-This is example Flutter Reaction Button Check:
-
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button-Check.gif"/>
+ReactionButtonToggle:
 
 ```dart
-FlutterReactionButtonCheck(
-    onReactionChanged: (reaction, index, isChecked) {
-        print('reaction selected index: $index');
+ReactionButtonToggle<String>(
+    onReactionChanged: (String? value, bool isChecked) {
+        print('Selected value: $value, isChecked: $isChecked');
     },
-    reactions: <Reaction>[
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                icon: 'like.gif',
-            ),
-            icon: buildWidget(
-                icon: 'like_fill.png'
-            ),
+    reactions: <Reaction<String>>[
+        Reaction<String>(
+            value: 'like',
+            previewIcon: widget,
+            icon: widget,
         ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                icon: 'love.gif',
-            ),
-            icon: buildWidget(
-                icon: 'love.png'
-            ),
+        Reaction<String>(
+            value: 'love',
+            previewIcon: widget,
+            icon: widget,
         ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                icon: 'wow.gif',
-            ),
-            icon: buildWidget(
-                icon: 'wow.png'
-            ),
-        ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                icon: 'haha.gif',
-            ),
-            icon: buildWidget(
-                icon: 'haha.png'
-            ),
-        ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                icon: 'sad.gif',
-            ),
-            icon: buildWidget(
-                icon: 'sad.png'
-            ),
-        ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                icon: 'angry.gif',
-            ),
-            icon: buildWidget(
-                icon: 'angry.png'
-            ),
-        ),
+        ...
     ],
-    initialReaction: Reaction(
-        icon: buildWidget(
-            icon: 'like.png'
-        ),
+    initialReaction: Reaction<String>(
+        value: 'like',
+        icon: widget,
     ),
-    selectedReaction: Reaction(
-        icon: buildWidget(
-            icon: 'like_fill.png'
-        ),
+    selectedReaction: Reaction<String>(
+        value: 'like_fill',
+        icon: widget,
     ),
 )
 ```
 
 
-
-This is a example Flutter Reaction Button:
-
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/master/images/Flutter-Reaction-Button.gif"/>
+ReactionButton:
 
 ```dart
-FlutterReactionButton(
-    onReactionChanged: (reaction, index) {
-        print('reaction selected index: $index');
+ReactionButton<String(
+    onReactionChanged: (String? value) {
+        print('Selected value: $value');
     },
-    reactions: <Reaction>[
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                title: 'English',
-                icon: 'united-kingdom-round.png',
-            ),
-            icon: buildWidget(
-                icon: 'united-kingdom.png'
-            ),
+    reactions: <Reaction<String>>[
+        Reaction<String>(
+            value: 'en',
+            previewIcon: widget,
+            icon: widget,
         ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                title: 'Arabic',
-                icon: 'algeria-round.png',
-            ),
-            icon: buildWidget(
-                icon: 'algeria.png'
-            ),
+        Reaction<String>(
+            value: 'ar',
+            previewIcon: widget,
+            icon: widget,
         ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                title: 'German',
-                icon: 'germany-round.png',
-            ),
-            icon: buildWidget(
-                icon: 'germany.png'
-            ),
-        ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                title: 'Spanish',
-                icon: 'spain-round.png',
-            ),
-            icon: buildWidget(
-                icon: 'spain.png'
-            ),
-        ),
-        Reaction(
-            previewIcon: buildWidgetPreview(
-                title: 'Chinese',
-                icon: 'china-round.png',
-            ),
-            icon: buildWidget(
-                icon: 'china.png'
-            ),
-        ),
+        ...
     ],
-    initialReaction: Reaction(
-        previewIcon: buildWidgetPreview(
-            title: 'English',
-            icon: 'united-kingdom-round.png',
-        ),
-        icon: buildWidget(
-            icon: 'united-kingdom.png'
+    initialReaction: Reaction<String>(
+        value: null,
+        icon: Icon(
+            Icons.language,
         ),
     ),
 )
