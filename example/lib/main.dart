@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
           actions: [
             Builder(
               builder: (ctx) {
-                return FlutterReactionButton<String>(
+                return ReactionButton<String>(
                   onReactionChanged: (String? value) {
                     ScaffoldMessenger.of(ctx).showSnackBar(
                       SnackBar(
