@@ -1,8 +1,8 @@
 #Flutter versions manager
 .fvm/
 
-./idea
-./vscode
+.idea/
+.vscode/
 
 # Miscellaneous
 *.class
