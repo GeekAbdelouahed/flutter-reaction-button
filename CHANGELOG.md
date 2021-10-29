@@ -1,78 +1,90 @@
-## 0.0.1
+## 2.0.0
 
-* Describe initial release.
+* Change `FlutterReactionButton` to `ReactionButton`
+* Change `FlutterReactionButtonCheck` to `ReactionButtonToggle`
+* Change `Function(Reaction, int, bool) onReactionChanged` to `Function(T?, bool) onReactionChanged`
+* Change `Function(Reaction, int) onReactionChanged` to `Function(T?) onReactionChanged`
+* Dynamic scale depending on the hover position
+* Dynamic horizontal alignment
+* Scrollable position
+* Minor bugs fixed
 
-## 0.1.0
+## 1.0.8
 
-* Update Description pubspec.yaml.
+*  Added support null safety
 
-## 0.1.1
+## 1.0.7+3
 
-* Reactions List @required.
+* Deprecated Reaction id
 
-## 0.1.2
+## 1.0.7+2
 
-* From plugin to packages.
-
-## 0.1.2+1
-
-* Add Example.
-
-## 0.1.3
-
-* Selected rection index.
-
-## 1.0.0
-
-* Add ripple effect.
-
-## 1.0.1
-
-* define reaction by id.
-* alternative to popup menu.
-* enable/disable reaction click.
-
-## 1.0.2
-
-* code improvements
-
-## 1.0.3
-
-* change state externally
-
-## 1.0.4
-
-* reactions box alignment
-
-## 1.0.5
-
-* items spacing / box padding
-
-## 1.0.6
-
-* reaction title
-
-## 1.0.6+1
-
-* minor bugs fixed
-
-## 1.0.6+2
-
-* minor bugs fixed
+* Improvement box flow
 
 ## 1.0.7
 
 * Remove reaction id
 * Clean code
 
-## 1.0.7+2
+## 1.0.6+2
 
-* Improvement box flow
+* Minor bugs fixed
 
-## 1.0.7+3
+## 1.0.6+1
 
-* Deprecated Reaction id
+* Minor bugs fixed
 
-## 1.0.8
+## 1.0.6
 
-*  Added support null safety
+* Reaction title
+
+## 1.0.5
+
+* Items spacing
+* Box padding
+
+## 1.0.4
+
+* Reactions box alignment
+
+## 1.0.3
+
+* Change state externally
+
+## 1.0.2
+
+* Code improvements
+
+## 1.0.1
+
+* Define reaction by id.
+* Alternative to popup menu.
+* Enable/disable reaction click.
+
+## 1.0.0
+
+* Add ripple effect.
+
+## 0.1.3
+
+* Selected rection index.
+
+## 0.1.2+1
+
+* Add Example.
+
+## 0.1.2
+
+* From plugin to packages.
+
+## 0.1.1
+
+* Reactions List @required.
+
+## 0.1.0
+
+* Update Description pubspec.yaml.
+
+## 0.0.1
+
+* Describe initial release.

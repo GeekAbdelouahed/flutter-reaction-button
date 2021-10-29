@@ -15,6 +15,8 @@ class ReactionsBoxItem extends StatefulWidget {
 
   final double scale;
 
+  final Duration? scaleDuration;
+
   final Stream<DragData?> dragStream;
 
   const ReactionsBoxItem({
@@ -22,6 +24,7 @@ class ReactionsBoxItem extends StatefulWidget {
     required this.reaction,
     required this.onReactionSelected,
     required this.scale,
+    this.scaleDuration,
     required this.dragStream,
   }) : super(key: key);
 
@@ -69,7 +72,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
 
     _scaleController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 250),
+      duration: widget.scaleDuration ?? const Duration(milliseconds: 100),
     );
 
     _scaleTween = Tween(
