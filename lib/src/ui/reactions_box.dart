@@ -93,24 +93,23 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
     _boxSizeController =
         AnimationController(vsync: this, duration: widget.duration);
-
     _boxSizeTween = Tween();
     _boxSizeAnimation = _boxSizeTween.animate(_boxSizeController);
 
     _scaleController =
         AnimationController(vsync: this, duration: widget.duration);
-
     final Tween<double> scaleTween = Tween(begin: 0, end: 1);
     _scaleAnimation = scaleTween.animate(_scaleController)
       ..addStatusListener((status) {
         if (status == AnimationStatus.reverse)
           Navigator.of(context).pop(_selectedReaction);
-      })
+      });
+
+    _scaleController
+      ..forward()
       ..addListener(() {
         setState(() {});
       });
-
-    _scaleController.forward();
 
     _dragStream = _dragStreamController.stream.asBroadcastStream();
   }
@@ -233,20 +232,6 @@ class _ReactionsBoxState extends State<ReactionsBox>
     );
   }
 
-  double _getVerticalPosition() {
-    // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 1.5 < 0)
-      return _getBottomPosition();
-
-    // check if BOTTOM space not enough for the box
-    if (_getBottomPosition() + widget.buttonSize.height * 1.5 >
-        context.screenSize.height) return _getTopPosition();
-
-    if (widget.position == Position.TOP) return _getTopPosition();
-
-    return _getBottomPosition();
-  }
-
   double _getHorizontalPosition() {
     if (widget.buttonOffset.dx + (_boxSizeAnimation.value?.width ?? 0) <
         MediaQuery.of(context).size.width) return widget.buttonOffset.dx;
@@ -256,8 +241,22 @@ class _ReactionsBoxState extends State<ReactionsBox>
         (_boxSizeAnimation.value?.width ?? 0);
   }
 
+  double _getVerticalPosition() {
+    // check if TOP space not enough for the box
+    if (_getTopPosition() - widget.buttonSize.height * 3.3 < 0)
+      return _getBottomPosition();
+
+    // check if BOTTOM space not enough for the box
+    if (_getBottomPosition() + widget.buttonSize.height * 3.3 >
+        context.screenSize.height) return _getTopPosition();
+
+    if (widget.position == Position.TOP) return _getTopPosition();
+
+    return _getBottomPosition();
+  }
+
   double _getTopPosition() {
-    return widget.buttonOffset.dy - widget.buttonSize.height * 5;
+    return widget.buttonOffset.dy - (widget.buttonSize.height * 3.3);
   }
 
   double _getBottomPosition() {
