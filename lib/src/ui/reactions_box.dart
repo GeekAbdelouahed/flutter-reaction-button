@@ -30,6 +30,8 @@ class ReactionsBox extends StatefulWidget {
 
   final double itemScale;
 
+  final Duration? itemScaleDuration;
+
   const ReactionsBox({
     Key? key,
     required this.buttonOffset,
@@ -42,6 +44,7 @@ class ReactionsBox extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,
+    this.itemScaleDuration,
   })  : assert(itemScale > 0.0 && itemScale < 1),
         super(key: key);
 
@@ -220,6 +223,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
                     _scaleController.reverse();
                   },
                   scale: _itemScale,
+                  scaleDuration: widget.itemScaleDuration,
                   reaction: reaction!,
                   dragStream: _dragStream,
                 );

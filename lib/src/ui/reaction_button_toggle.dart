@@ -44,6 +44,9 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
 
+  /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
+  final Duration? itemScaleDuration;
+
   ReactionButtonToggle({
     Key? key,
     required this.onReactionChanged,
@@ -58,6 +61,7 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     this.isChecked = false,
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,
+    this.itemScaleDuration,
   }) : super(key: key);
 
   @override
@@ -145,6 +149,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
             itemScale: widget.itemScale,
+            itemScaleDuration: widget.itemScaleDuration,
           );
         },
       ),
