@@ -14,7 +14,7 @@ class ReactionButton<T> extends StatefulWidget {
 
   final List<Reaction<T>> reactions;
 
-  /// Position reactions box for the button [default = TOP]
+  /// Position reactions box according to the button [default = Position.TOP]
   final Position boxPosition;
 
   /// Reactions box color [default = white]
@@ -29,14 +29,13 @@ class ReactionButton<T> extends StatefulWidget {
   /// Reactions box show/hide duration [default = 200 milliseconds]
   final Duration boxDuration;
 
-  /// Reactions box alignment [default = Alignment.center]
-  final AlignmentGeometry boxAlignment;
-
   /// Change initial reaction after selected one [default = true]
   final bool shouldChangeReaction;
 
+  /// Reactions box padding [default = const EdgeInsets.all(0)]
   final EdgeInsets boxPadding;
 
+  /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
 
   ReactionButton({
@@ -49,7 +48,6 @@ class ReactionButton<T> extends StatefulWidget {
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
-    this.boxAlignment = Alignment.center,
     this.shouldChangeReaction = true,
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,

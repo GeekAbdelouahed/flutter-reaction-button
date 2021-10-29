@@ -34,15 +34,14 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Reactions box show/hide duration [default = 200 milliseconds]
   final Duration boxDuration;
 
-  /// Reactions box alignment [default = Alignment.center]
-  final AlignmentGeometry boxAlignment;
-
   /// Flag for pre-set reactions if true @link selectedReaction will be
   /// displayed else @link initialReaction will be displayed [default = false]
   final bool isChecked;
 
+  /// Reactions box padding [default = const EdgeInsets.all(0)]
   final EdgeInsets boxPadding;
 
+  /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
 
   ReactionButtonToggle({
@@ -56,7 +55,6 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
-    this.boxAlignment = Alignment.center,
     this.isChecked = false,
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,

@@ -42,7 +42,6 @@ class _MyAppState extends State<MyApp> {
                   boxColor: Colors.black.withOpacity(0.5),
                   boxRadius: 10,
                   boxDuration: Duration(milliseconds: 500),
-                  boxAlignment: AlignmentDirectional.bottomEnd,
                 );
               },
             ),
