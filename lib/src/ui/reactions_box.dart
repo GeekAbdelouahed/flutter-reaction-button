@@ -248,7 +248,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   double _getVerticalPosition() {
     // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 5.5 < 0)
+    if (_getTopPosition() - widget.buttonSize.height * 4.5 < 0)
       return _getBottomPosition();
 
     // check if BOTTOM space not enough for the box
@@ -261,10 +261,10 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   double _getTopPosition() {
-    return widget.buttonOffset.dy - (widget.buttonSize.height * 5.5);
+    return widget.buttonOffset.dy - (widget.buttonSize.height * 5);
   }
 
   double _getBottomPosition() {
-    return widget.buttonOffset.dy + (widget.buttonSize.height / 3);
+    return widget.buttonOffset.dy;
   }
 }
