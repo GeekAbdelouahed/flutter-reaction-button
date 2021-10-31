@@ -1,3 +1,7 @@
+## 2.0.0+1
+
+* Dragging improvement
+
 ## 2.0.0
 
 * Change `FlutterReactionButton` to `ReactionButton`
