@@ -92,7 +92,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   }
 
   void _showReactionsBox() async {
-    final buttonOffset = _buttonKey.widgetPosition;
+    final buttonOffset = _buttonKey.widgetPositionOffset;
     final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(

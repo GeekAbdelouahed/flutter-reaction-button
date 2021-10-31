@@ -50,20 +50,21 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   }
 
   bool _isWidgetHovered(DragData? dragData) {
-    final Offset currentOffset = dragData?.offset ?? Offset.zero;
-    final widgetOffset = _widgetKey.widgetPosition;
+    final widgetRect = _widgetKey.widgetPositionRect;
 
     if (_widgetSize == null) {
       _widgetSize = _widgetKey.widgetSize;
     }
 
-    final double deltaX =
-        (widgetOffset.dx + _widgetSize!.width / 1.9) - currentOffset.dx;
-    final double deltaY = widgetOffset.dy - currentOffset.dy;
-
-    return deltaX.abs() <= _widgetSize!.width / 2 &&
-        deltaY.abs() <= _widgetSize!.height * 2 &&
-        widget.reaction.enabled;
+    return (widgetRect?.contains(dragData!.offset) ?? false) ||
+        (widgetRect
+                ?.shift(Offset(0, _widgetSize!.height))
+                .contains(dragData!.offset) ??
+            false) ||
+        (widgetRect
+                ?.shift(Offset(0, -_widgetSize!.height))
+                .contains(dragData!.offset) ??
+            false);
   }
 
   @override
