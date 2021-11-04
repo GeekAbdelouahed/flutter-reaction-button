@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-import '../data/example_data.dart' as Example;
-import '../models/comment.dart';
-import 'comments.dart';
+import '../../data/example_data.dart' as Example;
+import '../../models/comment.dart';
+import '../comments.dart';
 
 class Item extends StatefulWidget {
   final String title;
