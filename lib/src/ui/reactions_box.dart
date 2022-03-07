@@ -52,10 +52,8 @@ class ReactionsBox extends StatefulWidget {
   _ReactionsBoxState createState() => _ReactionsBoxState();
 }
 
-class _ReactionsBoxState extends State<ReactionsBox>
-    with TickerProviderStateMixin {
-  final StreamController<DragData?> _dragStreamController =
-      StreamController<DragData?>();
+class _ReactionsBoxState extends State<ReactionsBox> with TickerProviderStateMixin {
+  final StreamController<DragData?> _dragStreamController = StreamController<DragData?>();
 
   late Stream<DragData?> _dragStream;
 
@@ -94,18 +92,15 @@ class _ReactionsBoxState extends State<ReactionsBox>
     // Calculating how much we should scale up when item hovered
     _itemScale = 1 + widget.itemScale;
 
-    _boxSizeController =
-        AnimationController(vsync: this, duration: widget.duration);
+    _boxSizeController = AnimationController(vsync: this, duration: widget.duration);
     _boxSizeTween = Tween();
     _boxSizeAnimation = _boxSizeTween.animate(_boxSizeController);
 
-    _scaleController =
-        AnimationController(vsync: this, duration: widget.duration);
+    _scaleController = AnimationController(vsync: this, duration: widget.duration);
     final Tween<double> scaleTween = Tween(begin: 0, end: 1);
     _scaleAnimation = scaleTween.animate(_scaleController)
       ..addStatusListener((status) {
-        if (status == AnimationStatus.reverse)
-          Navigator.of(context).pop(_selectedReaction);
+        if (status == AnimationStatus.reverse) Navigator.of(context).pop(_selectedReaction);
       });
 
     _scaleController
@@ -243,17 +238,22 @@ class _ReactionsBoxState extends State<ReactionsBox>
     if (buttonX + (_boxSizeAnimation.value?.width ?? 0) < screenWidth)
       return buttonX - buttonRadius;
 
+    final value = buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
+
+    //add this below code.
+    if (value.isNegative) {
+      return 20; // this is 20 horizontal width is fix you can play with it as you want.
+    }
     return buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
   }
 
   double _getVerticalPosition() {
     // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 4.5 < 0)
-      return _getBottomPosition();
+    if (_getTopPosition() - widget.buttonSize.height * 4.5 < 0) return _getBottomPosition();
 
     // check if BOTTOM space not enough for the box
-    if (_getBottomPosition() + (widget.buttonSize.height * 5.5) >
-        context.screenSize.height) return _getTopPosition();
+    if (_getBottomPosition() + (widget.buttonSize.height * 5.5) > context.screenSize.height)
+      return _getTopPosition();
 
     if (widget.position == Position.TOP) return _getTopPosition();
 
