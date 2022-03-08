@@ -10,7 +10,7 @@ import 'reactions_box_item.dart';
 import 'widget_size_render_object.dart';
 
 class ReactionsBox extends StatefulWidget {
-  final Offset buttonOffset;
+  final Rect buttonRect;
 
   final Size buttonSize;
 
@@ -34,7 +34,7 @@ class ReactionsBox extends StatefulWidget {
 
   const ReactionsBox({
     Key? key,
-    required this.buttonOffset,
+    required this.buttonRect,
     required this.buttonSize,
     required this.reactions,
     required this.position,
@@ -231,7 +231,7 @@ class _ReactionsBoxState extends State<ReactionsBox> with TickerProviderStateMix
   }
 
   double _getHorizontalPosition() {
-    final buttonX = widget.buttonOffset.dx;
+    final buttonX = widget.buttonRect.width;
     final buttonRadius = (widget.buttonSize.width / 2);
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -249,10 +249,10 @@ class _ReactionsBoxState extends State<ReactionsBox> with TickerProviderStateMix
 
   double _getVerticalPosition() {
     // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 4.5 < 0) return _getBottomPosition();
+    if (_getTopPosition() - (_boxSizeAnimation.value?.height ?? 0) < 0) return _getBottomPosition();
 
     // check if BOTTOM space not enough for the box
-    if (_getBottomPosition() + (widget.buttonSize.height * 5.5) > context.screenSize.height)
+    if (_getBottomPosition() + (_boxSizeAnimation.value?.height ?? 0) > context.screenSize.height)
       return _getTopPosition();
 
     if (widget.position == Position.TOP) return _getTopPosition();
@@ -261,10 +261,10 @@ class _ReactionsBoxState extends State<ReactionsBox> with TickerProviderStateMix
   }
 
   double _getTopPosition() {
-    return widget.buttonOffset.dy - (widget.buttonSize.height * 5);
+    return widget.buttonRect.top - (_boxSizeAnimation.value?.height ?? 0) - 8;
   }
 
   double _getBottomPosition() {
-    return widget.buttonOffset.dy;
+    return widget.buttonRect.bottom;
   }
 }

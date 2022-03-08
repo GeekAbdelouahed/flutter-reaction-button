@@ -79,8 +79,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
 
   void _init() {
     _isChecked = widget.isChecked;
-    _selectedReaction =
-        _isChecked ? widget.selectedReaction : widget.initialReaction;
+    _selectedReaction = _isChecked ? widget.selectedReaction : widget.initialReaction;
   }
 
   @override
@@ -124,14 +123,12 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
     _updateReaction(
-      _isChecked
-          ? widget.selectedReaction ?? widget.reactions[0]
-          : widget.initialReaction,
+      _isChecked ? widget.selectedReaction ?? widget.reactions[0] : widget.initialReaction,
     );
   }
 
   void _showReactionsBox() async {
-    final buttonOffset = _buttonKey.widgetPositionOffset;
+    final buttonRect = _buttonKey.widgetPositionRect;
     final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
@@ -139,7 +136,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (_, __, ___) {
           return ReactionsBox(
-            buttonOffset: buttonOffset,
+            buttonRect: buttonRect!,
             buttonSize: buttonSize,
             reactions: widget.reactions,
             position: widget.boxPosition,
@@ -162,8 +159,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     Reaction<T>? reaction, [
     bool isSelectedFromDialog = false,
   ]) {
-    _isChecked =
-        isSelectedFromDialog ? true : reaction != widget.initialReaction;
+    _isChecked = isSelectedFromDialog ? true : reaction != widget.initialReaction;
     widget.onReactionChanged.call(
       reaction?.value,
       _isChecked,
