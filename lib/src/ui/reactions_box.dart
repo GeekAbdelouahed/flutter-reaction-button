@@ -243,6 +243,13 @@ class _ReactionsBoxState extends State<ReactionsBox>
     if (buttonX + (_boxSizeAnimation.value?.width ?? 0) < screenWidth)
       return buttonX - buttonRadius;
 
+    final value =
+        buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
+
+    //add this below code.
+    if (value.isNegative) {
+      return 20; // this is 20 horizontal width is fix you can play with it as you want.
+    }
     return buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
   }
 
