@@ -1,3 +1,7 @@
+## 2.0.0+3
+
+* Upgrade flutter version
+
 ## 2.0.0+2
 
 * Fix Offscreen Issue. Thanks to [rlee1990](https://github.com/rlee1990)
