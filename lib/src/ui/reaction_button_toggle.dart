@@ -7,9 +7,11 @@ import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
+typedef OnReactionToggleChanged<T> = void Function(T?, bool);
+
 class ReactionButtonToggle<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final void Function(T?, bool) onReactionChanged;
+  final OnReactionToggleChanged<T> onReactionChanged;
 
   /// Default reaction button widget if [isChecked == false]
   final Reaction<T>? initialReaction;
