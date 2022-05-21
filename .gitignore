@@ -1,3 +1,6 @@
+!example/ios/Flutter/flutter_export_environment.sh
+!flutter_reaction_button.iml
+
 #Flutter versions manager
 .fvm/
 
