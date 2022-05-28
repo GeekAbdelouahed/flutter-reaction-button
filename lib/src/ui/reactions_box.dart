@@ -32,6 +32,8 @@ class ReactionsBox extends StatefulWidget {
 
   final EdgeInsets boxPadding;
 
+  final double reactionSpacing;
+
   final double itemScale;
 
   final Duration? itemScaleDuration;
@@ -49,6 +51,7 @@ class ReactionsBox extends StatefulWidget {
     this.offset = Offset.zero,
     this.duration = const Duration(milliseconds: 200),
     this.boxPadding = const EdgeInsets.all(0),
+    this.reactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
   })  : assert(itemScale > 0.0 && itemScale < 1),
@@ -58,10 +61,8 @@ class ReactionsBox extends StatefulWidget {
   _ReactionsBoxState createState() => _ReactionsBoxState();
 }
 
-class _ReactionsBoxState extends State<ReactionsBox>
-    with TickerProviderStateMixin {
-  final StreamController<DragData?> _dragStreamController =
-      StreamController<DragData?>();
+class _ReactionsBoxState extends State<ReactionsBox> with TickerProviderStateMixin {
+  final StreamController<DragData?> _dragStreamController = StreamController<DragData?>();
 
   late Stream<DragData?> _dragStream;
 
@@ -100,18 +101,15 @@ class _ReactionsBoxState extends State<ReactionsBox>
     // Calculating how much we should scale up when item hovered
     _itemScale = 1 + widget.itemScale;
 
-    _boxSizeController =
-        AnimationController(vsync: this, duration: widget.duration);
+    _boxSizeController = AnimationController(vsync: this, duration: widget.duration);
     _boxSizeTween = Tween();
     _boxSizeAnimation = _boxSizeTween.animate(_boxSizeController);
 
-    _scaleController =
-        AnimationController(vsync: this, duration: widget.duration);
+    _scaleController = AnimationController(vsync: this, duration: widget.duration);
     final Tween<double> scaleTween = Tween(begin: 0, end: 1);
     _scaleAnimation = scaleTween.animate(_scaleController)
       ..addStatusListener((status) {
-        if (status == AnimationStatus.reverse)
-          Navigator.of(context).pop(_selectedReaction);
+        if (status == AnimationStatus.reverse) Navigator.of(context).pop(_selectedReaction);
       });
 
     _scaleController
@@ -221,20 +219,22 @@ class _ReactionsBoxState extends State<ReactionsBox>
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: widget.reactions.map(
-              (reaction) {
-                return ReactionsBoxItem(
-                  onReactionSelected: (reaction) {
-                    _selectedReaction = reaction;
-                    _scaleController.reverse();
-                  },
-                  scale: _itemScale,
-                  scaleDuration: widget.itemScaleDuration,
-                  reaction: reaction!,
-                  dragStream: _dragStream,
-                );
-              },
-            ).toList(),
+            children: [
+              for (var i = 0; i < widget.reactions.length; i++) ...[
+                  ReactionsBoxItem(
+                    onReactionSelected: (reaction) {
+                      _selectedReaction = reaction;
+                      _scaleController.reverse();
+                    },
+                    scale: _itemScale,
+                    scaleDuration: widget.itemScaleDuration,
+                    reaction: widget.reactions[i]!,
+                    dragStream: _dragStream,
+                  ),
+                if (i < widget.reactions.length - 1)
+                  SizedBox(width: widget.reactionSpacing),
+              ],
+            ],
           ),
         ),
       ),
@@ -278,8 +278,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
     }
 
     // check if BOTTOM space not enough for the box
-    if (bottomPosition + (widget.buttonSize.height * 5.5) >
-        context.screenSize.height) {
+    if (bottomPosition + (widget.buttonSize.height * 5.5) > context.screenSize.height) {
       return topPosition + yOffset;
     }
 

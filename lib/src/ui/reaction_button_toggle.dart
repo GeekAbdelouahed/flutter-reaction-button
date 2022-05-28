@@ -49,6 +49,9 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Reactions box padding [default = const EdgeInsets.all(0)]
   final EdgeInsets boxPadding;
 
+  /// Spacing between the reaction icons in the box
+  final double boxReactionSpacing;
+
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
 
@@ -70,6 +73,7 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     this.boxDuration = const Duration(milliseconds: 200),
     this.isChecked = false,
     this.boxPadding = const EdgeInsets.all(0),
+    this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
   }) : super(key: key);
@@ -157,6 +161,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
             offset: widget.boxOffset,
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
+            reactionSpacing: widget.boxReactionSpacing,
             itemScale: widget.itemScale,
             itemScaleDuration: widget.itemScaleDuration,
           );
