@@ -123,7 +123,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   void _updateReaction(Reaction<T> reaction) {
     widget.onReactionChanged.call(reaction.value);
-    if (widget.shouldChangeReaction)
+    if (mounted && widget.shouldChangeReaction)
       setState(() {
         _selectedReaction = reaction;
       });
