@@ -16,13 +16,17 @@ class ReactionsBox extends StatefulWidget {
 
   final List<Reaction?> reactions;
 
-  final Position position;
+  final VerticalPosition verticalPosition;
+
+  final HorizontalPosition horizontalPosition;
 
   final Color color;
 
   final double elevation;
 
   final double radius;
+
+  final Offset offset;
 
   final Duration duration;
 
@@ -37,10 +41,12 @@ class ReactionsBox extends StatefulWidget {
     required this.buttonOffset,
     required this.buttonSize,
     required this.reactions,
-    required this.position,
+    required this.verticalPosition,
+    required this.horizontalPosition,
     this.color = Colors.white,
     this.elevation = 5,
     this.radius = 50,
+    this.offset = Offset.zero,
     this.duration = const Duration(milliseconds: 200),
     this.boxPadding = const EdgeInsets.all(0),
     this.itemScale = .3,
@@ -236,42 +242,51 @@ class _ReactionsBoxState extends State<ReactionsBox>
   }
 
   double _getHorizontalPosition() {
+    final xOffset = widget.offset.dx;
     final buttonX = widget.buttonOffset.dx;
     final buttonRadius = (widget.buttonSize.width / 2);
     final screenWidth = MediaQuery.of(context).size.width;
+    final boxWidth = _boxSizeAnimation.value?.width ?? 0;
 
-    if (buttonX + (_boxSizeAnimation.value?.width ?? 0) < screenWidth)
-      return buttonX - buttonRadius;
+    if (buttonX + boxWidth < screenWidth) {
+      switch (widget.horizontalPosition) {
+        case HorizontalPosition.START:
+          return buttonX - buttonRadius + xOffset;
+        case HorizontalPosition.CENTER:
+          return buttonX - boxWidth / 2 + xOffset;
+      }
+    }
 
-    final value =
-        buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
+    final value = buttonX + buttonRadius - boxWidth;
 
     //add this below code.
     if (value.isNegative) {
-      return 20; // this is 20 horizontal width is fix you can play with it as you want.
+      return 20 + xOffset; // this is 20 horizontal width is fix you can play with it as you want.
     }
-    return buttonX + buttonRadius - (_boxSizeAnimation.value?.width ?? 0);
+    return value + xOffset;
   }
 
   double _getVerticalPosition() {
+    final yOffset = widget.offset.dy;
+    final boxHeight = _boxSizeAnimation.value?.height ?? 0;
+    final topPosition = widget.buttonOffset.dy - widget.buttonSize.height - boxHeight;
+    final bottomPosition = widget.buttonOffset.dy;
+
     // check if TOP space not enough for the box
-    if (_getTopPosition() - widget.buttonSize.height * 4.5 < 0)
-      return _getBottomPosition();
+    if (topPosition - widget.buttonSize.height * 4.5 < 0) {
+      return bottomPosition + yOffset;
+    }
 
     // check if BOTTOM space not enough for the box
-    if (_getBottomPosition() + (widget.buttonSize.height * 5.5) >
-        context.screenSize.height) return _getTopPosition();
+    if (bottomPosition + (widget.buttonSize.height * 5.5) >
+        context.screenSize.height) {
+      return topPosition + yOffset;
+    }
 
-    if (widget.position == Position.TOP) return _getTopPosition();
+    if (widget.verticalPosition == VerticalPosition.TOP) {
+      return topPosition + yOffset;
+    }
 
-    return _getBottomPosition();
-  }
-
-  double _getTopPosition() {
-    return widget.buttonOffset.dy - (widget.buttonSize.height * 5);
-  }
-
-  double _getBottomPosition() {
-    return widget.buttonOffset.dy;
+    return bottomPosition + yOffset;
   }
 }

@@ -16,8 +16,14 @@ class ReactionButton<T> extends StatefulWidget {
 
   final List<Reaction<T>> reactions;
 
-  /// Position reactions box according to the button [default = Position.TOP]
-  final Position boxPosition;
+  /// Offset to add to the placement of the box
+  final Offset boxOffset;
+
+  /// Vertical position reactions box according to the button [default = VerticalPosition.TOP]
+  final VerticalPosition boxPosition;
+
+  /// Horizontal position reactions box according to the button [default = HorizontalPosition.START]
+  final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -48,7 +54,9 @@ class ReactionButton<T> extends StatefulWidget {
     required this.onReactionChanged,
     required this.reactions,
     this.initialReaction,
-    this.boxPosition = Position.TOP,
+    this.boxOffset = Offset.zero,
+    this.boxPosition = VerticalPosition.TOP,
+    this.boxHorizontalPosition = HorizontalPosition.START,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -105,10 +113,12 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
             buttonOffset: buttonOffset,
             buttonSize: buttonSize,
             reactions: widget.reactions,
-            position: widget.boxPosition,
+            verticalPosition: widget.boxPosition,
+            horizontalPosition: widget.boxHorizontalPosition,
             color: widget.boxColor,
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
+            offset: widget.boxOffset,
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
             itemScale: widget.itemScale,
