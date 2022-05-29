@@ -38,7 +38,9 @@ import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 | OnReactionChanged          | triggered when reaction button value change                                           ||
 | reactions                  | reactions appear in reactions box when long pressed on ReactionnButtonToggle or click on ReactionButton ||
 | initialReaction            | Default reaction button widget                                                        | first item in reactions list |
-| boxPosition                | Position of reactions box according to the button                                     | Position.TOP |
+| boxPosition                | Vertical position of reactions box relative to the button                             | VerticalPosition.TOP |
+| boxHorizontalPosition      | Horizontal position of reactions box relative to the button                           | HorizontalPosition.START |
+| boxOffset                  | Offset to reposition the box from the computed place                                  | Offset.zero |
 | boxColor                   | Reactions box color                                                                   | Colors.white |
 | boxElevation               | Reactions box elevation                                                               | 5 |
 | boxRadius                  | Reactions box radius                                                                  | 50 |

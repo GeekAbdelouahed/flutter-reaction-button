@@ -16,7 +16,7 @@ class WidgetSizeRenderObject extends RenderProxyBox {
 
       if (newSize != null && currentSize != newSize) {
         currentSize = newSize;
-        WidgetsBinding.instance?.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           onSizeChange(newSize);
         });
       }

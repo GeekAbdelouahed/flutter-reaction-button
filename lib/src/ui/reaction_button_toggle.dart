@@ -21,8 +21,14 @@ class ReactionButtonToggle<T> extends StatefulWidget {
 
   final List<Reaction<T>?> reactions;
 
-  /// Position reactions box for the button [default = TOP]
-  final Position boxPosition;
+  /// Offset to add to the placement of the box
+  final Offset boxOffset;
+
+  /// Vertical position reactions box for the button [default = TOP]
+  final VerticalPosition boxPosition;
+
+  /// Horizontal position reactions box relative to the button [default = START]
+  final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -43,6 +49,9 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Reactions box padding [default = const EdgeInsets.all(0)]
   final EdgeInsets boxPadding;
 
+  /// Spacing between the reaction icons in the box
+  final double boxReactionSpacing;
+
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
 
@@ -55,13 +64,16 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     required this.reactions,
     this.initialReaction,
     this.selectedReaction,
-    this.boxPosition = Position.TOP,
+    this.boxOffset = Offset.zero,
+    this.boxPosition = VerticalPosition.TOP,
+    this.boxHorizontalPosition = HorizontalPosition.START,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.isChecked = false,
     this.boxPadding = const EdgeInsets.all(0),
+    this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
   }) : super(key: key);
@@ -81,8 +93,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
 
   void _init() {
     _isChecked = widget.isChecked;
-    _selectedReaction =
-        _isChecked ? widget.selectedReaction : widget.initialReaction;
+    _selectedReaction = _isChecked ? widget.selectedReaction : widget.initialReaction;
   }
 
   @override
@@ -126,9 +137,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
     _updateReaction(
-      _isChecked
-          ? widget.selectedReaction ?? widget.reactions[0]
-          : widget.initialReaction,
+      _isChecked ? widget.selectedReaction ?? widget.reactions[0] : widget.initialReaction,
     );
   }
 
@@ -144,12 +153,15 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
             buttonOffset: buttonOffset,
             buttonSize: buttonSize,
             reactions: widget.reactions,
-            position: widget.boxPosition,
+            verticalPosition: widget.boxPosition,
+            horizontalPosition: widget.boxHorizontalPosition,
             color: widget.boxColor,
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
+            offset: widget.boxOffset,
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
+            reactionSpacing: widget.boxReactionSpacing,
             itemScale: widget.itemScale,
             itemScaleDuration: widget.itemScaleDuration,
           );
@@ -164,8 +176,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     Reaction<T>? reaction, [
     bool isSelectedFromDialog = false,
   ]) {
-    _isChecked =
-        isSelectedFromDialog ? true : reaction != widget.initialReaction;
+    _isChecked = isSelectedFromDialog ? true : reaction != widget.initialReaction;
     widget.onReactionChanged.call(
       reaction?.value,
       _isChecked,
