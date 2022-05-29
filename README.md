@@ -46,7 +46,7 @@ import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 | boxRadius                  | Reactions box radius                                                                  | 50 |
 | boxPadding                 | Reactions box padding                                                                 | const EdgeInsets.all(0) |
 | boxDuration                | Reactions box show/hide duration                                                      | 200 milliseconds |
-| shouldChangeReaction       | Shold change initial reaction after selected one or not                               | true |
+| shouldChangeReaction       | Should change initial reaction after selected one or not                               | true |
 | itemScale                  | Scale ratio when item hovered                                                         | 0.3 |
 | itemScaleDuration          | Scale duration while dragging                                                         | const Duration(milliseconds: 100) |
 
