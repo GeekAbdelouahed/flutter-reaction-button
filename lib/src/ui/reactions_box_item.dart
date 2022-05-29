@@ -6,10 +6,8 @@ import '../models/drag.dart';
 import '../models/reaction.dart';
 import '../utils/extensions.dart';
 
-typedef OnReactionClick = void Function(Reaction?);
-
 class ReactionsBoxItem extends StatefulWidget {
-  final OnReactionClick onReactionSelected;
+  final ValueChanged<Reaction?> onReactionSelected;
 
   final Reaction reaction;
 

@@ -40,8 +40,8 @@ class ReactionButton<T> extends StatefulWidget {
   /// Change initial reaction after selected one [default = true]
   final bool shouldChangeReaction;
 
-  /// Reactions box padding [default = const EdgeInsets.all(0)]
-  final EdgeInsets boxPadding;
+  /// Reactions box padding [default = EdgeInsets.zero]
+  final EdgeInsetsGeometry boxPadding;
 
   /// Spacing between the reaction icons in the box
   final double boxReactionSpacing;
@@ -65,7 +65,7 @@ class ReactionButton<T> extends StatefulWidget {
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.shouldChangeReaction = true,
-    this.boxPadding = const EdgeInsets.all(0),
+    this.boxPadding = EdgeInsets.zero,
     this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
