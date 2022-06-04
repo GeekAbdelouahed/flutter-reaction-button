@@ -1,3 +1,11 @@
+## 2.0.0+3
+
+* Upgrade flutter version
+
+## 2.0.0+2
+
+* Fix Offscreen Issue. Thanks to [rlee1990](https://github.com/rlee1990)
+
 ## 2.0.0+1
 
 * Dragging improvement
@@ -15,7 +23,7 @@
 
 ## 1.0.8
 
-*  Added support null safety
+* Added support null safety
 
 ## 1.0.7+3
 

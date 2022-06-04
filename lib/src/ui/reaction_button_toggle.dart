@@ -7,9 +7,11 @@ import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
+typedef OnReactionToggleChanged<T> = void Function(T?, bool);
+
 class ReactionButtonToggle<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final void Function(T?, bool) onReactionChanged;
+  final OnReactionToggleChanged<T> onReactionChanged;
 
   /// Default reaction button widget if [isChecked == false]
   final Reaction<T>? initialReaction;
@@ -19,8 +21,14 @@ class ReactionButtonToggle<T> extends StatefulWidget {
 
   final List<Reaction<T>?> reactions;
 
-  /// Position reactions box for the button [default = TOP]
-  final Position boxPosition;
+  /// Offset to add to the placement of the box
+  final Offset boxOffset;
+
+  /// Vertical position reactions box for the button [default = TOP]
+  final VerticalPosition boxPosition;
+
+  /// Horizontal position reactions box relative to the button [default = START]
+  final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -39,7 +47,10 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   final bool isChecked;
 
   /// Reactions box padding [default = const EdgeInsets.all(0)]
-  final EdgeInsets boxPadding;
+  final EdgeInsetsGeometry boxPadding;
+
+  /// Spacing between the reaction icons in the box
+  final double boxReactionSpacing;
 
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
@@ -53,13 +64,16 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     required this.reactions,
     this.initialReaction,
     this.selectedReaction,
-    this.boxPosition = Position.TOP,
+    this.boxOffset = Offset.zero,
+    this.boxPosition = VerticalPosition.TOP,
+    this.boxHorizontalPosition = HorizontalPosition.START,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.isChecked = false,
-    this.boxPadding = const EdgeInsets.all(0),
+    this.boxPadding = EdgeInsets.zero,
+    this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
   }) : super(key: key);
@@ -142,12 +156,15 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
             buttonOffset: buttonOffset,
             buttonSize: buttonSize,
             reactions: widget.reactions,
-            position: widget.boxPosition,
+            verticalPosition: widget.boxPosition,
+            horizontalPosition: widget.boxHorizontalPosition,
             color: widget.boxColor,
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
+            offset: widget.boxOffset,
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
+            reactionSpacing: widget.boxReactionSpacing,
             itemScale: widget.itemScale,
             itemScaleDuration: widget.itemScaleDuration,
           );

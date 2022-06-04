@@ -5,17 +5,25 @@ import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
+typedef OnReactionChanged<T> = void Function(T?);
+
 class ReactionButton<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
-  final void Function(T?) onReactionChanged;
+  final OnReactionChanged<T> onReactionChanged;
 
   /// Default reaction button widget
   final Reaction<T>? initialReaction;
 
   final List<Reaction<T>> reactions;
 
-  /// Position reactions box according to the button [default = Position.TOP]
-  final Position boxPosition;
+  /// Offset to add to the placement of the box
+  final Offset boxOffset;
+
+  /// Vertical position reactions box according to the button [default = VerticalPosition.TOP]
+  final VerticalPosition boxPosition;
+
+  /// Horizontal position reactions box according to the button [default = HorizontalPosition.START]
+  final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -32,8 +40,11 @@ class ReactionButton<T> extends StatefulWidget {
   /// Change initial reaction after selected one [default = true]
   final bool shouldChangeReaction;
 
-  /// Reactions box padding [default = const EdgeInsets.all(0)]
-  final EdgeInsets boxPadding;
+  /// Reactions box padding [default = EdgeInsets.zero]
+  final EdgeInsetsGeometry boxPadding;
+
+  /// Spacing between the reaction icons in the box
+  final double boxReactionSpacing;
 
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
@@ -46,13 +57,16 @@ class ReactionButton<T> extends StatefulWidget {
     required this.onReactionChanged,
     required this.reactions,
     this.initialReaction,
-    this.boxPosition = Position.TOP,
+    this.boxOffset = Offset.zero,
+    this.boxPosition = VerticalPosition.TOP,
+    this.boxHorizontalPosition = HorizontalPosition.START,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.shouldChangeReaction = true,
-    this.boxPadding = const EdgeInsets.all(0),
+    this.boxPadding = EdgeInsets.zero,
+    this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
   }) : super(key: key);
@@ -103,12 +117,15 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
             buttonOffset: buttonOffset,
             buttonSize: buttonSize,
             reactions: widget.reactions,
-            position: widget.boxPosition,
+            verticalPosition: widget.boxPosition,
+            horizontalPosition: widget.boxHorizontalPosition,
             color: widget.boxColor,
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
+            offset: widget.boxOffset,
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
+            reactionSpacing: widget.boxReactionSpacing,
             itemScale: widget.itemScale,
             itemScaleDuration: widget.itemScaleDuration,
           );
@@ -121,7 +138,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   void _updateReaction(Reaction<T> reaction) {
     widget.onReactionChanged.call(reaction.value);
-    if (widget.shouldChangeReaction)
+    if (mounted && widget.shouldChangeReaction)
       setState(() {
         _selectedReaction = reaction;
       });
