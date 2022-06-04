@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
+import '../utils/constants.dart';
 import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
@@ -80,6 +83,8 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   Reaction? _selectedReaction;
 
+  Timer? _timer;
+
   void _init() {
     _selectedReaction = widget.initialReaction;
   }
@@ -97,16 +102,45 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   }
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Listener(
       key: _buttonKey,
-      onTap: _showReactionsBox,
-      child: (_selectedReaction ?? widget.reactions[0]).icon,
+      onPointerDown: (details) {
+        _onTapReactionButton(details.position);
+      },
+      onPointerUp: (details) {
+        if (_timer?.isActive ?? false) {
+          _timer?.cancel();
+          _timer = null;
+          _onTapReactionButton(details.position);
+        }
+      },
+      onPointerMove: (_) {
+        _timer?.cancel();
+        _timer = null;
+      },
+      child: (_selectedReaction ?? widget.reactions.first).icon,
     );
   }
 
-  void _showReactionsBox() async {
-    final buttonOffset = _buttonKey.widgetPositionOffset;
+  void _onTapReactionButton(Offset offset) {
+    if (_timer != null) return;
+    _timer = Timer(
+      KTapListenDuration,
+      () {
+        _timer = null;
+        _showReactionsBox(offset);
+      },
+    );
+  }
+
+  void _showReactionsBox(Offset buttonOffset) async {
     final buttonSize = _buttonKey.widgetSize;
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(

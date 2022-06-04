@@ -11,7 +11,8 @@ Flutter button reaction it is fully customizable widget such as Facebook reactio
 
 ## Demo
 
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/doc/images/preview.gif"/>
+<video src="https://user-images.githubusercontent.com/22131872/171996907-b769d8d4-b137-460b-808f-71e24a4d03a8.mp4"></video>
+
 
 ## Usage
 

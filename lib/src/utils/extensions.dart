@@ -11,19 +11,7 @@ extension KeyExtensions on GlobalKey {
     return renderBox.size;
   }
 
-  Offset get widgetPositionOffset {
-    final renderBox = currentContext?.findRenderObject();
-    var translation = renderBox?.getTransformTo(null).getTranslation();
-    if (renderBox != null && translation != null) {
-      return renderBox.paintBounds
-          .shift(Offset(translation.x, translation.y))
-          .center;
-    } else {
-      return widgetOffset;
-    }
-  }
-
-    Rect? get widgetPositionRect {
+  Rect? get widgetPositionRect {
     final renderBox = currentContext?.findRenderObject();
     var translation = renderBox?.getTransformTo(null).getTranslation();
 
