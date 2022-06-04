@@ -68,7 +68,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                       fit: BoxFit.scaleDown,
                       child: ReactionButtonToggle<String>(
                         onReactionChanged: (String? value, bool isChecked) {
-                          print(
+                          debugPrint(
                               'Selected value: $value, isChecked: $isChecked');
                         },
                         reactions: widget.reactions,
