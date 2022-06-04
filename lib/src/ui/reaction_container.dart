@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
-import '../utils/extensions.dart';
+import '../utils/constants.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
 
@@ -16,8 +16,11 @@ class ReactionContainer<T> extends StatefulWidget {
 
   final List<Reaction<T>?> reactions;
 
-  /// Position reactions box for the button [default = TOP]
-  final Position boxPosition;
+  /// Vertical position reactions box according to the button [default = VerticalPosition.TOP]
+  final VerticalPosition boxPosition;
+
+  /// Horizontal position reactions box according to the button [default = HorizontalPosition.START]
+  final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -47,7 +50,8 @@ class ReactionContainer<T> extends StatefulWidget {
     required this.onReactionChanged,
     required this.reactions,
     this.selectedReaction,
-    this.boxPosition = Position.TOP,
+    this.boxPosition = VerticalPosition.TOP,
+    this.boxHorizontalPosition = HorizontalPosition.START,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -63,16 +67,19 @@ class ReactionContainer<T> extends StatefulWidget {
 }
 
 class _ReactionContainerState<T> extends State<ReactionContainer<T>> {
-  final GlobalKey _buttonKey = GlobalKey();
-
   Timer? _timer;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Listener(
-      key: _buttonKey,
-      onPointerDown: (_) {
-        _onTapReactionButton();
+      onPointerDown: (details) {
+        _onTapReactionButton(details.position);
       },
       onPointerUp: (_) {
         if (_timer?.isActive ?? false) {
@@ -80,21 +87,26 @@ class _ReactionContainerState<T> extends State<ReactionContainer<T>> {
           _timer = null;
         }
       },
+      onPointerMove: (_) {
+        _timer?.cancel();
+        _timer = null;
+      },
       child: widget.child,
     );
   }
 
-  void _onTapReactionButton() {
+  void _onTapReactionButton(Offset offset) {
     if (_timer != null) return;
-    _timer = Timer(Duration(milliseconds: 100), () {
-      _timer = null;
-      _showReactionsBox();
-    });
+    _timer = Timer(
+      KTapListenDuration,
+      () {
+        _timer = null;
+        _showReactionsBox(offset);
+      },
+    );
   }
 
-  void _showReactionsBox() async {
-    final buttonOffset = _buttonKey.widgetPositionOffset;
-    final buttonSize = _buttonKey.widgetSize;
+  void _showReactionsBox(Offset buttonOffset) async {
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
@@ -102,9 +114,10 @@ class _ReactionContainerState<T> extends State<ReactionContainer<T>> {
         pageBuilder: (_, __, ___) {
           return ReactionsBox(
             buttonOffset: buttonOffset,
-            buttonSize: buttonSize,
+            buttonSize: Size.zero,
             reactions: widget.reactions,
-            position: widget.boxPosition,
+            verticalPosition: widget.boxPosition,
+            horizontalPosition: widget.boxHorizontalPosition,
             color: widget.boxColor,
             elevation: widget.boxElevation,
             radius: widget.boxRadius,
