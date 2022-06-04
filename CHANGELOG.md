@@ -1,3 +1,8 @@
+## 2.0.1
+
+* Add ReactionContainer
+* Bugs fix and code improvements, Thanks to [Felix Gabler](https://github.com/felixgabler)
+
 ## 2.0.0+3
 
 * Upgrade flutter version
