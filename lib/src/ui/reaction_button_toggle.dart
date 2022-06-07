@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
-import '../utils/constants.dart';
 import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
@@ -25,10 +22,10 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Offset to add to the placement of the box
   final Offset boxOffset;
 
-  /// Vertical position reactions box for the button [default = TOP]
+  /// Vertical position of the reactions box relative to the button [default = VerticalPosition.TOP]
   final VerticalPosition boxPosition;
 
-  /// Horizontal position reactions box relative to the button [default = START]
+  /// Horizontal position of the reactions box relative to the button [default = HorizontalPosition.START]
   final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
@@ -88,14 +85,11 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
 
   Reaction<T>? _selectedReaction;
 
-  Timer? _timer;
-
   bool _isChecked = false;
 
   void _init() {
     _isChecked = widget.isChecked;
-    _selectedReaction =
-        _isChecked ? widget.selectedReaction : widget.initialReaction;
+    _selectedReaction = _isChecked ? widget.selectedReaction : widget.initialReaction;
   }
 
   @override
@@ -111,50 +105,18 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Listener(
-      key: _buttonKey,
-      onPointerDown: (details) {
-        _onTapReactionButton(details.position);
-      },
-      onPointerUp: (_) {
-        if (_timer?.isActive ?? false) {
-          _timer?.cancel();
-          _timer = null;
-          _onClickReactionButton();
-        }
-      },
-      onPointerMove: (_) {
-        _timer?.cancel();
-        _timer = null;
-      },
-      child: (_selectedReaction ?? widget.reactions[0])!.icon,
-    );
-  }
-
-  void _onTapReactionButton(Offset offset) {
-    if (_timer != null) return;
-    _timer = Timer(
-      KTapListenDuration,
-      () {
-        _timer = null;
-        _showReactionsBox(offset);
-      },
-    );
-  }
+  Widget build(BuildContext context) => GestureDetector(
+        key: _buttonKey,
+        behavior: HitTestBehavior.translucent,
+        onTap: _onClickReactionButton,
+        onLongPressStart: (details) => _showReactionsBox(details.globalPosition),
+        child: (_selectedReaction ?? widget.reactions[0])!.icon,
+      );
 
   void _onClickReactionButton() {
     _isChecked = !_isChecked;
     _updateReaction(
-      _isChecked
-          ? widget.selectedReaction ?? widget.reactions[0]
-          : widget.initialReaction,
+      _isChecked ? widget.selectedReaction ?? widget.reactions[0] : widget.initialReaction,
     );
   }
 
@@ -192,8 +154,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     Reaction<T>? reaction, [
     bool isSelectedFromDialog = false,
   ]) {
-    _isChecked =
-        isSelectedFromDialog ? true : reaction != widget.initialReaction;
+    _isChecked = isSelectedFromDialog ? true : reaction != widget.initialReaction;
     widget.onReactionChanged.call(
       reaction?.value,
       _isChecked,
