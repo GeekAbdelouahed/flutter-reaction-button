@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
-import '../utils/constants.dart';
 import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box.dart';
@@ -22,10 +19,10 @@ class ReactionButton<T> extends StatefulWidget {
   /// Offset to add to the placement of the box
   final Offset boxOffset;
 
-  /// Vertical position reactions box according to the button [default = VerticalPosition.TOP]
+  /// Vertical position of the reactions box relative to the button [default = VerticalPosition.TOP]
   final VerticalPosition boxPosition;
 
-  /// Horizontal position reactions box according to the button [default = HorizontalPosition.START]
+  /// Horizontal position of the reactions box relative to the button [default = HorizontalPosition.START]
   final HorizontalPosition boxHorizontalPosition;
 
   /// Reactions box color [default = white]
@@ -83,8 +80,6 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   Reaction? _selectedReaction;
 
-  Timer? _timer;
-
   void _init() {
     _selectedReaction = widget.initialReaction;
   }
@@ -102,43 +97,13 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Listener(
-      key: _buttonKey,
-      onPointerDown: (details) {
-        _onTapReactionButton(details.position);
-      },
-      onPointerUp: (details) {
-        if (_timer?.isActive ?? false) {
-          _timer?.cancel();
-          _timer = null;
-          _onTapReactionButton(details.position);
-        }
-      },
-      onPointerMove: (_) {
-        _timer?.cancel();
-        _timer = null;
-      },
-      child: (_selectedReaction ?? widget.reactions.first).icon,
-    );
-  }
-
-  void _onTapReactionButton(Offset offset) {
-    if (_timer != null) return;
-    _timer = Timer(
-      KTapListenDuration,
-      () {
-        _timer = null;
-        _showReactionsBox(offset);
-      },
-    );
-  }
+  Widget build(BuildContext context) => GestureDetector(
+        key: _buttonKey,
+        behavior: HitTestBehavior.translucent,
+        onTapDown: (details) => _showReactionsBox(details.globalPosition),
+        onLongPressStart: (details) => _showReactionsBox(details.globalPosition),
+        child: (_selectedReaction ?? widget.reactions.first).icon,
+      );
 
   void _showReactionsBox(Offset buttonOffset) async {
     final buttonSize = _buttonKey.widgetSize;
