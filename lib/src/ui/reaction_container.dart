@@ -42,13 +42,13 @@ class ReactionContainer<T> extends StatelessWidget {
 
   final Widget child;
 
-  ReactionContainer({
+  const ReactionContainer({
     Key? key,
     required this.onReactionChanged,
     required this.reactions,
     this.selectedReaction,
-    this.boxPosition = VerticalPosition.TOP,
-    this.boxHorizontalPosition = HorizontalPosition.START,
+    this.boxPosition = VerticalPosition.top,
+    this.boxHorizontalPosition = HorizontalPosition.start,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -63,7 +63,8 @@ class ReactionContainer<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onLongPressStart: (details) => _showReactionsBox(context, details.globalPosition),
+      onLongPressStart: (details) =>
+          _showReactionsBox(context, details.globalPosition),
       child: child,
     );
   }

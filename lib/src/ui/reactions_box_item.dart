@@ -27,7 +27,7 @@ class ReactionsBoxItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ReactionsBoxItemState createState() => _ReactionsBoxItemState();
+  State<ReactionsBoxItem> createState() => _ReactionsBoxItemState();
 }
 
 class _ReactionsBoxItemState extends State<ReactionsBoxItem>
@@ -50,9 +50,7 @@ class _ReactionsBoxItemState extends State<ReactionsBoxItem>
   bool _isWidgetHovered(DragData? dragData) {
     final widgetRect = _widgetKey.widgetPositionRect;
 
-    if (_widgetSize == null) {
-      _widgetSize = _widgetKey.widgetSize;
-    }
+    _widgetSize ??= _widgetKey.widgetSize;
 
     return (widgetRect?.contains(dragData!.offset) ?? false) ||
         (widgetRect

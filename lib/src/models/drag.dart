@@ -13,7 +13,7 @@ class DragData {
     Offset? offset,
     bool? isDragEnd,
   }) {
-    if (isDragEnd == null) isDragEnd = this.isDragEnd;
+    isDragEnd ??= this.isDragEnd;
     return DragData(
       offset: offset ?? this.offset,
       isDragEnd: isDragEnd,

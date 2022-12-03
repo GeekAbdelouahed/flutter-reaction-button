@@ -58,7 +58,7 @@ class ReactionsBox extends StatefulWidget {
         super(key: key);
 
   @override
-  _ReactionsBoxState createState() => _ReactionsBoxState();
+  State<ReactionsBox> createState() => _ReactionsBoxState();
 }
 
 class _ReactionsBoxState extends State<ReactionsBox>
@@ -113,8 +113,9 @@ class _ReactionsBoxState extends State<ReactionsBox>
     final Tween<double> scaleTween = Tween(begin: 0, end: 1);
     _scaleAnimation = scaleTween.animate(_scaleController)
       ..addStatusListener((status) {
-        if (status == AnimationStatus.reverse)
+        if (status == AnimationStatus.reverse) {
           Navigator.of(context).pop(_selectedReaction);
+        }
       });
 
     _scaleController
@@ -198,10 +199,11 @@ class _ReactionsBoxState extends State<ReactionsBox>
         _boxSizeTween
           ..begin = size
           ..end = size;
-        if (_boxSizeController.isCompleted)
+        if (_boxSizeController.isCompleted) {
           _boxSizeController.reverse();
-        else
+        } else {
           _boxSizeController.forward();
+        }
       },
       child: Padding(
         padding: widget.boxPadding,
@@ -236,8 +238,11 @@ class _ReactionsBoxState extends State<ReactionsBox>
                   reaction: widget.reactions[i]!,
                   dragStream: _dragStream,
                 ),
-                if (i < widget.reactions.length - 1)
-                  SizedBox(width: widget.reactionSpacing),
+                if (i < widget.reactions.length - 1) ...{
+                  SizedBox(
+                    width: widget.reactionSpacing,
+                  ),
+                },
               ],
             ],
           ),
@@ -255,9 +260,9 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
     if (buttonX + boxWidth < screenWidth) {
       switch (widget.horizontalPosition) {
-        case HorizontalPosition.START:
+        case HorizontalPosition.start:
           return buttonX - buttonRadius + xOffset;
-        case HorizontalPosition.CENTER:
+        case HorizontalPosition.center:
           return buttonX - boxWidth / 2 + xOffset;
       }
     }
@@ -290,7 +295,7 @@ class _ReactionsBoxState extends State<ReactionsBox>
       return topPosition + yOffset;
     }
 
-    if (widget.verticalPosition == VerticalPosition.TOP) {
+    if (widget.verticalPosition == VerticalPosition.top) {
       return topPosition + yOffset;
     }
 

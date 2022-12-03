@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Reaction<T> {
-  @deprecated
+  @Deprecated('Avoid using id')
   final int? id;
 
   /// Widget showing as button after selecting preview Icon from box appear.
@@ -28,18 +28,17 @@ class Reaction<T> {
     Widget? previewIcon,
     this.title,
     this.enabled = true,
-  }) : this.previewIcon = previewIcon ?? icon;
+  }) : previewIcon = previewIcon ?? icon;
 
   @override
-  bool operator ==(Object? object) {
-    return object != null &&
-        object is Reaction &&
-        icon == object.icon &&
-        icon.key == object.icon.key &&
-        previewIcon == object.previewIcon &&
-        previewIcon.key == object.previewIcon.key &&
-        title == object.title &&
-        title?.key == object.title?.key;
+  bool operator ==(Object? other) {
+    return other is Reaction &&
+        icon == other.icon &&
+        icon.key == other.icon.key &&
+        previewIcon == other.previewIcon &&
+        previewIcon.key == other.previewIcon.key &&
+        title == other.title &&
+        title?.key == other.title?.key;
   }
 
   @override

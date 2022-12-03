@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../models/comment.dart';
 
 class Comments extends StatefulWidget {
+  const Comments({Key? key, required this.comments}) : super(key: key);
+
   final List<Comment> comments;
 
-  Comments(this.comments);
-
   @override
-  _CommentsState createState() => _CommentsState();
+  State<Comments> createState() => _CommentsState();
 }
 
 class _CommentsState extends State<Comments> {
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   void dispose() {
@@ -20,7 +20,7 @@ class _CommentsState extends State<Comments> {
     super.dispose();
   }
 
-  void _onSubmiteComment() {
+  void _onSubmitComment() {
     if (_textEditingController.text.isEmpty) return;
     setState(() {
       final comment = Comment(
@@ -41,8 +41,8 @@ class _CommentsState extends State<Comments> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: widget.comments.isEmpty
-                ? Center(
-                    child: const Text(
+                ? const Center(
+                    child: Text(
                       'No comment yet',
                       style: TextStyle(
                         fontSize: 18,
@@ -50,7 +50,7 @@ class _CommentsState extends State<Comments> {
                     ),
                   )
                 : ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: widget.comments.length,
                     itemBuilder: (context, index) {
                       return buildComment(widget.comments[index]);
@@ -135,21 +135,21 @@ class _CommentsState extends State<Comments> {
       ),
       child: TextFormField(
         controller: _textEditingController,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
         ),
         decoration: InputDecoration(
           hintText: 'Write a comment...',
           border: InputBorder.none,
-          icon: SizedBox(
+          icon: const SizedBox(
             width: 10,
           ),
           suffixIcon: IconButton(
-            icon: Icon(Icons.send),
-            onPressed: _onSubmiteComment,
+            icon: const Icon(Icons.send),
+            onPressed: _onSubmitComment,
           ),
         ),
-        onFieldSubmitted: (_) => _onSubmiteComment(),
+        onFieldSubmitted: (_) => _onSubmitComment(),
       ),
     );
   }

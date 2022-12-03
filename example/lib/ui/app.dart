@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-import '../data/example_data.dart' as Example;
+import '../data/example_data.dart' as example_data;
 import 'common/item.dart';
 import 'common/item_container.dart';
 
@@ -28,21 +28,21 @@ class AppWidget extends StatelessWidget {
                       ),
                     );
                   },
-                  reactions: Example.flagsReactions,
+                  reactions: example_data.flagsReactions,
                   initialReaction: Reaction<String>(
                     value: null,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.language,
                     ),
                   ),
                   boxColor: Colors.black.withOpacity(0.5),
                   boxRadius: 10,
-                  boxDuration: Duration(milliseconds: 500),
+                  boxDuration: const Duration(milliseconds: 500),
                   itemScaleDuration: const Duration(milliseconds: 200),
                 );
               },
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
           ],
         ),
         body: Builder(
@@ -51,49 +51,49 @@ class AppWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 5),
               children: [
                 Item(
-                  'image 1',
-                  'assets/images/img1.jpg',
-                  Example.reactions,
+                  title: 'image 1',
+                  imgPath: 'assets/images/img1.jpg',
+                  reactions: example_data.reactions,
                 ),
                 ItemContainer(
-                  'assets/images/img1.jpg',
-                  Example.reactions,
+                  imgPath: 'assets/images/img1.jpg',
+                  reactions: example_data.reactions,
                 ),
                 Item(
-                  'image 2',
-                  'assets/images/img2.jpg',
-                  Example.reactions,
+                  title: 'image 2',
+                  imgPath: 'assets/images/img2.jpg',
+                  reactions: example_data.reactions,
                 ),
                 ItemContainer(
-                  'assets/images/img2.jpg',
-                  Example.reactions,
+                  imgPath: 'assets/images/img2.jpg',
+                  reactions: example_data.reactions,
                 ),
                 Item(
-                  'image 3',
-                  'assets/images/img3.jpg',
-                  Example.reactions,
+                  title: 'image 3',
+                  imgPath: 'assets/images/img3.jpg',
+                  reactions: example_data.reactions,
                 ),
                 ItemContainer(
-                  'assets/images/img3.jpg',
-                  Example.reactions,
+                  imgPath: 'assets/images/img3.jpg',
+                  reactions: example_data.reactions,
                 ),
                 Item(
-                  'image 4',
-                  'assets/images/img4.jpg',
-                  Example.reactions,
+                  title: 'image 4',
+                  imgPath: 'assets/images/img4.jpg',
+                  reactions: example_data.reactions,
                 ),
                 ItemContainer(
-                  'assets/images/img4.jpg',
-                  Example.reactions,
+                  imgPath: 'assets/images/img4.jpg',
+                  reactions: example_data.reactions,
                 ),
                 Item(
-                  'image 5',
-                  'assets/images/img5.jpg',
-                  Example.reactions,
+                  title: 'image 5',
+                  imgPath: 'assets/images/img5.jpg',
+                  reactions: example_data.reactions,
                 ),
                 ItemContainer(
-                  'assets/images/img5.jpg',
-                  Example.reactions,
+                  imgPath: 'assets/images/img5.jpg',
+                  reactions: example_data.reactions,
                 ),
               ],
             );

@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 class ItemContainer extends StatefulWidget {
+  const ItemContainer({
+    Key? key,
+    required this.imgPath,
+    required this.reactions,
+  }) : super(key: key);
+
   final String imgPath;
   final List<Reaction<String>> reactions;
 
-  const ItemContainer(this.imgPath, this.reactions);
-
   @override
-  _ItemContainerState createState() => _ItemContainerState();
+  State<ItemContainer> createState() => _ItemContainerState();
 }
 
 class _ItemContainerState extends State<ItemContainer>
@@ -34,7 +38,7 @@ class _ItemContainerState extends State<ItemContainer>
               margin: EdgeInsets.zero,
               elevation: 2,
               clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(5),
                 ),
@@ -67,7 +71,7 @@ class _ItemContainerState extends State<ItemContainer>
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(.3),
-                      offset: const Offset(0 , 3),
+                      offset: const Offset(0, 3),
                       blurRadius: 3,
                     )
                   ],

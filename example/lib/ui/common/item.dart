@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-import '../../data/example_data.dart' as Example;
+import '../../data/example_data.dart' as example;
 import '../../models/comment.dart';
 import '../comments.dart';
 
 class Item extends StatefulWidget {
+  const Item({
+    Key? key,
+    required this.title,
+    required this.imgPath,
+    required this.reactions,
+  }) : super(key: key);
+
   final String title;
   final String imgPath;
   final List<Reaction<String>> reactions;
 
-  const Item(this.title, this.imgPath, this.reactions);
-
   @override
-  _ItemState createState() => _ItemState();
+  State<Item> createState() => _ItemState();
 }
 
 class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  List<Comment> _comments = [];
+  final List<Comment> _comments = [];
 
   void _showBottomSheetComments() {
     showBottomSheet(
       context: context,
       builder: (context) {
-        return Comments(_comments);
+        return Comments(comments: _comments);
       },
     );
   }
@@ -38,7 +43,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       elevation: 2,
       child: ClipRRect(
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(5),
         ),
         child: Column(
@@ -53,7 +58,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               height: 1,
               color: Colors.grey[300],
             ),
@@ -72,7 +77,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                               'Selected value: $value, isChecked: $isChecked');
                         },
                         reactions: widget.reactions,
-                        initialReaction: Example.defaultInitialReaction,
+                        initialReaction: example.defaultInitialReaction,
                         selectedReaction: widget.reactions[1],
                       ),
                     ),
@@ -101,10 +106,10 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          duration: Duration(seconds: 2),
+                          duration: const Duration(seconds: 2),
                           content: Text(
                             'Share image ${widget.title}',
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       );

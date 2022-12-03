@@ -52,14 +52,14 @@ class ReactionButton<T> extends StatefulWidget {
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
   final Duration? itemScaleDuration;
 
-  ReactionButton({
+  const ReactionButton({
     Key? key,
     required this.onReactionChanged,
     required this.reactions,
     this.initialReaction,
     this.boxOffset = Offset.zero,
-    this.boxPosition = VerticalPosition.TOP,
-    this.boxHorizontalPosition = HorizontalPosition.START,
+    this.boxPosition = VerticalPosition.top,
+    this.boxHorizontalPosition = HorizontalPosition.start,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
@@ -72,7 +72,7 @@ class ReactionButton<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ReactionButtonState createState() => _ReactionButtonState<T>();
+  State<ReactionButton<T>> createState() => _ReactionButtonState<T>();
 }
 
 class _ReactionButtonState<T> extends State<ReactionButton<T>> {
@@ -101,7 +101,8 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
         key: _buttonKey,
         behavior: HitTestBehavior.translucent,
         onTapDown: (details) => _showReactionsBox(details.globalPosition),
-        onLongPressStart: (details) => _showReactionsBox(details.globalPosition),
+        onLongPressStart: (details) =>
+            _showReactionsBox(details.globalPosition),
         child: (_selectedReaction ?? widget.reactions.first).icon,
       );
 
@@ -137,9 +138,10 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   void _updateReaction(Reaction<T> reaction) {
     widget.onReactionChanged.call(reaction.value);
-    if (mounted && widget.shouldChangeReaction)
+    if (mounted && widget.shouldChangeReaction) {
       setState(() {
         _selectedReaction = reaction;
       });
+    }
   }
 }

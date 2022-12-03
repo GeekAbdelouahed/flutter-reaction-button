@@ -4,39 +4,39 @@ import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 List<Reaction<String>> flagsReactions = [
   Reaction<String>(
     value: 'en',
-    previewIcon: _builFlagsdPreviewIcon(
+    previewIcon: _buildFlagsPreviewIcon(
         'assets/images/united-kingdom-round.png', 'English'),
     icon: _buildIcon('assets/images/united-kingdom.png'),
   ),
   Reaction<String>(
     value: 'ar',
     previewIcon:
-        _builFlagsdPreviewIcon('assets/images/algeria-round.png', 'Arabic'),
+        _buildFlagsPreviewIcon('assets/images/algeria-round.png', 'Arabic'),
     icon: _buildIcon('assets/images/algeria.png'),
   ),
   Reaction<String>(
     value: 'gr',
     previewIcon:
-        _builFlagsdPreviewIcon('assets/images/germany-round.png', 'German'),
+        _buildFlagsPreviewIcon('assets/images/germany-round.png', 'German'),
     icon: _buildIcon('assets/images/germany.png'),
   ),
   Reaction<String>(
     value: 'sp',
     previewIcon:
-        _builFlagsdPreviewIcon('assets/images/spain-round.png', 'Spanish'),
+        _buildFlagsPreviewIcon('assets/images/spain-round.png', 'Spanish'),
     icon: _buildIcon('assets/images/spain.png'),
   ),
   Reaction<String>(
     value: 'ch',
     previewIcon:
-        _builFlagsdPreviewIcon('assets/images/china-round.png', 'Chinese'),
+        _buildFlagsPreviewIcon('assets/images/china-round.png', 'Chinese'),
     icon: _buildIcon('assets/images/china.png'),
   ),
 ];
 
 final defaultInitialReaction = Reaction<String>(
   value: null,
-  icon: Text('No raction'),
+  icon: const Text('No reaction'),
 );
 
 final reactions = [
@@ -46,7 +46,7 @@ final reactions = [
     previewIcon: _buildReactionsPreviewIcon('assets/images/happy.png'),
     icon: _buildReactionsIcon(
       'assets/images/happy.png',
-      Text(
+      const Text(
         'Happy',
         style: TextStyle(
           color: Color(0XFF3b5998),
@@ -60,7 +60,7 @@ final reactions = [
     previewIcon: _buildReactionsPreviewIcon('assets/images/angry.png'),
     icon: _buildReactionsIcon(
       'assets/images/angry.png',
-      Text(
+      const Text(
         'Angry',
         style: TextStyle(
           color: Color(0XFFed5168),
@@ -74,7 +74,7 @@ final reactions = [
     previewIcon: _buildReactionsPreviewIcon('assets/images/in-love.png'),
     icon: _buildReactionsIcon(
       'assets/images/in-love.png',
-      Text(
+      const Text(
         'In love',
         style: TextStyle(
           color: Color(0XFFffda6b),
@@ -88,7 +88,7 @@ final reactions = [
     previewIcon: _buildReactionsPreviewIcon('assets/images/sad.png'),
     icon: _buildReactionsIcon(
       'assets/images/sad.png',
-      Text(
+      const Text(
         'Sad',
         style: TextStyle(
           color: Color(0XFFffda6b),
@@ -102,7 +102,7 @@ final reactions = [
     previewIcon: _buildReactionsPreviewIcon('assets/images/surprised.png'),
     icon: _buildReactionsIcon(
       'assets/images/surprised.png',
-      Text(
+      const Text(
         'Surprised',
         style: TextStyle(
           color: Color(0XFFffda6b),
@@ -116,7 +116,7 @@ final reactions = [
     previewIcon: _buildReactionsPreviewIcon('assets/images/mad.png'),
     icon: _buildReactionsIcon(
       'assets/images/mad.png',
-      Text(
+      const Text(
         'Mad',
         style: TextStyle(
           color: Color(0XFFf05766),
@@ -126,14 +126,14 @@ final reactions = [
   ),
 ];
 
-Padding _builFlagsdPreviewIcon(String path, String text) {
+Padding _buildFlagsPreviewIcon(String path, String text) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     child: Column(
       children: [
         Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w300,
             color: Colors.white,
@@ -155,7 +155,7 @@ Container _buildTitle(String title) {
     ),
     child: Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.white,
         fontSize: 10,
         fontWeight: FontWeight.bold,

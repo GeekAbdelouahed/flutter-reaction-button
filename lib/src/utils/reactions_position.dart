@@ -1,5 +1,11 @@
 /// Position reactions box for the button
-enum VerticalPosition { TOP, BOTTOM }
+enum VerticalPosition {
+  top,
+  bottom,
+}
 
 /// Horizontal alignment of the box relative to the button
-enum HorizontalPosition { START, CENTER }
+enum HorizontalPosition {
+  start,
+  center,
+}
