@@ -38,6 +38,8 @@ class ReactionsBox extends StatefulWidget {
 
   final Duration? itemScaleDuration;
 
+  final List<BoxShadow>? boxShadow;
+
   const ReactionsBox({
     Key? key,
     required this.buttonOffset,
@@ -45,6 +47,7 @@ class ReactionsBox extends StatefulWidget {
     required this.reactions,
     required this.verticalPosition,
     required this.horizontalPosition,
+    this.boxShadow,
     this.color = Colors.white,
     this.elevation = 5,
     this.radius = 50,
@@ -168,11 +171,11 @@ class _ReactionsBoxState extends State<ReactionsBox>
                     child: Stack(
                       alignment: Alignment.bottomCenter,
                       children: [
-                        Material(
-                          color: widget.color,
-                          elevation: widget.elevation,
+                        Container(
                           clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
+                          decoration: BoxDecoration(
+                            boxShadow: widget.boxShadow,
+                            color: widget.color,
                             borderRadius: BorderRadius.circular(widget.radius),
                           ),
                           child: SizedBox(
