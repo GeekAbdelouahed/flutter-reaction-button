@@ -56,6 +56,8 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
   final Duration? itemScaleDuration;
 
+  final List<BoxShadow>? boxShadow;
+
   const ReactionButtonToggle({
     Key? key,
     required this.onReactionChanged,
@@ -74,6 +76,7 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     this.boxReactionSpacing = 0,
     this.itemScale = .3,
     this.itemScaleDuration,
+    this.boxShadow,
   }) : super(key: key);
 
   @override
@@ -133,6 +136,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (_, __, ___) {
           return ReactionsBox(
+            boxShadow: widget.boxShadow,
             buttonOffset: buttonOffset,
             buttonSize: buttonSize,
             reactions: widget.reactions,

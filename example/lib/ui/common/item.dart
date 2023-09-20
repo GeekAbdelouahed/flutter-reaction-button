@@ -76,6 +76,26 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                           debugPrint(
                               'Selected value: $value, isChecked: $isChecked');
                         },
+                        boxColor: Colors.white,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x0A000000),
+                            blurRadius: 8.0,
+                            spreadRadius: -2,
+                            offset: Offset(0, 4),
+                          ),
+                          BoxShadow(
+                            color: Color(0x14000000),
+                            blurRadius: 16.0,
+                            spreadRadius: -3,
+                            offset: Offset(0, 16),
+                          ),
+                          BoxShadow(
+                            color: Color(0x14000000),
+                            blurRadius: 48.0,
+                            offset: Offset(0, 16),
+                          ),
+                        ],
                         reactions: widget.reactions,
                         initialReaction: example.defaultInitialReaction,
                         selectedReaction: widget.reactions[1],
