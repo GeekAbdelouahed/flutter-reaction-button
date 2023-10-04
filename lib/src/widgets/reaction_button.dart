@@ -30,7 +30,7 @@ class ReactionButton<T> extends StatefulWidget {
   /// Reactions box radius [default = 50]
   final double boxRadius;
 
-  /// Reactions box show/hide duration [default = 200 milliseconds]
+  /// Reactions box visibility duration [default = 200 milliseconds]
   final Duration boxDuration;
 
   /// Change initial reaction after selected one [default = true]
@@ -74,23 +74,7 @@ class ReactionButton<T> extends StatefulWidget {
 class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   final GlobalKey _buttonKey = GlobalKey();
 
-  Reaction? _selectedReaction;
-
-  void _init() {
-    _selectedReaction = widget.initialReaction;
-  }
-
-  @override
-  void didUpdateWidget(ReactionButton<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _init();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
+  late Reaction? _selectedReaction = widget.initialReaction;
 
   @override
   Widget build(BuildContext context) => GestureDetector(

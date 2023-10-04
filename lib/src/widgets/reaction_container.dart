@@ -26,7 +26,7 @@ class ReactionContainer<T> extends StatelessWidget {
   /// Reactions box radius [default = 50]
   final double boxRadius;
 
-  /// Reactions box show/hide duration [default = 200 milliseconds]
+  /// Reactions box visibility duration [default = 200 milliseconds]
   final Duration boxDuration;
 
   /// Reactions box padding [default = const EdgeInsets.all(0)]
@@ -39,6 +39,8 @@ class ReactionContainer<T> extends StatelessWidget {
   final Duration itemScaleDuration;
 
   final Widget child;
+
+  final bool animateBox;
 
   const ReactionContainer({
     Key? key,
@@ -55,6 +57,7 @@ class ReactionContainer<T> extends StatelessWidget {
     this.itemScale = .9,
     this.itemScaleDuration = const Duration(milliseconds: 100),
     required this.child,
+    this.animateBox = true,
   }) : super(key: key);
 
   @override
@@ -84,10 +87,11 @@ class ReactionContainer<T> extends StatelessWidget {
             color: boxColor,
             elevation: boxElevation,
             radius: boxRadius,
-            duration: boxDuration,
+            boxDuration: boxDuration,
             boxPadding: boxPadding,
             itemScale: itemScale,
             itemScaleDuration: itemScaleDuration,
+            animateBox: animateBox,
             onReactionSelected: (reaction) {},
             onClose: () {},
           );

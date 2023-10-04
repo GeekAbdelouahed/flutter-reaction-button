@@ -14,8 +14,6 @@ class Reaction<T> {
   ///This widget is displayed when the user hover on the button.
   final Widget? title;
 
-  final bool enabled;
-
   final T? value;
 
   Reaction({
@@ -23,7 +21,6 @@ class Reaction<T> {
     required this.value,
     Widget? previewIcon,
     this.title,
-    this.enabled = true,
   }) : previewIcon = previewIcon ?? icon;
 
   @override

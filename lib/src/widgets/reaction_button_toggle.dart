@@ -25,6 +25,7 @@ class ReactionButtonToggle<T> extends StatefulWidget {
     this.itemScale = .3,
     this.itemScaleDuration = const Duration(milliseconds: 100),
     required this.itemSize,
+    this.animateBox = true,
   });
 
   /// This triggers when reaction button value changed.
@@ -56,7 +57,7 @@ class ReactionButtonToggle<T> extends StatefulWidget {
   /// Reactions box radius [default = 50]
   final double boxRadius;
 
-  /// Reactions box show/hide duration [default = 200 milliseconds]
+  /// Reactions box visibility duration [default = 200 milliseconds]
   final Duration boxDuration;
 
   /// Flag for pre-set reactions if true @link selectedReaction will be
@@ -77,6 +78,8 @@ class ReactionButtonToggle<T> extends StatefulWidget {
 
   final Size itemSize;
 
+  final bool animateBox;
+
   @override
   State<ReactionButtonToggle<T>> createState() =>
       _ReactionButtonToggleState<T>();
@@ -88,27 +91,10 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   OverlayState? _overlayState;
   OverlayEntry? _overlayEntry;
 
-  Reaction<T>? _selectedReaction;
+  late Reaction<T>? _selectedReaction =
+      _isChecked ? widget.selectedReaction : widget.initialReaction;
 
-  bool _isChecked = false;
-
-  void _init() {
-    _isChecked = widget.isChecked;
-    _selectedReaction =
-        _isChecked ? widget.selectedReaction : widget.initialReaction;
-  }
-
-  @override
-  void didUpdateWidget(ReactionButtonToggle<T> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _init();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
+  late bool _isChecked = widget.isChecked;
 
   @override
   void dispose() {
@@ -122,14 +108,13 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   Widget build(BuildContext context) {
     return GestureDetector(
       key: _globalKey,
-      behavior: HitTestBehavior.translucent,
-      onTap: _onClickReactionButton,
-      onLongPress: _showReactionsBox,
-      child: (_selectedReaction ?? widget.reactions[0])!.icon,
+      onTap: _onTap,
+      onLongPress: _onLongPress,
+      child: (_selectedReaction ?? widget.reactions.first)!.icon,
     );
   }
 
-  void _onClickReactionButton() {
+  void _onTap() {
     _isChecked = !_isChecked;
     _updateReaction(
       _isChecked
@@ -138,7 +123,7 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     );
   }
 
-  void _showReactionsBox() {
+  void _onLongPress() {
     _overlayState = Overlay.of(context);
     _overlayEntry = OverlayEntry(
       builder: (context) {
@@ -152,11 +137,12 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
           offset: widget.boxOffset,
-          duration: widget.boxDuration,
+          boxDuration: widget.boxDuration,
           boxPadding: widget.boxPadding,
           itemSpace: widget.boxReactionSpacing,
           itemScale: widget.itemScale,
           itemScaleDuration: widget.itemScaleDuration,
+          animateBox: widget.animateBox,
           onReactionSelected: (reaction) {
             _updateReaction(reaction);
             _overlayEntry?.remove();
@@ -171,16 +157,9 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     _overlayState!.insert(_overlayEntry!);
   }
 
-  void _updateReaction(
-    Reaction<T>? reaction, [
-    bool isSelectedFromDialog = false,
-  ]) {
-    _isChecked =
-        isSelectedFromDialog ? true : reaction != widget.initialReaction;
-    widget.onReactionChanged.call(
-      reaction?.value,
-      _isChecked,
-    );
+  void _updateReaction(Reaction<T>? reaction) {
+    _isChecked = reaction != widget.initialReaction;
+    widget.onReactionChanged.call(reaction?.value, _isChecked);
     setState(() {
       _selectedReaction = reaction;
     });

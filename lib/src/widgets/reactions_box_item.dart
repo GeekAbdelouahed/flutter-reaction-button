@@ -83,37 +83,34 @@ class _ReactionsBoxItemState<T> extends State<ReactionsBoxItem<T>>
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      ignoring: !widget.reaction.enabled,
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          final bool showTitle =
-              _animationController.value == _animationController.upperBound &&
-                  widget.reaction.title != null;
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        final bool showTitle =
+            _animationController.value == _animationController.upperBound &&
+                widget.reaction.title != null;
 
-          return Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.center,
-            children: [
-              Transform.scale(
-                scale: _animationController.value,
-                child: widget.reaction.previewIcon,
-              ),
-              if (widget.reaction.title != null) ...{
-                Positioned(
-                  top: -(widget.size.height * _animationController.value) / 2,
-                  child: AnimatedOpacity(
-                    opacity: showTitle ? 1 : 0,
-                    duration: widget.scaleDuration,
-                    child: widget.reaction.title!,
-                  ),
-                )
-              },
-            ],
-          );
-        },
-      ),
+        return Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            Transform.scale(
+              scale: _animationController.value,
+              child: widget.reaction.previewIcon,
+            ),
+            if (widget.reaction.title != null) ...{
+              Positioned(
+                top: -(widget.size.height * _animationController.value) / 2,
+                child: AnimatedOpacity(
+                  opacity: showTitle ? 1 : 0,
+                  duration: widget.scaleDuration,
+                  child: widget.reaction.title!,
+                ),
+              )
+            },
+          ],
+        );
+      },
     );
   }
 }

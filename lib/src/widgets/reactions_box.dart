@@ -16,13 +16,14 @@ class ReactionsBox<T> extends StatefulWidget {
     required this.elevation,
     required this.radius,
     required this.offset,
-    required this.duration,
+    required this.boxDuration,
     required this.boxPadding,
     required this.itemSpace,
     required this.itemScale,
     required this.itemScaleDuration,
     required this.onReactionSelected,
     required this.onClose,
+    required this.animateBox,
   }) : assert(itemScale > 0.0 && itemScale < 1);
 
   final Offset buttonOffset;
@@ -43,7 +44,7 @@ class ReactionsBox<T> extends StatefulWidget {
 
   final Offset offset;
 
-  final Duration duration;
+  final Duration boxDuration;
 
   final EdgeInsetsGeometry boxPadding;
 
@@ -57,11 +58,21 @@ class ReactionsBox<T> extends StatefulWidget {
 
   final VoidCallback onClose;
 
+  final bool animateBox;
+
   @override
   State<ReactionsBox<T>> createState() => _ReactionsBoxState<T>();
 }
 
-class _ReactionsBoxState<T> extends State<ReactionsBox<T>> {
+class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _boxAnimationController = AnimationController(
+    vsync: this,
+    duration: widget.animateBox ? widget.boxDuration : Duration.zero,
+  );
+
+  late final Animation _animation;
+
   final PositionNotifier _positionNotifier = PositionNotifier();
 
   double get boxHeight =>
@@ -87,8 +98,17 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    final Tween tween = IntTween(begin: 0, end: widget.reactions.length);
+    _animation = tween.animate(_boxAnimationController);
+    _boxAnimationController.forward();
+  }
+
+  @override
   void dispose() {
     _positionNotifier.dispose();
+    _boxAnimationController.dispose();
     super.dispose();
   }
 
@@ -169,16 +189,29 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>> {
                                 width: widget.itemSpace,
                               ),
                             },
-                            ReactionsBoxItem<T>(
-                              index: index,
-                              size: widget.itemSize,
-                              scale: widget.itemScale,
-                              space: widget.itemSpace,
-                              scaleDuration: widget.itemScaleDuration,
-                              reaction: widget.reactions[index]!,
-                              fingerPositionNotifier: _positionNotifier,
-                              onReactionSelected: (reaction) {
-                                widget.onReactionSelected(reaction);
+                            AnimatedBuilder(
+                              animation: _animation,
+                              child: ReactionsBoxItem<T>(
+                                index: index,
+                                size: widget.itemSize,
+                                scale: widget.itemScale,
+                                space: widget.itemSpace,
+                                scaleDuration: widget.itemScaleDuration,
+                                reaction: widget.reactions[index]!,
+                                fingerPositionNotifier: _positionNotifier,
+                                onReactionSelected: (reaction) {
+                                  widget.onReactionSelected(reaction);
+                                },
+                              ),
+                              builder: (context, child) {
+                                return AnimatedContainer(
+                                  duration: widget.boxDuration,
+                                  width: widget.itemSize.width,
+                                  height: _animation.value > index
+                                      ? widget.itemSize.height
+                                      : 0,
+                                  child: child,
+                                );
                               },
                             ),
                           ],
