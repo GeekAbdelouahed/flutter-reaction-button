@@ -148,34 +148,32 @@ Padding _buildFlagsPreviewIcon(String path, String text) {
 
 Container _buildTitle(String title) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 2.5),
+    margin: const EdgeInsets.only(bottom: 30),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     decoration: BoxDecoration(
-      color: Colors.red,
+      color: Colors.black.withOpacity(.75),
       borderRadius: BorderRadius.circular(15),
     ),
     child: Text(
       title,
       style: const TextStyle(
         color: Colors.white,
-        fontSize: 10,
+        fontSize: 8,
         fontWeight: FontWeight.bold,
       ),
     ),
   );
 }
 
-Padding _buildReactionsPreviewIcon(String path) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 3.5, vertical: 5),
-    child: Image.asset(path, height: 40),
-  );
+Widget _buildReactionsPreviewIcon(String path) {
+  return Image.asset(path);
 }
 
 Image _buildIcon(String path) {
   return Image.asset(
     path,
-    height: 30,
-    width: 30,
+    height: 50,
+    width: 50,
   );
 }
 

@@ -18,86 +18,81 @@ class AppWidget extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Flutter Reaction Button'),
           actions: [
-            Builder(
-              builder: (ctx) {
-                return ReactionButton<String>(
-                  onReactionChanged: (String? value) {
-                    ScaffoldMessenger.of(ctx).showSnackBar(
-                      SnackBar(
-                        content: Text('Selected value: $value'),
-                      ),
-                    );
-                  },
-                  reactions: example_data.flagsReactions,
-                  initialReaction: Reaction<String>(
-                    value: null,
-                    icon: const Icon(
-                      Icons.language,
-                    ),
+            ReactionButton<String>(
+              onReactionChanged: (String? value) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Selected value: $value'),
                   ),
-                  boxColor: Colors.black.withOpacity(0.5),
-                  boxRadius: 10,
-                  boxDuration: const Duration(milliseconds: 500),
-                  itemScaleDuration: const Duration(milliseconds: 200),
                 );
               },
+              reactions: example_data.flagsReactions,
+              initialReaction: Reaction<String>(
+                value: null,
+                icon: const Icon(
+                  Icons.language,
+                ),
+              ),
+              boxColor: Colors.black.withOpacity(0.5),
+              boxRadius: 10,
+              boxDuration: const Duration(milliseconds: 500),
+              itemScaleDuration: const Duration(milliseconds: 200),
             ),
             const SizedBox(width: 10),
           ],
         ),
-        body: Builder(
-          builder: (_) {
-            return ListView(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              children: [
-                Item(
-                  title: 'image 1',
-                  imgPath: 'assets/images/img1.jpg',
-                  reactions: example_data.reactions,
-                ),
-                ItemContainer(
-                  imgPath: 'assets/images/img1.jpg',
-                  reactions: example_data.reactions,
-                ),
-                Item(
-                  title: 'image 2',
-                  imgPath: 'assets/images/img2.jpg',
-                  reactions: example_data.reactions,
-                ),
-                ItemContainer(
-                  imgPath: 'assets/images/img2.jpg',
-                  reactions: example_data.reactions,
-                ),
-                Item(
-                  title: 'image 3',
-                  imgPath: 'assets/images/img3.jpg',
-                  reactions: example_data.reactions,
-                ),
-                ItemContainer(
-                  imgPath: 'assets/images/img3.jpg',
-                  reactions: example_data.reactions,
-                ),
-                Item(
-                  title: 'image 4',
-                  imgPath: 'assets/images/img4.jpg',
-                  reactions: example_data.reactions,
-                ),
-                ItemContainer(
-                  imgPath: 'assets/images/img4.jpg',
-                  reactions: example_data.reactions,
-                ),
-                Item(
-                  title: 'image 5',
-                  imgPath: 'assets/images/img5.jpg',
-                  reactions: example_data.reactions,
-                ),
-                ItemContainer(
-                  imgPath: 'assets/images/img5.jpg',
-                  reactions: example_data.reactions,
-                ),
-              ],
-            );
-          },
+        body: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          children: [
+            Item(
+              title: 'image 1',
+              imgPath: 'assets/images/img1.jpg',
+              reactions: example_data.reactions,
+            ),
+            ItemContainer(
+              imgPath: 'assets/images/img1.jpg',
+              reactions: example_data.reactions,
+            ),
+            Item(
+              title: 'image 2',
+              imgPath: 'assets/images/img2.jpg',
+              reactions: example_data.reactions,
+            ),
+            ItemContainer(
+              imgPath: 'assets/images/img2.jpg',
+              reactions: example_data.reactions,
+            ),
+            Item(
+              title: 'image 3',
+              imgPath: 'assets/images/img3.jpg',
+              reactions: example_data.reactions,
+            ),
+            ItemContainer(
+              imgPath: 'assets/images/img3.jpg',
+              reactions: example_data.reactions,
+            ),
+            Item(
+              title: 'image 4',
+              imgPath: 'assets/images/img4.jpg',
+              reactions: example_data.reactions,
+            ),
+            ItemContainer(
+              imgPath: 'assets/images/img4.jpg',
+              reactions: example_data.reactions,
+            ),
+            Item(
+              title: 'image 5',
+              imgPath: 'assets/images/img5.jpg',
+              reactions: example_data.reactions,
+            ),
+            ItemContainer(
+              imgPath: 'assets/images/img5.jpg',
+              reactions: example_data.reactions,
+            ),
+            const SafeArea(
+              child: SizedBox(),
+            ),
+          ],
         ),
       ),
     );

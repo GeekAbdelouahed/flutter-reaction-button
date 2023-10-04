@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Reaction<T> {
-  @Deprecated('Avoid using id')
-  final int? id;
-
   /// Widget showing as button after selecting preview Icon from box appear.
   final Widget icon;
 
@@ -22,7 +19,6 @@ class Reaction<T> {
   final T? value;
 
   Reaction({
-    this.id,
     required this.icon,
     required this.value,
     Widget? previewIcon,

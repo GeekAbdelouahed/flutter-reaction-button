@@ -1,20 +1,20 @@
 import 'package:flutter/widgets.dart';
 
 extension KeyExtensions on GlobalKey {
-  Offset get widgetOffset {
+  Offset get offset {
     final renderBox = currentContext!.findRenderObject() as RenderBox;
     return renderBox.localToGlobal(Offset.zero);
   }
 
-  Size get widgetSize {
+  Size get size {
     final renderBox = currentContext!.findRenderObject() as RenderBox;
     return renderBox.size;
   }
 
-  Rect? get widgetPositionRect {
-    final renderBox = currentContext?.findRenderObject();
-    var translation = renderBox?.getTransformTo(null).getTranslation();
-
+  Rect? get rect {
+    final RenderObject? renderBox = currentContext?.findRenderObject();
+    // print('renderBox: $renderBox');
+    final translation = renderBox?.getTransformTo(null).getTranslation();
     return renderBox?.paintBounds
         .shift(Offset(translation?.x ?? 0, translation?.y ?? 0));
   }

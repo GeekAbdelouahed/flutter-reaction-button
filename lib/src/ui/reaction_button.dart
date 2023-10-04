@@ -50,7 +50,7 @@ class ReactionButton<T> extends StatefulWidget {
   final double itemScale;
 
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
-  final Duration? itemScaleDuration;
+  final Duration itemScaleDuration;
 
   const ReactionButton({
     Key? key,
@@ -67,8 +67,8 @@ class ReactionButton<T> extends StatefulWidget {
     this.shouldChangeReaction = true,
     this.boxPadding = EdgeInsets.zero,
     this.boxReactionSpacing = 0,
-    this.itemScale = .3,
-    this.itemScaleDuration,
+    this.itemScale = .9,
+    this.itemScaleDuration = const Duration(milliseconds: 100),
   }) : super(key: key);
 
   @override
@@ -107,7 +107,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
       );
 
   void _showReactionsBox(Offset buttonOffset) async {
-    final buttonSize = _buttonKey.widgetSize;
+    final buttonSize = _buttonKey.size;
     final reactionButton = await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
@@ -115,7 +115,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
         pageBuilder: (_, __, ___) {
           return ReactionsBox(
             buttonOffset: buttonOffset,
-            buttonSize: buttonSize,
+            itemSize: buttonSize,
             reactions: widget.reactions,
             verticalPosition: widget.boxPosition,
             horizontalPosition: widget.boxHorizontalPosition,
@@ -125,9 +125,10 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
             offset: widget.boxOffset,
             duration: widget.boxDuration,
             boxPadding: widget.boxPadding,
-            reactionSpacing: widget.boxReactionSpacing,
+            itemSpace: widget.boxReactionSpacing,
             itemScale: widget.itemScale,
             itemScaleDuration: widget.itemScaleDuration,
+            onReactionSelected: (reaction) {},
           );
         },
       ),

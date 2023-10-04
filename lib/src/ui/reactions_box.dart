@@ -1,20 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_reaction_button/src/core/position_notifier.dart';
 
-import '../models/drag.dart';
+import '../models/position.dart';
 import '../models/reaction.dart';
 import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
 import 'reactions_box_item.dart';
-import 'widget_size_render_object.dart';
 
-class ReactionsBox extends StatefulWidget {
+class ReactionsBox<T> extends StatefulWidget {
   final Offset buttonOffset;
 
-  final Size buttonSize;
+  final Size itemSize;
 
-  final List<Reaction?> reactions;
+  final List<Reaction<T>?> reactions;
 
   final VerticalPosition verticalPosition;
 
@@ -32,41 +30,42 @@ class ReactionsBox extends StatefulWidget {
 
   final EdgeInsetsGeometry boxPadding;
 
-  final double reactionSpacing;
+  final double itemSpace;
 
   final double itemScale;
 
-  final Duration? itemScaleDuration;
+  final Duration itemScaleDuration;
+
+  final ValueChanged<Reaction<T>?> onReactionSelected;
 
   const ReactionsBox({
     Key? key,
     required this.buttonOffset,
-    required this.buttonSize,
+    required this.itemSize,
     required this.reactions,
     required this.verticalPosition,
     required this.horizontalPosition,
-    this.color = Colors.white,
-    this.elevation = 5,
-    this.radius = 50,
-    this.offset = Offset.zero,
-    this.duration = const Duration(milliseconds: 200),
-    this.boxPadding = EdgeInsets.zero,
-    this.reactionSpacing = 0,
-    this.itemScale = .3,
-    this.itemScaleDuration,
+    required this.color,
+    required this.elevation,
+    required this.radius,
+    required this.offset,
+    required this.duration,
+    required this.boxPadding,
+    required this.itemSpace,
+    required this.itemScale,
+    required this.itemScaleDuration,
+    required this.onReactionSelected,
   })  : assert(itemScale > 0.0 && itemScale < 1),
         super(key: key);
 
   @override
-  State<ReactionsBox> createState() => _ReactionsBoxState();
+  State<ReactionsBox<T>> createState() => _ReactionsBoxState<T>();
 }
 
-class _ReactionsBoxState extends State<ReactionsBox>
+class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
     with TickerProviderStateMixin {
-  final StreamController<DragData?> _dragStreamController =
-      StreamController<DragData?>();
-
-  late Stream<DragData?> _dragStream;
+  final FingerPositionNotifier _fingerPositionNotifier =
+      FingerPositionNotifier();
 
   late AnimationController _boxSizeController;
 
@@ -76,32 +75,13 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
   late AnimationController _scaleController;
 
-  late Animation<double> _scaleAnimation;
+  FingerPosition? _fingerPosition;
 
-  late double _itemScale;
-
-  Reaction? _selectedReaction;
-
-  DragData? _dragData;
-
-  double? _getBoxHeight() {
-    if (_boxSizeAnimation.value == null) return null;
-
-    bool anyItemHasTitle = widget.reactions.any(
-      (item) => item?.title != null,
-    );
-
-    if (anyItemHasTitle) return _boxSizeAnimation.value!.height * .75;
-
-    return _boxSizeAnimation.value!.height;
-  }
+  Reaction<T>? _selectedReaction;
 
   @override
   void initState() {
     super.initState();
-
-    // Calculating how much we should scale up when item hovered
-    _itemScale = 1 + widget.itemScale;
 
     _boxSizeController =
         AnimationController(vsync: this, duration: widget.duration);
@@ -110,151 +90,134 @@ class _ReactionsBoxState extends State<ReactionsBox>
 
     _scaleController =
         AnimationController(vsync: this, duration: widget.duration);
-    final Tween<double> scaleTween = Tween(begin: 0, end: 1);
-    _scaleAnimation = scaleTween.animate(_scaleController)
-      ..addStatusListener((status) {
+    Tween(begin: 0, end: 1).animate(_scaleController).addStatusListener(
+      (status) {
         if (status == AnimationStatus.reverse) {
           Navigator.of(context).pop(_selectedReaction);
         }
-      });
+      },
+    );
 
     _scaleController
       ..forward()
       ..addListener(() {
         setState(() {});
       });
-
-    _dragStream = _dragStreamController.stream.asBroadcastStream();
   }
 
   @override
   void dispose() {
     _boxSizeController.dispose();
-    _scaleController.dispose();
-    _dragStreamController.close();
+    _fingerPositionNotifier.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double top = _getVerticalPosition();
-
-    return Material(
-      elevation: 0,
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Listener(
-              onPointerDown: (_) {
-                _scaleController.reverse();
-              },
-              child: Container(
-                color: Colors.transparent,
-              ),
-            ),
-          ),
-          PositionedDirectional(
-            top: top,
-            start: _getHorizontalPosition(),
-            child: Transform.scale(
-              scale: _scaleAnimation.value,
-              child: AnimatedBuilder(
-                animation: _boxSizeAnimation,
-                child: _buildItems(),
-                builder: (_, child) {
-                  return SizedBox(
-                    height: _boxSizeAnimation.value?.height,
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Material(
-                          color: widget.color,
-                          elevation: widget.elevation,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(widget.radius),
-                          ),
-                          child: SizedBox(
-                            height: _getBoxHeight(),
-                            width: _boxSizeAnimation.value?.width,
-                          ),
-                        ),
-                        child!,
-                      ],
-                    ),
-                  );
+    return ValueListenableBuilder<FingerPosition?>(
+      valueListenable: _fingerPositionNotifier,
+      builder: (context, position, child) {
+        final double boxScale =
+            1 - (widget.itemScale / widget.reactions.length);
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: Listener(
+                onPointerDown: (_) {
+                  _scaleController.reverse();
                 },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildItems() {
-    return WidgetSizeOffsetWrapper(
-      onSizeChange: (Size size) {
-        _boxSizeTween
-          ..begin = size
-          ..end = size;
-        if (_boxSizeController.isCompleted) {
-          _boxSizeController.reverse();
-        } else {
-          _boxSizeController.forward();
-        }
-      },
-      child: Padding(
-        padding: widget.boxPadding,
-        child: Listener(
-          onPointerDown: (point) {
-            _dragData = DragData(offset: point.position);
-            _dragStreamController.add(_dragData);
-          },
-          onPointerMove: (point) {
-            _dragData = DragData(offset: point.position);
-            _dragStreamController.add(_dragData);
-          },
-          onPointerUp: (point) {
-            _dragData = _dragData?.copyWith(isDragEnd: true);
-            _dragStreamController.add(_dragData);
-          },
-          onPointerCancel: (point) {
-            _dragData = _dragData?.copyWith(isDragEnd: true);
-            _dragStreamController.add(_dragData);
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              for (var i = 0; i < widget.reactions.length; i++) ...[
-                ReactionsBoxItem(
-                  onReactionSelected: (reaction) {
-                    _selectedReaction = reaction;
-                    _scaleController.reverse();
-                  },
-                  scale: _itemScale,
-                  scaleDuration: widget.itemScaleDuration,
-                  reaction: widget.reactions[i]!,
-                  dragStream: _dragStream,
+                child: Container(
+                  color: Colors.transparent,
                 ),
-                if (i < widget.reactions.length - 1) ...{
-                  SizedBox(
-                    width: widget.reactionSpacing,
+              ),
+            ),
+            PositionedDirectional(
+              top: _getVerticalPosition(),
+              start: _getHorizontalPosition(),
+              child: Transform.scale(
+                scale: position?.isBoxHovered ?? false ? boxScale : 1,
+                child: Material(
+                  color: widget.color,
+                  elevation: widget.elevation,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      widget.radius,
+                    ),
                   ),
-                },
-              ],
-            ],
-          ),
-        ),
-      ),
+                  child: Container(
+                    height: widget.itemSize.height + widget.boxPadding.vertical,
+                    alignment: Alignment.center,
+                    padding: widget.boxPadding,
+                    child: Listener(
+                        onPointerDown: (point) {
+                          _fingerPosition = FingerPosition(
+                            offset: point.localPosition,
+                            isBoxHovered: true,
+                          );
+                          _fingerPositionNotifier.value = _fingerPosition;
+                        },
+                        onPointerMove: (point) {
+                          _fingerPosition = _fingerPosition?.copyWith(
+                            offset: point.localPosition,
+                            isBoxHovered: true,
+                          );
+                          _fingerPositionNotifier.value = _fingerPosition;
+                        },
+                        onPointerUp: (point) {
+                          if (_selectedReaction != null) {
+                            widget.onReactionSelected(_selectedReaction);
+                            return;
+                          }
+                          _fingerPosition = _fingerPosition?.copyWith(
+                            isBoxHovered: false,
+                          );
+                          _fingerPositionNotifier.value = _fingerPosition;
+                        },
+                        onPointerCancel: (point) {
+                          _fingerPosition = _fingerPosition?.copyWith(
+                            isBoxHovered: false,
+                          );
+                          _fingerPositionNotifier.value = _fingerPosition;
+                        },
+                        child: Row(
+                          children: [
+                            for (int index = 0;
+                                index < widget.reactions.length;
+                                index++) ...[
+                              if (index > 0) ...{
+                                SizedBox(
+                                  width: widget.itemSpace,
+                                ),
+                              },
+                              ReactionsBoxItem<T>(
+                                onReactionSelected: (reaction) {
+                                  _selectedReaction = reaction;
+                                },
+                                index: index,
+                                size: widget.itemSize,
+                                scale: widget.itemScale,
+                                space: widget.itemSpace,
+                                scaleDuration: widget.itemScaleDuration,
+                                reaction: widget.reactions[index]!,
+                                fingerPositionNotifier: _fingerPositionNotifier,
+                              ),
+                            ],
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
   double _getHorizontalPosition() {
     final xOffset = widget.offset.dx;
     final buttonX = widget.buttonOffset.dx;
-    final buttonRadius = (widget.buttonSize.width / 2);
+    final buttonRadius = (widget.itemSize.width / 2);
     final screenWidth = MediaQuery.of(context).size.width;
     final boxWidth = _boxSizeAnimation.value?.width ?? 0;
 
@@ -281,16 +244,16 @@ class _ReactionsBoxState extends State<ReactionsBox>
     final yOffset = widget.offset.dy;
     final boxHeight = _boxSizeAnimation.value?.height ?? 0;
     final topPosition =
-        widget.buttonOffset.dy - widget.buttonSize.height - boxHeight;
+        widget.buttonOffset.dy - widget.itemSize.height - boxHeight;
     final bottomPosition = widget.buttonOffset.dy;
 
     // check if TOP space not enough for the box
-    if (topPosition - widget.buttonSize.height * 4.5 < 0) {
+    if (topPosition - widget.itemSize.height * 4.5 < 0) {
       return bottomPosition + yOffset;
     }
 
     // check if BOTTOM space not enough for the box
-    if (bottomPosition + (widget.buttonSize.height * 5.5) >
+    if (bottomPosition + (widget.itemSize.height * 5.5) >
         context.screenSize.height) {
       return topPosition + yOffset;
     }

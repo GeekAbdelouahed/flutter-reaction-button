@@ -38,7 +38,7 @@ class ReactionContainer<T> extends StatelessWidget {
   final double itemScale;
 
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
-  final Duration? itemScaleDuration;
+  final Duration itemScaleDuration;
 
   final Widget child;
 
@@ -54,8 +54,8 @@ class ReactionContainer<T> extends StatelessWidget {
     this.boxRadius = 50,
     this.boxDuration = const Duration(milliseconds: 200),
     this.boxPadding = const EdgeInsets.all(0),
-    this.itemScale = .3,
-    this.itemScaleDuration,
+    this.itemScale = .9,
+    this.itemScaleDuration = const Duration(milliseconds: 100),
     required this.child,
   }) : super(key: key);
 
@@ -76,8 +76,10 @@ class ReactionContainer<T> extends StatelessWidget {
         transitionDuration: const Duration(milliseconds: 200),
         pageBuilder: (_, __, ___) {
           return ReactionsBox(
+            offset: Offset.zero, //  TODO add offset,
+            itemSpace: 0, // TODO add space
             buttonOffset: buttonOffset,
-            buttonSize: Size.zero,
+            itemSize: Size.zero,
             reactions: reactions,
             verticalPosition: boxPosition,
             horizontalPosition: boxHorizontalPosition,
@@ -88,6 +90,7 @@ class ReactionContainer<T> extends StatelessWidget {
             boxPadding: boxPadding,
             itemScale: itemScale,
             itemScaleDuration: itemScaleDuration,
+            onReactionSelected: (reaction) {},
           );
         },
       ),

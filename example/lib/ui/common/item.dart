@@ -72,6 +72,7 @@ class _ItemState extends State<Item> with AutomaticKeepAliveClientMixin {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: ReactionButtonToggle<String>(
+                        itemSize: const Size.square(40),
                         onReactionChanged: (String? value, bool isChecked) {
                           debugPrint(
                               'Selected value: $value, isChecked: $isChecked');
