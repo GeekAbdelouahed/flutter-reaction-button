@@ -15,11 +15,13 @@ class ImageWidget extends StatefulWidget {
   State<ImageWidget> createState() => _ImageWidgetState();
 }
 
-class _ImageWidgetState extends State<ImageWidget> {
+class _ImageWidgetState extends State<ImageWidget>
+    with AutomaticKeepAliveClientMixin {
   String? _selectedReaction;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
@@ -84,4 +86,7 @@ class _ImageWidgetState extends State<ImageWidget> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
