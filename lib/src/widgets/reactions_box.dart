@@ -75,11 +75,20 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
 
   final PositionNotifier _positionNotifier = PositionNotifier();
 
-  double get boxHeight =>
-      widget.itemSize.height + widget.boxPadding.vertical / 2;
+  double get boxHeight => widget.itemSize.height + widget.boxPadding.vertical;
+
   double get boxWidth =>
       (widget.itemSize.width * widget.reactions.length) +
-      (widget.itemSpace * (widget.reactions.length - 1));
+      (widget.itemSpace * (widget.reactions.length - 1)) +
+      widget.boxPadding.horizontal;
+
+  bool get shouldStartFromEnd =>
+      MediaQuery.sizeOf(context).width - boxWidth - widget.buttonOffset.dx < 0;
+
+  bool get shouldStartFromBottom =>
+      MediaQuery.viewPaddingOf(context).top -
+          (boxHeight + widget.boxPadding.vertical) <
+      0;
 
   bool _isLastPositionOutsideBox(Offset localOffset) {
     final Rect boxRect = Rect.fromPoints(
@@ -134,51 +143,53 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
               ),
             ),
             PositionedDirectional(
-              start: widget.buttonOffset.dx,
-              top: widget.buttonOffset.dy -
-                  widget.itemSize.height -
-                  widget.boxPadding.vertical,
-              child: Transform.scale(
-                scale: isBoxHovered ? boxScale : 1,
-                child: Material(
-                  color: widget.color,
-                  elevation: widget.elevation,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      widget.radius,
+              start: shouldStartFromEnd
+                  ? widget.buttonOffset.dx - boxWidth
+                  : widget.buttonOffset.dx,
+              top: shouldStartFromBottom
+                  ? widget.buttonOffset.dy + widget.itemSize.height
+                  : widget.buttonOffset.dy -
+                      widget.itemSize.height -
+                      widget.boxPadding.vertical,
+              child: Listener(
+                onPointerDown: (point) {
+                  _positionNotifier.value = PositionData(
+                    offset: point.localPosition,
+                    isBoxHovered: true,
+                  );
+                },
+                onPointerMove: (point) {
+                  _positionNotifier.value = _positionNotifier.value.copyWith(
+                    offset: point.localPosition,
+                    isBoxHovered: true,
+                  );
+                },
+                onPointerUp: (point) {
+                  _positionNotifier.value = _positionNotifier.value.copyWith(
+                    isBoxHovered: false,
+                  );
+                  _isLastPositionOutsideBox(point.localPosition);
+                },
+                onPointerCancel: (point) {
+                  _positionNotifier.value = _positionNotifier.value.copyWith(
+                    isBoxHovered: false,
+                  );
+                  _isLastPositionOutsideBox(point.localPosition);
+                },
+                child: Transform.scale(
+                  scale: isBoxHovered ? boxScale : 1,
+                  child: Material(
+                    color: widget.color,
+                    elevation: widget.elevation,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        widget.radius,
+                      ),
                     ),
-                  ),
-                  child: Container(
-                    height: widget.itemSize.height + widget.boxPadding.vertical,
-                    padding: widget.boxPadding,
-                    child: Listener(
-                      onPointerDown: (point) {
-                        _positionNotifier.value = PositionData(
-                          offset: point.localPosition,
-                          isBoxHovered: true,
-                        );
-                      },
-                      onPointerMove: (point) {
-                        _positionNotifier.value =
-                            _positionNotifier.value.copyWith(
-                          offset: point.localPosition,
-                          isBoxHovered: true,
-                        );
-                      },
-                      onPointerUp: (point) {
-                        _positionNotifier.value =
-                            _positionNotifier.value.copyWith(
-                          isBoxHovered: false,
-                        );
-                        _isLastPositionOutsideBox(point.localPosition);
-                      },
-                      onPointerCancel: (point) {
-                        _positionNotifier.value =
-                            _positionNotifier.value.copyWith(
-                          isBoxHovered: false,
-                        );
-                        _isLastPositionOutsideBox(point.localPosition);
-                      },
+                    child: Container(
+                      width: boxWidth,
+                      height: boxHeight,
+                      padding: widget.boxPadding,
                       child: Row(
                         children: [
                           for (int index = 0;
@@ -204,12 +215,9 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
                                 },
                               ),
                               builder: (context, child) {
-                                return AnimatedContainer(
+                                return AnimatedScale(
                                   duration: widget.boxDuration,
-                                  width: widget.itemSize.width,
-                                  height: _animation.value > index
-                                      ? widget.itemSize.height
-                                      : 0,
+                                  scale: _animation.value > index ? 1 : 0,
                                   child: child,
                                 );
                               },

@@ -1,49 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-List<Reaction<String>> flagsReactions = [
+final List<Reaction<String>> flagsReactions = [
   Reaction<String>(
     value: 'en',
-    previewIcon: _buildFlagsPreviewIcon(
-        'assets/images/united-kingdom-round.png', 'English'),
-    icon: _buildIcon('assets/images/united-kingdom.png'),
+    previewIcon: _buildFlagPreviewIcon(
+      'assets/images/united-kingdom-round.png',
+      'English',
+    ),
+    icon: _buildFlagIcon(
+      'assets/images/united-kingdom.png',
+    ),
   ),
   Reaction<String>(
     value: 'ar',
-    previewIcon:
-        _buildFlagsPreviewIcon('assets/images/algeria-round.png', 'Arabic'),
-    icon: _buildIcon('assets/images/algeria.png'),
+    previewIcon: _buildFlagPreviewIcon(
+      'assets/images/algeria-round.png',
+      'Arabic',
+    ),
+    icon: _buildFlagIcon(
+      'assets/images/algeria.png',
+    ),
   ),
   Reaction<String>(
     value: 'gr',
-    previewIcon:
-        _buildFlagsPreviewIcon('assets/images/germany-round.png', 'German'),
-    icon: _buildIcon('assets/images/germany.png'),
+    previewIcon: _buildFlagPreviewIcon(
+      'assets/images/germany-round.png',
+      'German',
+    ),
+    icon: _buildFlagIcon(
+      'assets/images/germany.png',
+    ),
   ),
   Reaction<String>(
     value: 'sp',
-    previewIcon:
-        _buildFlagsPreviewIcon('assets/images/spain-round.png', 'Spanish'),
-    icon: _buildIcon('assets/images/spain.png'),
+    previewIcon: _buildFlagPreviewIcon(
+      'assets/images/spain-round.png',
+      'Spanish',
+    ),
+    icon: _buildFlagIcon(
+      'assets/images/spain.png',
+    ),
   ),
   Reaction<String>(
     value: 'ch',
-    previewIcon:
-        _buildFlagsPreviewIcon('assets/images/china-round.png', 'Chinese'),
-    icon: _buildIcon('assets/images/china.png'),
+    previewIcon: _buildFlagPreviewIcon(
+      'assets/images/china-round.png',
+      'Chinese',
+    ),
+    icon: _buildFlagIcon(
+      'assets/images/china.png',
+    ),
   ),
 ];
 
 final defaultInitialReaction = Reaction<String>(
   value: null,
-  icon: const Text('No reaction'),
+  icon: const Text(
+    'No reaction',
+  ),
 );
 
-final reactions = [
+final List<Reaction<String>> reactions = [
   Reaction<String>(
     value: 'Happy',
-    title: _buildTitle('Happy'),
-    previewIcon: _buildReactionsPreviewIcon('assets/images/happy.png'),
+    title: _buildEmojiTitle(
+      'Happy',
+    ),
+    previewIcon: _buildEmojiPreviewIcon(
+      'assets/images/happy.png',
+    ),
     icon: _buildReactionsIcon(
       'assets/images/happy.png',
       const Text(
@@ -56,8 +82,12 @@ final reactions = [
   ),
   Reaction<String>(
     value: 'Angry',
-    title: _buildTitle('Angry'),
-    previewIcon: _buildReactionsPreviewIcon('assets/images/angry.png'),
+    title: _buildEmojiTitle(
+      'Angry',
+    ),
+    previewIcon: _buildEmojiPreviewIcon(
+      'assets/images/angry.png',
+    ),
     icon: _buildReactionsIcon(
       'assets/images/angry.png',
       const Text(
@@ -70,8 +100,12 @@ final reactions = [
   ),
   Reaction<String>(
     value: 'In love',
-    title: _buildTitle('In love'),
-    previewIcon: _buildReactionsPreviewIcon('assets/images/in-love.png'),
+    title: _buildEmojiTitle(
+      'In love',
+    ),
+    previewIcon: _buildEmojiPreviewIcon(
+      'assets/images/in-love.png',
+    ),
     icon: _buildReactionsIcon(
       'assets/images/in-love.png',
       const Text(
@@ -84,8 +118,12 @@ final reactions = [
   ),
   Reaction<String>(
     value: 'Sad',
-    title: _buildTitle('Sad'),
-    previewIcon: _buildReactionsPreviewIcon('assets/images/sad.png'),
+    title: _buildEmojiTitle(
+      'Sad',
+    ),
+    previewIcon: _buildEmojiPreviewIcon(
+      'assets/images/sad.png',
+    ),
     icon: _buildReactionsIcon(
       'assets/images/sad.png',
       const Text(
@@ -98,8 +136,12 @@ final reactions = [
   ),
   Reaction<String>(
     value: 'Surprised',
-    title: _buildTitle('Surprised'),
-    previewIcon: _buildReactionsPreviewIcon('assets/images/surprised.png'),
+    title: _buildEmojiTitle(
+      'Surprised',
+    ),
+    previewIcon: _buildEmojiPreviewIcon(
+      'assets/images/surprised.png',
+    ),
     icon: _buildReactionsIcon(
       'assets/images/surprised.png',
       const Text(
@@ -112,8 +154,12 @@ final reactions = [
   ),
   Reaction<String>(
     value: 'Mad',
-    title: _buildTitle('Mad'),
-    previewIcon: _buildReactionsPreviewIcon('assets/images/mad.png'),
+    title: _buildEmojiTitle(
+      'Mad',
+    ),
+    previewIcon: _buildEmojiPreviewIcon(
+      'assets/images/mad.png',
+    ),
     icon: _buildReactionsIcon(
       'assets/images/mad.png',
       const Text(
@@ -126,27 +172,25 @@ final reactions = [
   ),
 ];
 
-Padding _buildFlagsPreviewIcon(String path, String text) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-    child: Column(
-      children: [
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w300,
-            color: Colors.white,
-          ),
+Widget _buildFlagPreviewIcon(String path, String text) {
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(
+        text,
+        style: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w300,
+          color: Colors.white,
         ),
-        const SizedBox(height: 7.5),
-        Image.asset(path, height: 30),
-      ],
-    ),
+      ),
+      const SizedBox(height: 7.5),
+      Image.asset(path, height: 30),
+    ],
   );
 }
 
-Container _buildTitle(String title) {
+Widget _buildEmojiTitle(String title) {
   return Container(
     margin: const EdgeInsets.only(bottom: 30),
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -165,19 +209,15 @@ Container _buildTitle(String title) {
   );
 }
 
-Widget _buildReactionsPreviewIcon(String path) {
+Widget _buildEmojiPreviewIcon(String path) {
   return Image.asset(path);
 }
 
-Image _buildIcon(String path) {
-  return Image.asset(
-    path,
-    height: 50,
-    width: 50,
-  );
+Widget _buildFlagIcon(String path) {
+  return Image.asset(path);
 }
 
-Container _buildReactionsIcon(String path, Text text) {
+Widget _buildReactionsIcon(String path, Text text) {
   return Container(
     color: Colors.transparent,
     child: Row(

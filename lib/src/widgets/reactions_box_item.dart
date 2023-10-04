@@ -96,7 +96,10 @@ class _ReactionsBoxItemState<T> extends State<ReactionsBoxItem<T>>
           children: [
             Transform.scale(
               scale: _animationController.value,
-              child: widget.reaction.previewIcon,
+              child: SizedBox.fromSize(
+                size: widget.size,
+                child: widget.reaction.previewIcon,
+              ),
             ),
             if (widget.reaction.title != null) ...{
               Positioned(

@@ -1,16 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-
-typedef OnReactionChanged<T> = void Function(T?);
+import 'package:flutter_reaction_button/src/extensions/global_key.dart';
+import 'package:flutter_reaction_button/src/widgets/reactions_box.dart';
 
 class ReactionButton<T> extends StatefulWidget {
-  /// This triggers when reaction button value changed.
-  final OnReactionChanged<T> onReactionChanged;
+  const ReactionButton({
+    super.key,
+    required this.onReactionChanged,
+    required this.reactions,
+    this.initialReaction,
+    this.selectedReaction,
+    this.boxOffset = Offset.zero,
+    this.boxPosition = VerticalPosition.top,
+    this.boxHorizontalPosition = HorizontalPosition.start,
+    this.boxColor = Colors.white,
+    this.boxElevation = 5,
+    this.boxRadius = 50,
+    this.boxDuration = const Duration(milliseconds: 200),
+    this.isChecked = false,
+    this.boxPadding = const EdgeInsets.all(4),
+    this.boxReactionSpacing = 8,
+    this.itemScale = .3,
+    this.itemScaleDuration = const Duration(milliseconds: 100),
+    required this.itemSize,
+    this.animateBox = true,
+    this.toggle = true,
+  });
 
-  /// Default reaction button widget
+  /// This triggers when reaction button value changed.
+  final ValueChanged<T?> onReactionChanged;
+
+  /// Default reaction button widget if [isChecked == false]
   final Reaction<T>? initialReaction;
 
-  final List<Reaction<T>> reactions;
+  /// Default reaction button widget if [isChecked == true]
+  final Reaction<T>? selectedReaction;
+
+  final List<Reaction<T>?> reactions;
 
   /// Offset to add to the placement of the box
   final Offset boxOffset;
@@ -33,10 +59,11 @@ class ReactionButton<T> extends StatefulWidget {
   /// Reactions box visibility duration [default = 200 milliseconds]
   final Duration boxDuration;
 
-  /// Change initial reaction after selected one [default = true]
-  final bool shouldChangeReaction;
+  /// Flag for pre-set reactions if true @link selectedReaction will be
+  /// displayed else @link initialReaction will be displayed [default = false]
+  final bool isChecked;
 
-  /// Reactions box padding [default = EdgeInsets.zero]
+  /// Reactions box padding [default = const EdgeInsets.all(0)]
   final EdgeInsetsGeometry boxPadding;
 
   /// Spacing between the reaction icons in the box
@@ -48,82 +75,95 @@ class ReactionButton<T> extends StatefulWidget {
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
   final Duration itemScaleDuration;
 
-  const ReactionButton({
-    Key? key,
-    required this.onReactionChanged,
-    required this.reactions,
-    this.initialReaction,
-    this.boxOffset = Offset.zero,
-    this.boxPosition = VerticalPosition.top,
-    this.boxHorizontalPosition = HorizontalPosition.start,
-    this.boxColor = Colors.white,
-    this.boxElevation = 5,
-    this.boxRadius = 50,
-    this.boxDuration = const Duration(milliseconds: 200),
-    this.shouldChangeReaction = true,
-    this.boxPadding = EdgeInsets.zero,
-    this.boxReactionSpacing = 0,
-    this.itemScale = .9,
-    this.itemScaleDuration = const Duration(milliseconds: 100),
-  }) : super(key: key);
+  final Size itemSize;
+
+  final bool animateBox;
+
+  final bool toggle;
 
   @override
   State<ReactionButton<T>> createState() => _ReactionButtonState<T>();
 }
 
 class _ReactionButtonState<T> extends State<ReactionButton<T>> {
-  final GlobalKey _buttonKey = GlobalKey();
+  final GlobalKey _globalKey = GlobalKey();
 
-  late Reaction? _selectedReaction = widget.initialReaction;
+  OverlayState? _overlayState;
+  OverlayEntry? _overlayEntry;
+
+  late Reaction<T>? _selectedReaction =
+      _isChecked ? widget.selectedReaction : widget.initialReaction;
+
+  late bool _isChecked = widget.isChecked;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        key: _buttonKey,
-        behavior: HitTestBehavior.translucent,
-        onTapDown: (details) => _showReactionsBox(details.globalPosition),
-        onLongPressStart: (details) =>
-            _showReactionsBox(details.globalPosition),
-        child: (_selectedReaction ?? widget.reactions.first).icon,
-      );
-
-  void _showReactionsBox(Offset buttonOffset) async {
-    // final buttonSize = _buttonKey.size;
-    // final reactionButton = await Navigator.of(context).push(
-    //   PageRouteBuilder(
-    //     opaque: false,
-    //     transitionDuration: const Duration(milliseconds: 200),
-    //     pageBuilder: (_, __, ___) {
-    //       return ReactionsBox(
-    //         buttonOffset: buttonOffset,
-    //         itemSize: buttonSize,
-    //         reactions: widget.reactions,
-    //         verticalPosition: widget.boxPosition,
-    //         horizontalPosition: widget.boxHorizontalPosition,
-    //         color: widget.boxColor,
-    //         elevation: widget.boxElevation,
-    //         radius: widget.boxRadius,
-    //         offset: widget.boxOffset,
-    //         duration: widget.boxDuration,
-    //         boxPadding: widget.boxPadding,
-    //         itemSpace: widget.boxReactionSpacing,
-    //         itemScale: widget.itemScale,
-    //         itemScaleDuration: widget.itemScaleDuration,
-    //         onReactionSelected: (reaction) {},
-    //         onClose: () {},
-    //       );
-    //     },
-    //   ),
-    // );
-
-    // if (reactionButton != null) _updateReaction(reactionButton);
+  void dispose() {
+    if (_overlayEntry?.mounted ?? false) {
+      _overlayEntry?.remove();
+      _overlayEntry?.dispose();
+      _overlayState?.dispose();
+    }
+    super.dispose();
   }
 
-  void _updateReaction(Reaction<T> reaction) {
-    widget.onReactionChanged.call(reaction.value);
-    if (mounted && widget.shouldChangeReaction) {
-      setState(() {
-        _selectedReaction = reaction;
-      });
-    }
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      key: _globalKey,
+      onTap: widget.toggle ? _onTap : _onLongPress,
+      onLongPress: widget.toggle ? _onLongPress : null,
+      child: (_selectedReaction ?? widget.reactions.first)!.icon,
+    );
+  }
+
+  void _onTap() {
+    _isChecked = !_isChecked;
+    _updateReaction(
+      _isChecked
+          ? widget.selectedReaction ?? widget.reactions.first
+          : widget.initialReaction,
+    );
+  }
+
+  void _onLongPress() {
+    _overlayState = Overlay.of(context);
+    _overlayEntry = OverlayEntry(
+      builder: (context) {
+        return ReactionsBox<T>(
+          buttonOffset: _globalKey.offset,
+          itemSize: widget.itemSize,
+          reactions: widget.reactions,
+          verticalPosition: widget.boxPosition,
+          horizontalPosition: widget.boxHorizontalPosition,
+          color: widget.boxColor,
+          elevation: widget.boxElevation,
+          radius: widget.boxRadius,
+          offset: widget.boxOffset,
+          boxDuration: widget.boxDuration,
+          boxPadding: widget.boxPadding,
+          itemSpace: widget.boxReactionSpacing,
+          itemScale: widget.itemScale,
+          itemScaleDuration: widget.itemScaleDuration,
+          animateBox: widget.animateBox,
+          onReactionSelected: (reaction) {
+            _updateReaction(reaction);
+            _overlayEntry?.remove();
+          },
+          onClose: () {
+            _overlayEntry?.remove();
+          },
+        );
+      },
+    );
+
+    _overlayState!.insert(_overlayEntry!);
+  }
+
+  void _updateReaction(Reaction<T>? reaction) {
+    _isChecked = reaction != widget.initialReaction;
+    widget.onReactionChanged.call(reaction?.value);
+    setState(() {
+      _selectedReaction = reaction;
+    });
   }
 }

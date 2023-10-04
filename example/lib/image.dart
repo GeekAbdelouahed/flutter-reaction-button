@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
-class ItemContainer extends StatefulWidget {
-  const ItemContainer({
+class ImageWidget extends StatefulWidget {
+  const ImageWidget({
     Key? key,
     required this.imgPath,
     required this.reactions,
@@ -12,19 +12,14 @@ class ItemContainer extends StatefulWidget {
   final List<Reaction<String>> reactions;
 
   @override
-  State<ItemContainer> createState() => _ItemContainerState();
+  State<ImageWidget> createState() => _ImageWidgetState();
 }
 
-class _ItemContainerState extends State<ItemContainer>
-    with AutomaticKeepAliveClientMixin {
+class _ImageWidgetState extends State<ImageWidget> {
   String? _selectedReaction;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
@@ -50,6 +45,7 @@ class _ItemContainerState extends State<ItemContainer>
                   });
                   debugPrint('Selected value: $value');
                 },
+                itemSize: const Size.square(40),
                 reactions: widget.reactions,
                 child: Image.asset(
                   widget.imgPath,
