@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reaction_button/src/utils/extensions.dart';
 
 import '../models/reaction.dart';
 import '../utils/reactions_position.dart';
@@ -84,6 +85,8 @@ class ReactionButtonToggle<T> extends StatefulWidget {
 }
 
 class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
+  final GlobalKey _globalKey = GlobalKey();
+
   OverlayState? _overlayState;
   OverlayEntry? _overlayEntry;
 
@@ -120,9 +123,10 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: _globalKey,
       behavior: HitTestBehavior.translucent,
       onTap: _onClickReactionButton,
-      onLongPressStart: (details) => _showReactionsBox(details.globalPosition),
+      onLongPress: _showReactionsBox,
       child: (_selectedReaction ?? widget.reactions[0])!.icon,
     );
   }
@@ -131,17 +135,17 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
     _isChecked = !_isChecked;
     _updateReaction(
       _isChecked
-          ? widget.selectedReaction ?? widget.reactions[0]
+          ? widget.selectedReaction ?? widget.reactions.first
           : widget.initialReaction,
     );
   }
 
-  void _showReactionsBox(Offset buttonOffset) async {
+  void _showReactionsBox() {
     _overlayState = Overlay.of(context);
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return ReactionsBox<T>(
-          buttonOffset: buttonOffset,
+          buttonOffset: _globalKey.offset,
           itemSize: widget.itemSize,
           reactions: widget.reactions,
           verticalPosition: widget.boxPosition,
@@ -157,6 +161,9 @@ class _ReactionButtonToggleState<T> extends State<ReactionButtonToggle<T>> {
           itemScaleDuration: widget.itemScaleDuration,
           onReactionSelected: (reaction) {
             _updateReaction(reaction);
+            _overlayEntry?.remove();
+          },
+          onClose: () {
             _overlayEntry?.remove();
           },
         );

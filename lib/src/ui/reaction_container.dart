@@ -91,6 +91,7 @@ class ReactionContainer<T> extends StatelessWidget {
             itemScale: itemScale,
             itemScaleDuration: itemScaleDuration,
             onReactionSelected: (reaction) {},
+            onClose: () {},
           );
         },
       ),

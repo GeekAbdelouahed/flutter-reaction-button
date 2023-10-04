@@ -30,7 +30,7 @@ class ReactionsBoxItem<T> extends StatefulWidget {
 
   final double space;
 
-  final FingerPositionNotifier fingerPositionNotifier;
+  final PositionNotifier fingerPositionNotifier;
 
   @override
   State<ReactionsBoxItem<T>> createState() => _ReactionsBoxItemState<T>();
@@ -47,16 +47,22 @@ class _ReactionsBoxItemState<T> extends State<ReactionsBoxItem<T>>
   );
 
   void _listener() {
-    final Rect rect = Rect.fromPoints(
-      Offset((widget.size.width + widget.space) * widget.index, 0),
-      Offset((widget.size.width + widget.space) * (widget.index + 1),
-          widget.size.height),
+    final Offset fingerOffset = widget.fingerPositionNotifier.value.offset;
+    final Offset topLeft =
+        Offset((widget.size.width + widget.space) * widget.index, 0);
+    final Offset bottomRight = Offset(
+      (widget.size.width + widget.space) * (widget.index + 1),
+      widget.size.height,
     );
-    final bool selected = widget.fingerPositionNotifier.value?.offset != null &&
-        rect.contains(widget.fingerPositionNotifier.value!.offset);
+    final Rect rect = Rect.fromPoints(topLeft, bottomRight);
+    final bool selected = rect.contains(fingerOffset);
 
     if (selected) {
-      widget.onReactionSelected(widget.reaction);
+      final bool isBoxHovered =
+          widget.fingerPositionNotifier.value.isBoxHovered;
+      if (!isBoxHovered) {
+        widget.onReactionSelected(widget.reaction);
+      }
       _animationController.forward();
     } else {
       _animationController.reverse();

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/reaction.dart';
-import '../utils/extensions.dart';
 import '../utils/reactions_position.dart';
-import 'reactions_box.dart';
 
 typedef OnReactionChanged<T> = void Function(T?);
 
@@ -107,34 +105,35 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
       );
 
   void _showReactionsBox(Offset buttonOffset) async {
-    final buttonSize = _buttonKey.size;
-    final reactionButton = await Navigator.of(context).push(
-      PageRouteBuilder(
-        opaque: false,
-        transitionDuration: const Duration(milliseconds: 200),
-        pageBuilder: (_, __, ___) {
-          return ReactionsBox(
-            buttonOffset: buttonOffset,
-            itemSize: buttonSize,
-            reactions: widget.reactions,
-            verticalPosition: widget.boxPosition,
-            horizontalPosition: widget.boxHorizontalPosition,
-            color: widget.boxColor,
-            elevation: widget.boxElevation,
-            radius: widget.boxRadius,
-            offset: widget.boxOffset,
-            duration: widget.boxDuration,
-            boxPadding: widget.boxPadding,
-            itemSpace: widget.boxReactionSpacing,
-            itemScale: widget.itemScale,
-            itemScaleDuration: widget.itemScaleDuration,
-            onReactionSelected: (reaction) {},
-          );
-        },
-      ),
-    );
+    // final buttonSize = _buttonKey.size;
+    // final reactionButton = await Navigator.of(context).push(
+    //   PageRouteBuilder(
+    //     opaque: false,
+    //     transitionDuration: const Duration(milliseconds: 200),
+    //     pageBuilder: (_, __, ___) {
+    //       return ReactionsBox(
+    //         buttonOffset: buttonOffset,
+    //         itemSize: buttonSize,
+    //         reactions: widget.reactions,
+    //         verticalPosition: widget.boxPosition,
+    //         horizontalPosition: widget.boxHorizontalPosition,
+    //         color: widget.boxColor,
+    //         elevation: widget.boxElevation,
+    //         radius: widget.boxRadius,
+    //         offset: widget.boxOffset,
+    //         duration: widget.boxDuration,
+    //         boxPadding: widget.boxPadding,
+    //         itemSpace: widget.boxReactionSpacing,
+    //         itemScale: widget.itemScale,
+    //         itemScaleDuration: widget.itemScaleDuration,
+    //         onReactionSelected: (reaction) {},
+    //         onClose: () {},
+    //       );
+    //     },
+    //   ),
+    // );
 
-    if (reactionButton != null) _updateReaction(reactionButton);
+    // if (reactionButton != null) _updateReaction(reactionButton);
   }
 
   void _updateReaction(Reaction<T> reaction) {
