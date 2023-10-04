@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/src/core/position_notifier.dart';
-
-import '../models/reaction.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:flutter_reaction_button/src/common/position_notifier.dart';
 
 class ReactionsBoxItem<T> extends StatefulWidget {
   const ReactionsBoxItem({

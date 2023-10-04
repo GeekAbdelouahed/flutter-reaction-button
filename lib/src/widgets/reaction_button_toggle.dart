@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reaction_button/src/utils/extensions.dart';
-
-import '../models/reaction.dart';
-import '../utils/reactions_position.dart';
-import 'reactions_box.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:flutter_reaction_button/src/extensions/global_key.dart';
+import 'package:flutter_reaction_button/src/widgets/reactions_box.dart';
 
 typedef OnReactionToggleChanged<T> = void Function(T?, bool);
 

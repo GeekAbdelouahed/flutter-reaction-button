@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/reaction.dart';
-import '../utils/reactions_position.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 typedef OnReactionChanged<T> = void Function(T?);
 
