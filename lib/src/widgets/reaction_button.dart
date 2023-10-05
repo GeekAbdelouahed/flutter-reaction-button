@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
-import 'package:flutter_reaction_button/src/extensions/global_key.dart';
+import 'package:flutter_reaction_button/src/enums/reaction.dart';
+import 'package:flutter_reaction_button/src/extensions/key.dart';
 import 'package:flutter_reaction_button/src/widgets/reactions_box.dart';
 
 class ReactionButton<T> extends StatefulWidget {
@@ -25,7 +26,8 @@ class ReactionButton<T> extends StatefulWidget {
     required this.itemSize,
     this.animateBox = true,
     this.toggle = true,
-  });
+    this.child,
+  }) : _type = child != null ? ReactionType.container : ReactionType.button;
 
   /// This triggers when reaction button value changed.
   final ValueChanged<T?> onReactionChanged;
@@ -81,6 +83,10 @@ class ReactionButton<T> extends StatefulWidget {
 
   final bool toggle;
 
+  final Widget? child;
+
+  final ReactionType _type;
+
   @override
   State<ReactionButton<T>> createState() => _ReactionButtonState<T>();
 }
@@ -96,6 +102,8 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   late bool _isChecked = widget.isChecked;
 
+  bool get _isContainer => widget._type == ReactionType.container;
+
   @override
   void dispose() {
     if (_overlayEntry?.mounted ?? false) {
@@ -110,13 +118,23 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   Widget build(BuildContext context) {
     return GestureDetector(
       key: _globalKey,
-      onTap: widget.toggle ? _onTap : _onLongPress,
-      onLongPress: widget.toggle ? _onLongPress : null,
-      child: (_selectedReaction ?? widget.reactions.first)!.icon,
+      onTap: _isContainer
+          ? null
+          : widget.toggle
+              ? _onCheck
+              : _onShowReactionsBox,
+      onLongPressStart: (details) => _isContainer
+          ? _onShowReactionsBox(details.globalPosition)
+          : widget.toggle
+              ? _onShowReactionsBox()
+              : null,
+      child: _isContainer
+          ? widget.child
+          : (_selectedReaction ?? widget.reactions.first)!.icon,
     );
   }
 
-  void _onTap() {
+  void _onCheck() {
     _isChecked = !_isChecked;
     _updateReaction(
       _isChecked
@@ -125,12 +143,12 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     );
   }
 
-  void _onLongPress() {
+  void _onShowReactionsBox([Offset? offset]) {
     _overlayState = Overlay.of(context);
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return ReactionsBox<T>(
-          buttonOffset: _globalKey.offset,
+          buttonOffset: offset ?? _globalKey.offset,
           itemSize: widget.itemSize,
           reactions: widget.reactions,
           verticalPosition: widget.boxPosition,

@@ -40,7 +40,7 @@ class _ImageWidgetState extends State<ImageWidget>
                   Radius.circular(5),
                 ),
               ),
-              child: ReactionContainer<String>(
+              child: ReactionButton<String>(
                 onReactionChanged: (String? value) {
                   setState(() {
                     _selectedReaction = value;
