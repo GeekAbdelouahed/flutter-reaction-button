@@ -49,7 +49,6 @@ class _ImageWidgetState extends State<ImageWidget> {
                 reactions: widget.reactions,
                 child: Image.asset(
                   widget.imgPath,
-                  height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),

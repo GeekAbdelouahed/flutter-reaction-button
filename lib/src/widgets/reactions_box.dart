@@ -83,12 +83,10 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
       widget.boxPadding.horizontal;
 
   bool get shouldStartFromEnd =>
-      MediaQuery.sizeOf(context).width - boxWidth - widget.buttonOffset.dx < 0;
+      MediaQuery.sizeOf(context).width - boxWidth < widget.buttonOffset.dx;
 
   bool get shouldStartFromBottom =>
-      MediaQuery.viewPaddingOf(context).top -
-          (boxHeight + widget.boxPadding.vertical) <
-      0;
+      widget.buttonOffset.dy < boxHeight + widget.boxPadding.vertical;
 
   bool _isOffsetOutsideBox(Offset offset) {
     final Rect boxRect = Rect.fromLTWH(0, 0, boxWidth, boxHeight);

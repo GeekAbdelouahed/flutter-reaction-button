@@ -29,45 +29,40 @@ class PostWidget extends StatelessWidget {
               aspectRatio: 2,
               child: Image.asset(
                 imgPath,
-                height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+            Container(
+              height: 55,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .2,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: ReactionButton<String>(
-                        key: ValueKey(imgPath),
-                        itemSize: const Size.square(40),
-                        onReactionChanged: (String? value) {
-                          debugPrint('Selected value: $value');
-                        },
-                        reactions: reactions,
-                        initialReaction: data.defaultInitialReaction,
-                        selectedReaction: reactions[1],
-                      ),
-                    ),
+                  ReactionButton<String>(
+                    key: ValueKey(imgPath),
+                    itemSize: const Size.square(40),
+                    onReactionChanged: (String? value) {
+                      debugPrint('Selected value: $value');
+                    },
+                    reactions: reactions,
+                    initialReaction: data.defaultInitialReaction,
+                    selectedReaction: reactions.first,
                   ),
                   Row(
                     children: [
                       Icon(
                         Icons.message,
-                        size: 20,
+                        size: 16,
                         color: Colors.grey[400],
                       ),
                       const SizedBox(width: 5),
                       Text(
                         'Comment',
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 12,
                           color: Colors.grey[600],
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -76,15 +71,16 @@ class PostWidget extends StatelessWidget {
                     children: <Widget>[
                       Icon(
                         Icons.share,
-                        size: 20,
+                        size: 16,
                         color: Colors.grey[400],
                       ),
                       const SizedBox(width: 5),
                       Text(
                         'Share',
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 14,
                           color: Colors.grey[600],
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],

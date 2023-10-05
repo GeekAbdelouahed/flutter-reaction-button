@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_reaction_button/src/enums/reaction.dart';
@@ -102,9 +104,22 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   late bool _isChecked = widget.isChecked;
 
+  Timer? _hoverTimer;
+
   bool get _isContainer => widget._type == ReactionType.container;
 
+  void _onHover(Offset offset) {
+    _hoverTimer?.cancel();
+    _hoverTimer = Timer(
+      const Duration(milliseconds: 400),
+      () {
+        _onShowReactionsBox(offset);
+      },
+    );
+  }
+
   void _onCheck() {
+    _hoverTimer?.cancel();
     _isChecked = !_isChecked;
     _updateReaction(
       _isChecked
@@ -114,6 +129,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   }
 
   void _onShowReactionsBox([Offset? offset]) {
+    _hoverTimer?.cancel();
     _overlayState = Overlay.of(context);
     _overlayEntry = OverlayEntry(
       builder: (context) {
@@ -162,20 +178,36 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
       _overlayEntry?.dispose();
       _overlayState?.dispose();
     }
+    _hoverTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      key: _globalKey,
-      onTap: widget.toggle ? _onCheck : _onShowReactionsBox,
-      onLongPressStart: (details) => widget.toggle
-          ? _onShowReactionsBox(_isContainer ? details.globalPosition : null)
-          : null,
-      child: _isContainer
-          ? widget.child
-          : (_selectedReaction ?? widget.reactions.first)!.icon,
+    return MouseRegion(
+      onHover: (details) {
+        if (!_isContainer) {
+          _onHover(details.position);
+        }
+      },
+      onExit: (details) {
+        _hoverTimer?.cancel();
+      },
+      child: GestureDetector(
+        key: _globalKey,
+        onTap: () {
+          widget.toggle ? _onCheck() : _onShowReactionsBox();
+        },
+        onLongPressStart: (details) {
+          widget.toggle
+              ? _onShowReactionsBox(
+                  _isContainer ? details.globalPosition : null)
+              : null;
+        },
+        child: _isContainer
+            ? widget.child
+            : (_selectedReaction ?? widget.reactions.first)!.icon,
+      ),
     );
   }
 }
