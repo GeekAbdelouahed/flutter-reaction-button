@@ -6,7 +6,18 @@ import 'package:flutter_reaction_button_test/post.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    const MyApp(),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Reaction Button',
       home: Scaffold(
@@ -45,60 +56,62 @@ void main() {
             const SizedBox(width: 10),
           ],
         ),
-        body: ListView(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(vertical: 5),
-          children: [
-            PostWidget(
-              title: 'image 1',
-              imgPath: 'assets/images/img1.jpg',
-              reactions: data.reactions,
-            ),
-            ImageWidget(
-              imgPath: 'assets/images/img1.jpg',
-              reactions: data.reactions,
-            ),
-            PostWidget(
-              title: 'image 2',
-              imgPath: 'assets/images/img2.jpg',
-              reactions: data.reactions,
-            ),
-            ImageWidget(
-              imgPath: 'assets/images/img2.jpg',
-              reactions: data.reactions,
-            ),
-            PostWidget(
-              title: 'image 3',
-              imgPath: 'assets/images/img3.jpg',
-              reactions: data.reactions,
-            ),
-            ImageWidget(
-              imgPath: 'assets/images/img3.jpg',
-              reactions: data.reactions,
-            ),
-            PostWidget(
-              title: 'image 4',
-              imgPath: 'assets/images/img4.jpg',
-              reactions: data.reactions,
-            ),
-            ImageWidget(
-              imgPath: 'assets/images/img4.jpg',
-              reactions: data.reactions,
-            ),
-            PostWidget(
-              title: 'image 5',
-              imgPath: 'assets/images/img5.jpg',
-              reactions: data.reactions,
-            ),
-            ImageWidget(
-              imgPath: 'assets/images/img5.jpg',
-              reactions: data.reactions,
-            ),
-            const SafeArea(
-              child: SizedBox(),
-            ),
-          ],
+          child: Column(
+            children: [
+              PostWidget(
+                title: 'image 1',
+                imgPath: 'assets/images/img1.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img1.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 2',
+                imgPath: 'assets/images/img2.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img2.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 3',
+                imgPath: 'assets/images/img3.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img3.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 4',
+                imgPath: 'assets/images/img4.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img4.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 5',
+                imgPath: 'assets/images/img5.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img5.jpg',
+                reactions: data.reactions,
+              ),
+              const SafeArea(
+                child: SizedBox(),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

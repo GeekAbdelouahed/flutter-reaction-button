@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_reaction_button_test/data.dart' as data;
 
-class PostWidget extends StatefulWidget {
+class PostWidget extends StatelessWidget {
   const PostWidget({
     Key? key,
     required this.title,
@@ -15,14 +15,7 @@ class PostWidget extends StatefulWidget {
   final List<Reaction<String>> reactions;
 
   @override
-  State<PostWidget> createState() => _PostWidgetState();
-}
-
-class _PostWidgetState extends State<PostWidget>
-    with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       elevation: 2,
@@ -35,7 +28,7 @@ class _PostWidgetState extends State<PostWidget>
             AspectRatio(
               aspectRatio: 2,
               child: Image.asset(
-                widget.imgPath,
+                imgPath,
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -51,13 +44,14 @@ class _PostWidgetState extends State<PostWidget>
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: ReactionButton<String>(
+                        key: ValueKey(imgPath),
                         itemSize: const Size.square(40),
                         onReactionChanged: (String? value) {
                           debugPrint('Selected value: $value');
                         },
-                        reactions: widget.reactions,
+                        reactions: reactions,
                         initialReaction: data.defaultInitialReaction,
-                        selectedReaction: widget.reactions[1],
+                        selectedReaction: reactions[1],
                       ),
                     ),
                   ),
@@ -103,7 +97,4 @@ class _PostWidgetState extends State<PostWidget>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

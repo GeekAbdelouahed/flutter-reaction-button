@@ -90,13 +90,9 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
           (boxHeight + widget.boxPadding.vertical) <
       0;
 
-  bool _isLastPositionOutsideBox(Offset localOffset) {
-    final Rect boxRect = Rect.fromPoints(
-      Offset.zero,
-      Offset(boxWidth, boxHeight),
-    );
-
-    final bool isReleasedOutsideBox = !boxRect.contains(localOffset);
+  bool _isOffsetOutsideBox(Offset offset) {
+    final Rect boxRect = Rect.fromLTWH(0, 0, boxWidth, boxHeight);
+    final bool isReleasedOutsideBox = !boxRect.contains(offset);
 
     if (isReleasedOutsideBox) {
       widget.onClose();
@@ -168,13 +164,13 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
                   _positionNotifier.value = _positionNotifier.value.copyWith(
                     isBoxHovered: false,
                   );
-                  _isLastPositionOutsideBox(point.localPosition);
+                  _isOffsetOutsideBox(point.localPosition);
                 },
                 onPointerCancel: (point) {
                   _positionNotifier.value = _positionNotifier.value.copyWith(
                     isBoxHovered: false,
                   );
-                  _isLastPositionOutsideBox(point.localPosition);
+                  _isOffsetOutsideBox(point.localPosition);
                 },
                 child: Transform.scale(
                   scale: isBoxHovered ? boxScale : 1,

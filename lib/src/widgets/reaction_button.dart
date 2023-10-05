@@ -104,36 +104,6 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   bool get _isContainer => widget._type == ReactionType.container;
 
-  @override
-  void dispose() {
-    if (_overlayEntry?.mounted ?? false) {
-      _overlayEntry?.remove();
-      _overlayEntry?.dispose();
-      _overlayState?.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      key: _globalKey,
-      onTap: _isContainer
-          ? null
-          : widget.toggle
-              ? _onCheck
-              : _onShowReactionsBox,
-      onLongPressStart: (details) => _isContainer
-          ? _onShowReactionsBox(details.globalPosition)
-          : widget.toggle
-              ? _onShowReactionsBox()
-              : null,
-      child: _isContainer
-          ? widget.child
-          : (_selectedReaction ?? widget.reactions.first)!.icon,
-    );
-  }
-
   void _onCheck() {
     _isChecked = !_isChecked;
     _updateReaction(
@@ -183,5 +153,29 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     setState(() {
       _selectedReaction = reaction;
     });
+  }
+
+  @override
+  void dispose() {
+    if (_overlayEntry != null) {
+      _overlayEntry?.remove();
+      _overlayEntry?.dispose();
+      _overlayState?.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      key: _globalKey,
+      onTap: widget.toggle ? _onCheck : _onShowReactionsBox,
+      onLongPressStart: (details) => widget.toggle
+          ? _onShowReactionsBox(_isContainer ? details.globalPosition : null)
+          : null,
+      child: _isContainer
+          ? widget.child
+          : (_selectedReaction ?? widget.reactions.first)!.icon,
+    );
   }
 }
