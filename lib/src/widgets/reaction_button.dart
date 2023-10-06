@@ -11,7 +11,7 @@ class ReactionButton<T> extends StatefulWidget {
     super.key,
     required this.onReactionChanged,
     required this.reactions,
-    this.initialReaction,
+    this.placeholder,
     this.selectedReaction,
     this.boxOffset = Offset.zero,
     this.boxPosition = VerticalPosition.top,
@@ -34,10 +34,10 @@ class ReactionButton<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
   final ValueChanged<T?> onReactionChanged;
 
-  /// Default reaction button widget if [isChecked == false]
-  final Reaction<T>? initialReaction;
+  /// Default widget when [isChecked == false]
+  final Reaction<T>? placeholder;
 
-  /// Default reaction button widget if [isChecked == true]
+  /// Default reaction button widget when [isChecked == true]
   final Reaction<T>? selectedReaction;
 
   final List<Reaction<T>?> reactions;
@@ -96,11 +96,10 @@ class ReactionButton<T> extends StatefulWidget {
 class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   final GlobalKey _globalKey = GlobalKey();
 
-  OverlayState? _overlayState;
   OverlayEntry? _overlayEntry;
 
   late Reaction<T>? _selectedReaction =
-      _isChecked ? widget.selectedReaction : widget.initialReaction;
+      _isChecked ? widget.selectedReaction : widget.placeholder;
 
   late bool _isChecked = widget.isChecked;
 
@@ -124,13 +123,12 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     _updateReaction(
       _isChecked
           ? widget.selectedReaction ?? widget.reactions.first
-          : widget.initialReaction,
+          : widget.placeholder,
     );
   }
 
   void _onShowReactionsBox([Offset? offset]) {
     _hoverTimer?.cancel();
-    _overlayState = Overlay.of(context);
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return ReactionsBox<T>(
@@ -151,34 +149,40 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
           animateBox: widget.animateBox,
           onReactionSelected: (reaction) {
             _updateReaction(reaction);
-            _overlayEntry?.remove();
+            _disposeOverlayEntry();
           },
           onClose: () {
-            _overlayEntry?.remove();
+            _disposeOverlayEntry();
           },
         );
       },
     );
 
-    _overlayState!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   void _updateReaction(Reaction<T>? reaction) {
-    _isChecked = reaction != widget.initialReaction;
+    _isChecked = reaction != widget.placeholder;
     widget.onReactionChanged.call(reaction?.value);
     setState(() {
       _selectedReaction = reaction;
     });
   }
 
+  void _disposeOverlayEntry() {
+    if (_overlayEntry == null) {
+      return;
+    }
+    _overlayEntry
+      ?..remove()
+      ..dispose();
+    _overlayEntry = null;
+  }
+
   @override
   void dispose() {
-    if (_overlayEntry != null) {
-      _overlayEntry?.remove();
-      _overlayEntry?.dispose();
-      _overlayState?.dispose();
-    }
     _hoverTimer?.cancel();
+    _disposeOverlayEntry();
     super.dispose();
   }
 

@@ -54,9 +54,9 @@ final List<Reaction<String>> flagsReactions = [
   ),
 ];
 
-final defaultInitialReaction = Reaction<String>(
+const defaultInitialReaction = Reaction<String>(
   value: null,
-  icon: const Text(
+  icon: Text(
     'No reaction',
   ),
 );

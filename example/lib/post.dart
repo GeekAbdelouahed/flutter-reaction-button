@@ -40,13 +40,12 @@ class PostWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ReactionButton<String>(
-                    key: ValueKey(imgPath),
                     itemSize: const Size.square(40),
                     onReactionChanged: (String? value) {
                       debugPrint('Selected value: $value');
                     },
                     reactions: reactions,
-                    initialReaction: data.defaultInitialReaction,
+                    placeholder: data.defaultInitialReaction,
                     selectedReaction: reactions.first,
                   ),
                   Row(

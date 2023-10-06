@@ -5,7 +5,7 @@ ReactionButtonToggle:
 ```dart
 ReactionButtonToggle<String>(
     onReactionChanged: (String? value, bool isChecked) {
-        print('Selected value: $value, isChecked: $isChecked');
+        debugPrint('Selected value: $value, isChecked: $isChecked');
     },
     reactions: <Reaction<String>>[
         Reaction<String>(
@@ -37,7 +37,7 @@ ReactionButton:
 ```dart
 ReactionButton<String(
     onReactionChanged: (String? value) {
-        print('Selected value: $value');
+        debugPrint('Selected value: $value');
     },
     reactions: <Reaction<String>>[
         Reaction<String>(

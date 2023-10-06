@@ -4,7 +4,7 @@ import 'package:flutter_reaction_button/src/common/position_notifier.dart';
 
 class ReactionsBoxItem<T> extends StatefulWidget {
   const ReactionsBoxItem({
-    Key? key,
+    super.key,
     required this.reaction,
     required this.onReactionSelected,
     required this.scale,
@@ -13,7 +13,7 @@ class ReactionsBoxItem<T> extends StatefulWidget {
     required this.space,
     required this.scaleDuration,
     required this.fingerPositionNotifier,
-  }) : super(key: key);
+  });
 
   final ValueChanged<Reaction<T>?> onReactionSelected;
 

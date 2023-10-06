@@ -66,14 +66,14 @@ class ReactionsBox<T> extends StatefulWidget {
 
 class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
     with SingleTickerProviderStateMixin {
+  final PositionNotifier _positionNotifier = PositionNotifier();
+
   late final AnimationController _boxAnimationController = AnimationController(
     vsync: this,
     duration: widget.animateBox ? widget.boxDuration : Duration.zero,
   );
 
   late final Animation _animation;
-
-  final PositionNotifier _positionNotifier = PositionNotifier();
 
   double get boxHeight => widget.itemSize.height + widget.boxPadding.vertical;
 
@@ -132,6 +132,7 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
                   widget.onClose();
                 },
                 child: Container(
+                  key: const ValueKey('outside'),
                   color: Colors.transparent,
                 ),
               ),

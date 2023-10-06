@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Reaction<T> {
+  const Reaction({
+    required this.value,
+    required this.icon,
+    Widget? previewIcon,
+    this.title,
+  }) : previewIcon = previewIcon ?? icon;
+
   /// Widget showing as button after selecting preview Icon from box appear.
   final Widget icon;
 
@@ -15,13 +22,6 @@ class Reaction<T> {
   final Widget? title;
 
   final T? value;
-
-  Reaction({
-    required this.icon,
-    required this.value,
-    Widget? previewIcon,
-    this.title,
-  }) : previewIcon = previewIcon ?? icon;
 
   @override
   bool operator ==(Object? other) {

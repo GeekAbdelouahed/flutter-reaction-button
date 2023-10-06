@@ -39,9 +39,9 @@ class MyApp extends StatelessWidget {
                       );
                     },
                     reactions: data.flagsReactions,
-                    initialReaction: Reaction<String>(
+                    placeholder: const Reaction<String>(
                       value: null,
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.language,
                       ),
                     ),
