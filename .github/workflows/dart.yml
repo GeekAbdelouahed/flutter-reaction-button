@@ -21,11 +21,5 @@ jobs:
       - name: Analyze project source
         run: dart analyze
 
-      # - name: Run tests
-      #   run: flutter test
-
-      - name: Analyze package
-        run: dart pub publish --dry-run
-      
-      - name: Publishing package
-        run: dart pub publish
+      - name: Run tests
+        run: flutter test
