@@ -2,7 +2,7 @@ name: Flutter reaction button pipeline
 
 on:
   push:
-    branches: [ "master" , "feature/overlay"]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
