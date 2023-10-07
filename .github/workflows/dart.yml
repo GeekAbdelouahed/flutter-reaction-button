@@ -18,5 +18,8 @@ jobs:
       - name: Analyze project source
         run: dart analyze
 
+      - name: Format code
+        run: dart format --fix .
+
       - name: Run tests
         run: flutter test
