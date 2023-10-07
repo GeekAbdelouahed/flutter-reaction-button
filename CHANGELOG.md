@@ -1,3 +1,7 @@
+## 2.0.2
+
+* Pipeline setup
+
 ## 2.0.1+1
 
 * Minor bugs fixed. Thanks to [Kyle Venn](https://github.com/kvenn)
