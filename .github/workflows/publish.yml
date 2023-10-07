@@ -9,13 +9,6 @@ jobs:
   publish:
     permissions:
       id-token: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Publish
-        run: dart pub publish --force
+    uses: subosito/flutter-action@v2
+    with:
+      environment: pub.dev
