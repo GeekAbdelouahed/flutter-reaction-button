@@ -9,6 +9,6 @@ jobs:
   publish:
     permissions:
       id-token: write
-    uses: subosito/flutter-action@v2
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
     with:
       environment: pub.dev
