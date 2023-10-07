@@ -1,7 +1,6 @@
 name: Test pipeline
 
-on:
-  push:
+on: [push]
 
 jobs:
   build:
