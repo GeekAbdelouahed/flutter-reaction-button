@@ -6,16 +6,32 @@ on:
     - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  publish:
-    permissions:
-      id-token: write
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-
+      - uses: actions/checkout@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          flutter-version: '3.3.3'
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Format code
+        run: dart format --fix .
+
+      - name: Check Publish Warnings
+        run: dart pub publish --dry-run
         
       - name: Publish
-        run: dart pub publish --force
+        uses: k-paxian/dart-package-publisher@v1.5.1
+        with:
+          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+          flutter: true
+          skipTests: true
