@@ -1,5 +1,10 @@
 ## 2.0.1+1
 
+* Setup pipeline
+* README updates
+
+## 2.0.1+1
+
 * Minor bugs fixed. Thanks to [Kyle Venn](https://github.com/kvenn)
 
 ## 2.0.1
