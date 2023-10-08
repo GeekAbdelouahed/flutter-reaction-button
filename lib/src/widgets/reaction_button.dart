@@ -19,15 +19,15 @@ class ReactionButton<T> extends StatefulWidget {
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
-    this.boxDuration = const Duration(milliseconds: 200),
     this.isChecked = false,
-    this.boxPadding = const EdgeInsets.all(4),
     this.boxReactionSpacing = 8,
     this.itemScale = .3,
-    this.itemScaleDuration = const Duration(milliseconds: 100),
     required this.itemSize,
     this.animateBox = true,
     this.toggle = true,
+    this.boxPadding = const EdgeInsets.all(4),
+    this.boxAnimationDuration = const Duration(milliseconds: 200),
+    this.itemAnimationDuration = const Duration(milliseconds: 100),
     this.child,
   }) : _type = child != null ? ReactionType.container : ReactionType.button;
 
@@ -61,7 +61,7 @@ class ReactionButton<T> extends StatefulWidget {
   final double boxRadius;
 
   /// Reactions box visibility duration [default = 200 milliseconds]
-  final Duration boxDuration;
+  final Duration boxAnimationDuration;
 
   /// Flag for pre-set reactions if true @link selectedReaction will be
   /// displayed else @link initialReaction will be displayed [default = false]
@@ -77,7 +77,7 @@ class ReactionButton<T> extends StatefulWidget {
   final double itemScale;
 
   /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
-  final Duration itemScaleDuration;
+  final Duration itemAnimationDuration;
 
   final Size itemSize;
 
@@ -141,11 +141,11 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
           offset: widget.boxOffset,
-          boxDuration: widget.boxDuration,
+          boxDuration: widget.boxAnimationDuration,
           boxPadding: widget.boxPadding,
           itemSpace: widget.boxReactionSpacing,
           itemScale: widget.itemScale,
-          itemScaleDuration: widget.itemScaleDuration,
+          itemScaleDuration: widget.itemAnimationDuration,
           animateBox: widget.animateBox,
           onReactionSelected: (reaction) {
             _updateReaction(reaction);
@@ -170,9 +170,6 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   }
 
   void _disposeOverlayEntry() {
-    if (_overlayEntry == null) {
-      return;
-    }
     _overlayEntry
       ?..remove()
       ..dispose();

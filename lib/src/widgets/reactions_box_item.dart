@@ -11,25 +11,25 @@ class ReactionsBoxItem<T> extends StatefulWidget {
     required this.index,
     required this.size,
     required this.space,
-    required this.scaleDuration,
+    required this.animationDuration,
     required this.fingerPositionNotifier,
   });
 
+  final Reaction<T> reaction;
+
   final ValueChanged<Reaction<T>?> onReactionSelected;
 
-  final Reaction<T> reaction;
+  final Duration animationDuration;
+
+  final PositionNotifier fingerPositionNotifier;
 
   final double scale;
 
   final int index;
 
-  final Duration scaleDuration;
-
   final Size size;
 
   final double space;
-
-  final PositionNotifier fingerPositionNotifier;
 
   @override
   State<ReactionsBoxItem<T>> createState() => _ReactionsBoxItemState<T>();
@@ -39,10 +39,9 @@ class _ReactionsBoxItemState<T> extends State<ReactionsBoxItem<T>>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    lowerBound: 1,
-    upperBound: 1 + widget.scale,
-    duration: const Duration(milliseconds: 200),
-    reverseDuration: const Duration(milliseconds: 200),
+    upperBound: widget.scale,
+    duration: widget.animationDuration,
+    reverseDuration: widget.animationDuration,
   );
 
   void _listener() {
@@ -95,7 +94,7 @@ class _ReactionsBoxItemState<T> extends State<ReactionsBoxItem<T>>
           alignment: Alignment.center,
           children: [
             Transform.scale(
-              scale: _animationController.value,
+              scale: 1 + _animationController.value,
               child: SizedBox.fromSize(
                 size: widget.size,
                 child: widget.reaction.previewIcon,
@@ -103,10 +102,11 @@ class _ReactionsBoxItemState<T> extends State<ReactionsBoxItem<T>>
             ),
             if (widget.reaction.title != null) ...{
               Positioned(
-                top: -(widget.size.height * _animationController.value) / 2,
+                bottom:
+                    widget.size.height * (1 + (_animationController.value / 2)),
                 child: AnimatedOpacity(
                   opacity: showTitle ? 1 : 0,
-                  duration: widget.scaleDuration,
+                  duration: widget.animationDuration,
                   child: widget.reaction.title!,
                 ),
               )

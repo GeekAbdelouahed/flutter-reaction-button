@@ -192,7 +192,7 @@ Widget _buildFlagPreviewIcon(String path, String text) {
 
 Widget _buildEmojiTitle(String title) {
   return Container(
-    margin: const EdgeInsets.only(bottom: 30),
+    margin: const EdgeInsets.only(bottom: 8),
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     decoration: BoxDecoration(
       color: Colors.black.withOpacity(.75),

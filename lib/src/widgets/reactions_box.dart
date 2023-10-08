@@ -202,7 +202,7 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
                                 size: widget.itemSize,
                                 scale: widget.itemScale,
                                 space: widget.itemSpace,
-                                scaleDuration: widget.itemScaleDuration,
+                                animationDuration: widget.itemScaleDuration,
                                 reaction: widget.reactions[index]!,
                                 fingerPositionNotifier: _positionNotifier,
                                 onReactionSelected: (reaction) {
