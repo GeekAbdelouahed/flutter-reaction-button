@@ -14,13 +14,11 @@ class ReactionButton<T> extends StatefulWidget {
     this.placeholder,
     this.selectedReaction,
     this.boxOffset = Offset.zero,
-    this.boxPosition = VerticalPosition.top,
-    this.boxHorizontalPosition = HorizontalPosition.start,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.isChecked = false,
-    this.boxReactionSpacing = 8,
+    this.itemSpacing = 8,
     this.itemScale = .3,
     required this.itemSize,
     this.animateBox = true,
@@ -45,12 +43,6 @@ class ReactionButton<T> extends StatefulWidget {
   /// Offset to add to the placement of the box
   final Offset boxOffset;
 
-  /// Vertical position of the reactions box relative to the button [default = VerticalPosition.TOP]
-  final VerticalPosition boxPosition;
-
-  /// Horizontal position of the reactions box relative to the button [default = HorizontalPosition.START]
-  final HorizontalPosition boxHorizontalPosition;
-
   /// Reactions box color [default = white]
   final Color boxColor;
 
@@ -71,7 +63,7 @@ class ReactionButton<T> extends StatefulWidget {
   final EdgeInsetsGeometry boxPadding;
 
   /// Spacing between the reaction icons in the box
-  final double boxReactionSpacing;
+  final double itemSpacing;
 
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
@@ -135,15 +127,13 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
           buttonOffset: offset ?? _globalKey.offset,
           itemSize: widget.itemSize,
           reactions: widget.reactions,
-          verticalPosition: widget.boxPosition,
-          horizontalPosition: widget.boxHorizontalPosition,
           color: widget.boxColor,
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
           offset: widget.boxOffset,
           boxDuration: widget.boxAnimationDuration,
           boxPadding: widget.boxPadding,
-          itemSpace: widget.boxReactionSpacing,
+          itemSpace: widget.itemSpacing,
           itemScale: widget.itemScale,
           itemScaleDuration: widget.itemAnimationDuration,
           animateBox: widget.animateBox,

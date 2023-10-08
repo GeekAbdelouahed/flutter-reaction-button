@@ -10,8 +10,6 @@ class ReactionsBox<T> extends StatefulWidget {
     required this.buttonOffset,
     required this.itemSize,
     required this.reactions,
-    required this.verticalPosition,
-    required this.horizontalPosition,
     required this.color,
     required this.elevation,
     required this.radius,
@@ -31,10 +29,6 @@ class ReactionsBox<T> extends StatefulWidget {
   final Size itemSize;
 
   final List<Reaction<T>?> reactions;
-
-  final VerticalPosition verticalPosition;
-
-  final HorizontalPosition horizontalPosition;
 
   final Color color;
 
