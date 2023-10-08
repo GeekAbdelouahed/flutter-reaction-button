@@ -16,7 +16,7 @@ class ImageWidget extends StatefulWidget {
 }
 
 class _ImageWidgetState extends State<ImageWidget> {
-  String? _selectedReaction;
+  Reaction<String>? _selectedReaction;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                 ),
               ),
               child: ReactionButton<String>(
-                onReactionChanged: (String? value) {
+                onReactionChanged: (Reaction<String>? value) {
                   setState(() {
                     _selectedReaction = value;
                   });

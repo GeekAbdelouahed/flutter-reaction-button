@@ -1,21 +1,19 @@
 # flutter_reaction_button_example
 
-ReactionButtonToggle:
+ReactionButton:
 
 ```dart
-ReactionButtonToggle<String>(
-    onReactionChanged: (String? value, bool isChecked) {
-        debugPrint('Selected value: $value, isChecked: $isChecked');
+ReactionButton<String>(
+    onReactionChanged: (Reaction<String>? reaction) {
+        debugPrint('Selected value: ${reaction?.value}');
     },
     reactions: <Reaction<String>>[
         Reaction<String>(
             value: 'like',
-            previewIcon: widget,
             icon: widget,
         ),
         Reaction<String>(
             value: 'love',
-            previewIcon: widget,
             icon: widget,
         ),
         ...
@@ -35,28 +33,25 @@ ReactionButtonToggle<String>(
 ReactionButton:
 
 ```dart
-ReactionButton<String(
-    onReactionChanged: (String? value) {
-        debugPrint('Selected value: $value');
+ReactionButton<String>(
+    toggle: false,
+    onReactionChanged: (Reaction<String>? reaction) {
+        debugPrint('Selected language: ${reaction?.value}');
     },
     reactions: <Reaction<String>>[
         Reaction<String>(
             value: 'en',
-            previewIcon: widget,
             icon: widget,
         ),
         Reaction<String>(
             value: 'ar',
-            previewIcon: widget,
             icon: widget,
         ),
         ...
     ],
     initialReaction: Reaction<String>(
         value: null,
-        icon: Icon(
-            Icons.language,
-        ),
+        icon: Icon(Icons.language),
     ),
 )
 ```

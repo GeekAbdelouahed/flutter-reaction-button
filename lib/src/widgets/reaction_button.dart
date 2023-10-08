@@ -26,11 +26,12 @@ class ReactionButton<T> extends StatefulWidget {
     this.boxPadding = const EdgeInsets.all(4),
     this.boxAnimationDuration = const Duration(milliseconds: 200),
     this.itemAnimationDuration = const Duration(milliseconds: 100),
+    this.hoverDuration = const Duration(milliseconds: 400),
     this.child,
   }) : _type = child != null ? ReactionType.container : ReactionType.button;
 
   /// This triggers when reaction button value changed.
-  final ValueChanged<T?> onReactionChanged;
+  final ValueChanged<Reaction<T>?> onReactionChanged;
 
   /// Default widget when [isChecked == false]
   final Reaction<T>? placeholder;
@@ -79,6 +80,8 @@ class ReactionButton<T> extends StatefulWidget {
 
   final Widget? child;
 
+  final Duration hoverDuration;
+
   final ReactionType _type;
 
   @override
@@ -99,10 +102,18 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   bool get _isContainer => widget._type == ReactionType.container;
 
+  void _updateReaction(Reaction<T>? reaction) {
+    _isChecked = reaction != widget.placeholder;
+    widget.onReactionChanged.call(reaction);
+    setState(() {
+      _selectedReaction = reaction;
+    });
+  }
+
   void _onHover(Offset offset) {
     _hoverTimer?.cancel();
     _hoverTimer = Timer(
-      const Duration(milliseconds: 400),
+      widget.hoverDuration,
       () {
         _onShowReactionsBox(offset);
       },
@@ -149,14 +160,6 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     );
 
     Overlay.of(context).insert(_overlayEntry!);
-  }
-
-  void _updateReaction(Reaction<T>? reaction) {
-    _isChecked = reaction != widget.placeholder;
-    widget.onReactionChanged.call(reaction?.value);
-    setState(() {
-      _selectedReaction = reaction;
-    });
   }
 
   void _disposeOverlayEntry() {

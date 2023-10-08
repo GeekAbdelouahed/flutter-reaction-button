@@ -27,25 +27,6 @@ Next, import 'flutter_reaction_button.dart' into your dart code.
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 ```
 
-## Parameters
-| parameter                  | description                                                                           | default                                                                                                                                                                               |
-| -------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| OnReactionChanged          | triggered when reaction button value change                                           ||
-| reactions                  | reactions appear in reactions box when long pressed on ReactionnButtonToggle or click on ReactionButton ||
-| initialReaction            | Default reaction button widget                                                        | first item in reactions list |
-| boxPosition                | Vertical position of reactions box relative to the button                             | VerticalPosition.TOP |
-| boxHorizontalPosition      | Horizontal position of reactions box relative to the button                           | HorizontalPosition.START |
-| boxOffset                  | Offset to reposition the box from the computed place                                  | Offset.zero |
-| boxColor                   | Reactions box color                                                                   | Colors.white |
-| boxElevation               | Reactions box elevation                                                               | 5 |
-| boxRadius                  | Reactions box radius                                                                  | 50 |
-| boxPadding                 | Reactions box padding                                                                 | const EdgeInsets.all(0) |
-| boxDuration                | Reactions box show/hide duration                                                      | 200 milliseconds |
-| shouldChangeReaction       | Should change initial reaction after selected one or not                               | true |
-| itemScale                  | Scale ratio when item hovered                                                         | 0.3 |
-| itemScaleDuration          | Scale duration while dragging                                                         | const Duration(milliseconds: 100) |
-
-
 ## LICENSE
 
 ```legal

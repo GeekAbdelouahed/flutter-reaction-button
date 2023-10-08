@@ -41,8 +41,8 @@ class PostWidget extends StatelessWidget {
                 children: [
                   ReactionButton<String>(
                     itemSize: const Size.square(40),
-                    onReactionChanged: (String? value) {
-                      debugPrint('Selected value: $value');
+                    onReactionChanged: (Reaction<String>? reaction) {
+                      debugPrint('Selected value: ${reaction?.value}');
                     },
                     reactions: reactions,
                     placeholder: data.defaultInitialReaction,

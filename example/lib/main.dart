@@ -31,10 +31,11 @@ class MyApp extends StatelessWidget {
                   dimension: 30,
                   child: ReactionButton<String>(
                     toggle: false,
-                    onReactionChanged: (String? value) {
+                    onReactionChanged: (Reaction<String>? reaction) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Selected language: $value'),
+                          content:
+                              Text('Selected language: ${reaction?.value}'),
                         ),
                       );
                     },
