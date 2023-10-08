@@ -13,12 +13,11 @@ class ReactionButton<T> extends StatefulWidget {
     required this.reactions,
     this.placeholder,
     this.selectedReaction,
-    this.boxOffset = Offset.zero,
     this.boxColor = Colors.white,
     this.boxElevation = 5,
     this.boxRadius = 50,
     this.isChecked = false,
-    this.itemSpacing = 8,
+    this.itemsSpacing = 8,
     this.itemScale = .3,
     required this.itemSize,
     this.animateBox = true,
@@ -33,16 +32,13 @@ class ReactionButton<T> extends StatefulWidget {
   /// This triggers when reaction button value changed.
   final ValueChanged<Reaction<T>?> onReactionChanged;
 
-  /// Default widget when [isChecked == false]
+  /// Default widget if no reaction selected
   final Reaction<T>? placeholder;
 
-  /// Default reaction button widget when [isChecked == true]
+  /// Selected reaction button when tap on widget
   final Reaction<T>? selectedReaction;
 
   final List<Reaction<T>?> reactions;
-
-  /// Offset to add to the placement of the box
-  final Offset boxOffset;
 
   /// Reactions box color [default = white]
   final Color boxColor;
@@ -63,13 +59,13 @@ class ReactionButton<T> extends StatefulWidget {
   /// Reactions box padding [default = const EdgeInsets.all(0)]
   final EdgeInsetsGeometry boxPadding;
 
-  /// Spacing between the reaction icons in the box
-  final double itemSpacing;
+  /// Spacing between the reaction items
+  final double itemsSpacing;
 
   /// Scale ratio when item hovered [default = 0.3]
   final double itemScale;
 
-  /// Scale duration while dragging [default = const Duration(milliseconds: 100)]
+  /// Animation duration while moving [default = const Duration(milliseconds: 100)]
   final Duration itemAnimationDuration;
 
   final Size itemSize;
@@ -135,16 +131,15 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return ReactionsBox<T>(
-          buttonOffset: offset ?? _globalKey.offset,
+          offset: offset ?? _globalKey.offset,
           itemSize: widget.itemSize,
           reactions: widget.reactions,
           color: widget.boxColor,
           elevation: widget.boxElevation,
           radius: widget.boxRadius,
-          offset: widget.boxOffset,
           boxDuration: widget.boxAnimationDuration,
           boxPadding: widget.boxPadding,
-          itemSpace: widget.itemSpacing,
+          itemSpace: widget.itemsSpacing,
           itemScale: widget.itemScale,
           itemScaleDuration: widget.itemAnimationDuration,
           animateBox: widget.animateBox,

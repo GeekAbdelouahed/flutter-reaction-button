@@ -7,13 +7,12 @@ import 'package:flutter_reaction_button/src/widgets/reactions_box_item.dart';
 class ReactionsBox<T> extends StatefulWidget {
   const ReactionsBox({
     super.key,
-    required this.buttonOffset,
+    required this.offset,
     required this.itemSize,
     required this.reactions,
     required this.color,
     required this.elevation,
     required this.radius,
-    required this.offset,
     required this.boxDuration,
     required this.boxPadding,
     required this.itemSpace,
@@ -24,7 +23,7 @@ class ReactionsBox<T> extends StatefulWidget {
     required this.animateBox,
   }) : assert(itemScale > 0.0 && itemScale < 1);
 
-  final Offset buttonOffset;
+  final Offset offset;
 
   final Size itemSize;
 
@@ -35,8 +34,6 @@ class ReactionsBox<T> extends StatefulWidget {
   final double elevation;
 
   final double radius;
-
-  final Offset offset;
 
   final Duration boxDuration;
 
@@ -77,10 +74,10 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
       widget.boxPadding.horizontal;
 
   bool get shouldStartFromEnd =>
-      MediaQuery.sizeOf(context).width - boxWidth < widget.buttonOffset.dx;
+      MediaQuery.sizeOf(context).width - boxWidth < widget.offset.dx;
 
   bool get shouldStartFromBottom =>
-      widget.buttonOffset.dy < boxHeight + widget.boxPadding.vertical;
+      widget.offset.dy < boxHeight + widget.boxPadding.vertical;
 
   bool _isOffsetOutsideBox(Offset offset) {
     final Rect boxRect = Rect.fromLTWH(0, 0, boxWidth, boxHeight);
@@ -133,11 +130,11 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
             ),
             PositionedDirectional(
               start: shouldStartFromEnd
-                  ? widget.buttonOffset.dx - boxWidth
-                  : widget.buttonOffset.dx,
+                  ? widget.offset.dx - boxWidth
+                  : widget.offset.dx,
               top: shouldStartFromBottom
-                  ? widget.buttonOffset.dy + widget.itemSize.height
-                  : widget.buttonOffset.dy -
+                  ? widget.offset.dy + widget.itemSize.height
+                  : widget.offset.dy -
                       widget.itemSize.height -
                       widget.boxPadding.vertical,
               child: Listener(

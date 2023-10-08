@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                     ),
                     boxColor: Colors.black.withOpacity(0.5),
                     boxRadius: 10,
-                    itemSpacing: 20,
+                    itemsSpacing: 20,
                     itemSize: const Size(40, 60),
                   ),
                 );
