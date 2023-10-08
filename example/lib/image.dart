@@ -39,11 +39,11 @@ class _ImageWidgetState extends State<ImageWidget> {
                 ),
               ),
               child: ReactionButton<String>(
-                onReactionChanged: (Reaction<String>? value) {
+                onReactionChanged: (Reaction<String>? reaction) {
                   setState(() {
-                    _selectedReaction = value;
+                    _selectedReaction = reaction;
                   });
-                  debugPrint('Selected value: $value');
+                  debugPrint('Selected value: ${reaction?.value}');
                 },
                 itemSize: const Size.square(40),
                 reactions: widget.reactions,
@@ -72,10 +72,8 @@ class _ImageWidgetState extends State<ImageWidget> {
                   ],
                 ),
                 child: _selectedReaction != null
-                    ? widget.reactions
-                        .firstWhere((value) => value.value == _selectedReaction)
-                        .previewIcon
-                    : const SizedBox(),
+                    ? _selectedReaction!.previewIcon
+                    : null,
               ),
             ),
           ],
