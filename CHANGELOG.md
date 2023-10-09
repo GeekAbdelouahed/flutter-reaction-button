@@ -1,10 +1,10 @@
 ## 3.O.0
 
 - **BREAKING CHANGE**:
-    - Remove `FlutterReactionButton` and `FlutterReactionButtonToggle`
-    - Required `itemSize` in `ReactionButton``
-    - Update `onReactionChanged` callback
-    - Remove `VerticalPosition` and `HorizontalPosition`
+    - `FlutterReactionButton` and `FlutterReactionButtonToggle` removed
+    - `itemSize` is required in `ReactionButton`
+    - `onReactionChanged` callback updated
+    - `VerticalPosition` and `HorizontalPosition` removed
 - Adds `child` to `ReactionButton`
 - Animated `ReactionsBox`
 
