@@ -173,30 +173,21 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onHover: (details) {
-        if (!_isContainer) {
-          _onHover(details.position);
-        }
+    final Widget? child = _isContainer
+        ? widget.child
+        : (_selectedReaction ?? widget.reactions.first)!.icon;
+
+    return GestureDetector(
+      key: _globalKey,
+      onTap: () {
+        widget.toggle ? _onCheck() : _onShowReactionsBox();
       },
-      onExit: (details) {
-        _hoverTimer?.cancel();
+      onLongPressStart: (details) {
+        widget.toggle
+            ? _onShowReactionsBox(_isContainer ? details.globalPosition : null)
+            : null;
       },
-      child: GestureDetector(
-        key: _globalKey,
-        onTap: () {
-          widget.toggle ? _onCheck() : _onShowReactionsBox();
-        },
-        onLongPressStart: (details) {
-          widget.toggle
-              ? _onShowReactionsBox(
-                  _isContainer ? details.globalPosition : null)
-              : null;
-        },
-        child: _isContainer
-            ? widget.child
-            : (_selectedReaction ?? widget.reactions.first)!.icon,
-      ),
+      child: child,
     );
   }
 }
