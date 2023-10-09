@@ -1,3 +1,13 @@
+## 3.O.0
+
+- **BREAKING CHANGE**:
+    - Remove `FlutterReactionButton` and `FlutterReactionButtonToggle`
+    - Required `itemSize` in `ReactionButton``
+    - Update `onReactionChanged` callback
+    - Remove `VerticalPosition` and `HorizontalPosition`
+- Adds `child` to `ReactionButton`
+- Animated `ReactionsBox`
+
 ## 2.0.2
 
 * Pipeline setup
@@ -8,7 +18,7 @@
 
 ## 2.0.1
 
-* Add ReactionContainer
+* Adds ReactionContainer
 * Bugs fix and code improvements, Thanks to [Felix Gabler](https://github.com/felixgabler)
 
 ## 2.0.0+3
@@ -88,7 +98,7 @@
 
 ## 1.0.0
 
-* Add ripple effect.
+* Adds ripple effect.
 
 ## 0.1.3
 
@@ -96,7 +106,7 @@
 
 ## 0.1.2+1
 
-* Add Example.
+* Adds Example.
 
 ## 0.1.2
 
