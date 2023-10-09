@@ -1,5 +1,5 @@
 name: flutter_reaction_button
-description: Flutter button reaction it is fully customizable widget such as Facebook reaction button
+description: Flutter Reactions Button is a customizable Flutter package that allows you to easily create interactive buttons with reaction emojis, similar to Facebook's iconic reaction buttons.
 homepage: https://github.com/GeekAbdelouahed/flutter-reaction-button
 repository: https://github.com/GeekAbdelouahed/flutter-reaction-button.git
 version: 3.0.0
