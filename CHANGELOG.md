@@ -1,4 +1,4 @@
-## 3.O.0
+## 3.0.0
 
 - **BREAKING CHANGE**:
     - `FlutterReactionButton` and `FlutterReactionButtonToggle` removed
