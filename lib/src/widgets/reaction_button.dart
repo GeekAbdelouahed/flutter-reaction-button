@@ -163,12 +163,16 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     return GestureDetector(
       key: _globalKey,
       onTap: () {
-        widget.toggle ? _onCheck() : _onShowReactionsBox();
+        if (widget.toggle) {
+          _onCheck();
+        } else {
+          _onShowReactionsBox();
+        }
       },
       onLongPressStart: (details) {
-        widget.toggle
-            ? _onShowReactionsBox(_isContainer ? details.globalPosition : null)
-            : null;
+        if (widget.toggle) {
+          _onShowReactionsBox(_isContainer ? details.globalPosition : null);
+        }
       },
       child: child,
     );
