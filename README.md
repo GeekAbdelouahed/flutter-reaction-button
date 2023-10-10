@@ -6,7 +6,7 @@ Flutter Reactions Button is a customizable Flutter package that allows you to ea
 
 ## Preview
 
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/blob/master/images/flutter_reaction_button_preview.png"/>
+<img src="https://raw.githubusercontent.com/GeekAbdelouahed/flutter-reaction-button/master/images/flutter_reaction_button_preview.png"/>
 
 ## Usage
 
