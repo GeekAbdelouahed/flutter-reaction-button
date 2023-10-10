@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_reaction_button/src/enums/reaction.dart';
@@ -87,16 +85,14 @@ class ReactionButton<T> extends StatefulWidget {
 class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   final GlobalKey _globalKey = GlobalKey();
 
-  OverlayEntry? _overlayEntry;
-
   late Reaction<T>? _selectedReaction =
       _isChecked ? widget.selectedReaction : widget.placeholder;
 
   late bool _isChecked = widget.isChecked;
 
-  Timer? _hoverTimer;
-
   bool get _isContainer => widget._type == ReactionType.container;
+
+  OverlayEntry? _overlayEntry;
 
   void _updateReaction(Reaction<T>? reaction) {
     _isChecked = reaction != widget.placeholder;
@@ -106,18 +102,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
     });
   }
 
-  void _onHover(Offset offset) {
-    _hoverTimer?.cancel();
-    _hoverTimer = Timer(
-      widget.hoverDuration,
-      () {
-        _onShowReactionsBox(offset);
-      },
-    );
-  }
-
   void _onCheck() {
-    _hoverTimer?.cancel();
     _isChecked = !_isChecked;
     _updateReaction(
       _isChecked
@@ -127,7 +112,6 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
   }
 
   void _onShowReactionsBox([Offset? offset]) {
-    _hoverTimer?.cancel();
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return ReactionsBox<T>(
@@ -166,7 +150,6 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
 
   @override
   void dispose() {
-    _hoverTimer?.cancel();
     _disposeOverlayEntry();
     super.dispose();
   }
