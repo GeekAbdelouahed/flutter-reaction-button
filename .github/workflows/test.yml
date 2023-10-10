@@ -1,4 +1,4 @@
-name: Test pipeline
+name: Test
 
 on: [push]
 
