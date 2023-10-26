@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:flutter_reaction_button_test/data.dart' as data;
+import 'package:flutter_reaction_button_test/image.dart';
+import 'package:flutter_reaction_button_test/post.dart';
 
-import 'data/example_data.dart' as Example;
-import 'items/item.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
+void main() {
+  runApp(
+    const MyApp(),
+  );
 }
 
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
+  const MyApp({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,65 +26,91 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Flutter Reaction Button'),
           actions: [
             Builder(
-              builder: (ctx) {
-                return ReactionButton<String>(
-                  onReactionChanged: (String? value) {
-                    ScaffoldMessenger.of(ctx).showSnackBar(
-                      SnackBar(
-                        content: Text('Selected value: $value'),
+              builder: (context) {
+                return SizedBox.square(
+                  dimension: 30,
+                  child: ReactionButton<String>(
+                    toggle: false,
+                    onReactionChanged: (Reaction<String>? reaction) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('Selected language: ${reaction?.value}'),
+                        ),
+                      );
+                    },
+                    reactions: data.flagsReactions,
+                    placeholder: const Reaction<String>(
+                      value: null,
+                      icon: Icon(
+                        Icons.language,
                       ),
-                    );
-                  },
-                  reactions: Example.flagsReactions,
-                  initialReaction: Reaction<String>(
-                    value: null,
-                    icon: Icon(
-                      Icons.language,
                     ),
+                    boxColor: Colors.black.withOpacity(0.5),
+                    boxRadius: 10,
+                    itemsSpacing: 20,
+                    itemSize: const Size(40, 60),
                   ),
-                  boxColor: Colors.black.withOpacity(0.5),
-                  boxRadius: 10,
-                  boxDuration: Duration(milliseconds: 500),
-                  itemScaleDuration: const Duration(milliseconds: 200),
                 );
               },
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
           ],
         ),
-        body: Builder(
-          builder: (_) {
-            return ListView(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              children: [
-                Item(
-                  'image 1',
-                  'assets/images/img1.jpg',
-                  Example.reactions,
-                ),
-                Item(
-                  'image 2',
-                  'assets/images/img2.jpg',
-                  Example.reactions,
-                ),
-                Item(
-                  'image 3',
-                  'assets/images/img3.jpg',
-                  Example.reactions,
-                ),
-                Item(
-                  'image 4',
-                  'assets/images/img4.jpg',
-                  Example.reactions,
-                ),
-                Item(
-                  'image 5',
-                  'assets/images/img5.jpg',
-                  Example.reactions,
-                ),
-              ],
-            );
-          },
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Column(
+            children: [
+              PostWidget(
+                title: 'image 1',
+                imgPath: 'assets/images/img1.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img1.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 2',
+                imgPath: 'assets/images/img2.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img2.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 3',
+                imgPath: 'assets/images/img3.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img3.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 4',
+                imgPath: 'assets/images/img4.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img4.jpg',
+                reactions: data.reactions,
+              ),
+              PostWidget(
+                title: 'image 5',
+                imgPath: 'assets/images/img5.jpg',
+                reactions: data.reactions,
+              ),
+              ImageWidget(
+                imgPath: 'assets/images/img5.jpg',
+                reactions: data.reactions,
+              ),
+              const SafeArea(
+                child: SizedBox(),
+              ),
+            ],
+          ),
         ),
       ),
     );

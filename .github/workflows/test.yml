@@ -1,0 +1,22 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      
+      - run: flutter pub get
+
+      - name: Analyze project source
+        run: dart analyze
+
+      - name: Format code
+        run: dart format --fix .
+
+      - name: Run tests
+        run: flutter test

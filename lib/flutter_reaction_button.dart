@@ -1,6 +1,4 @@
 library flutter_reaction_button;
 
 export 'src/models/reaction.dart';
-export 'src/ui/reaction_button.dart';
-export 'src/ui/reaction_button_toggle.dart';
-export 'src/utils/reactions_position.dart';
+export 'src/widgets/reaction_button.dart';

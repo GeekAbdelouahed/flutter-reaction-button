@@ -1,60 +1,62 @@
-# Flutter Reaction Button
-
 [![pub package](https://img.shields.io/pub/v/flutter_reaction_button.svg)](https://pub.dartlang.org/packages/flutter_reaction_button)
 
-Flutter button reaction it is fully customizable widget such as Facebook reaction button.
+# Flutter reaction button
 
-## Preview
-
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/doc/images/Preview.png"/>
+Flutter Reaction Button is a customizable Flutter package that allows you to easily create interactive buttons with reaction emojis, similar to Facebook's iconic reaction buttons.
 
 
-## Demo
+## Screenshot
 
-<img src="https://github.com/GeekAbdelouahed/flutter-reaction-button/raw/doc/images/preview.gif"/>
+![App Screenshot](https://raw.githubusercontent.com/GeekAbdelouahed/flutter-reaction-button/master/images/flutter_reaction_button_preview.png)
 
-## Usage
 
-[Include 'flutter_reaction_button' from Dart Pub.](https://pub.dartlang.org/packages/flutter_reaction_button)
+## Installation
 
 ```yaml
 # pubspec.yaml
-
 dependencies:
   flutter:
     sdk: flutter
   flutter_reaction_button: <last-version>
 ```
-
-Next, import 'flutter_reaction_button.dart' into your dart code.
+## Usage
 
 ```dart
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+
+ReactionButton<String>(
+    onReactionChanged: (Reaction<String>? reaction) {
+        debugPrint('Selected value: ${reaction?.value}');
+    },
+    reactions: <Reaction<String>>[
+        Reaction<String>(
+            value: 'like',
+            icon: widget,
+        ),
+        Reaction<String>(
+            value: 'love',
+            icon: widget,
+        ),
+        ...
+    ],
+    initialReaction: Reaction<String>(
+        value: 'like',
+        icon: widget,
+    ),
+    selectedReaction: Reaction<String>(
+        value: 'like_fill',
+        icon: widget,
+    ),
+)
 ```
 
-## Parameters
-| parameter                  | description                                                                           | default                                                                                                                                                                               |
-| -------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| OnReactionChanged          | triggered when reaction button value change                                           ||
-| reactions                  | reactions appear in reactions box when long pressed on ReactionnButtonToggle or click on ReactionButton ||
-| initialReaction            | Default reaction button widget                                                        | first item in reactions list |
-| boxPosition                | Position of reactions box according to the button                                     | Position.TOP |
-| boxColor                   | Reactions box color                                                                   | Colors.white |
-| boxElevation               | Reactions box elevation                                                               | 5 |
-| boxRadius                  | Reactions box radius                                                                  | 50 |
-| boxPadding                 | Reactions box padding                                                                 | const EdgeInsets.all(0) |
-| boxDuration                | Reactions box show/hide duration                                                      | 200 milliseconds |
-| shouldChangeReaction       | Shold change initial reaction after selected one or not                               | true |
-| itemScale                  | Scale ratio when item hovered                                                         | 0.3 |
-| itemScaleDuration          | Scale duration while dragging                                                         | const Duration(milliseconds: 100) |
 
-
-## LICENSE
+## License
 
 ```legal
 MIT License
 
-Copyright (c) 2019 Abdelouahed Medjoudja
+Copyright (c) 2023 Abdelouahed Medjoudja
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

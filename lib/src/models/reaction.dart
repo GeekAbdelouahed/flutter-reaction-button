@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Reaction<T> {
-  @deprecated
-  final int? id;
+  const Reaction({
+    required this.value,
+    required this.icon,
+    Widget? previewIcon,
+    this.title,
+  }) : previewIcon = previewIcon ?? icon;
 
   /// Widget showing as button after selecting preview Icon from box appear.
   final Widget icon;
@@ -17,33 +21,21 @@ class Reaction<T> {
   ///This widget is displayed when the user hover on the button.
   final Widget? title;
 
-  final bool enabled;
-
   final T? value;
 
-  Reaction({
-    this.id,
-    required this.icon,
-    required this.value,
-    Widget? previewIcon,
-    this.title,
-    this.enabled = true,
-  }) : this.previewIcon = previewIcon ?? icon;
-
   @override
-  bool operator ==(Object? object) {
-    return object != null &&
-        object is Reaction &&
-        icon == object.icon &&
-        icon.key == object.icon.key &&
-        previewIcon == object.previewIcon &&
-        previewIcon.key == object.previewIcon.key &&
-        title == object.title &&
-        title?.key == object.title?.key;
+  bool operator ==(Object? other) {
+    return other is Reaction &&
+        icon == other.icon &&
+        icon.key == other.icon.key &&
+        previewIcon == other.previewIcon &&
+        previewIcon.key == other.previewIcon.key &&
+        title == other.title &&
+        title?.key == other.title?.key;
   }
 
   @override
   int get hashCode {
-    return hashValues(icon, previewIcon, title);
+    return Object.hash(icon, previewIcon, title);
   }
 }

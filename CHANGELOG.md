@@ -1,3 +1,40 @@
+## 3.0.0+2
+* Minor updates
+
+## 3.0.0+1
+* Update README
+
+## 3.0.0
+
+- **BREAKING CHANGE**:
+    - `FlutterReactionButton` and `FlutterReactionButtonToggle` removed
+    - `itemSize` is required in `ReactionButton`
+    - `onReactionChanged` callback updated
+    - `VerticalPosition` and `HorizontalPosition` removed
+- Adds `child` to `ReactionButton`
+- Animated `ReactionsBox`
+
+## 2.0.2
+
+* Pipeline setup
+
+## 2.0.1+1
+
+* Minor bugs fixed. Thanks to [Kyle Venn](https://github.com/kvenn)
+
+## 2.0.1
+
+* Adds ReactionContainer
+* Bugs fix and code improvements, Thanks to [Felix Gabler](https://github.com/felixgabler)
+
+## 2.0.0+3
+
+* Upgrade flutter version
+
+## 2.0.0+2
+
+* Fix Offscreen Issue. Thanks to [rlee1990](https://github.com/rlee1990)
+
 ## 2.0.0+1
 
 * Dragging improvement
@@ -15,7 +52,7 @@
 
 ## 1.0.8
 
-*  Added support null safety
+* Added support null safety
 
 ## 1.0.7+3
 
@@ -67,7 +104,7 @@
 
 ## 1.0.0
 
-* Add ripple effect.
+* Adds ripple effect.
 
 ## 0.1.3
 
@@ -75,7 +112,7 @@
 
 ## 0.1.2+1
 
-* Add Example.
+* Adds Example.
 
 ## 0.1.2
 
