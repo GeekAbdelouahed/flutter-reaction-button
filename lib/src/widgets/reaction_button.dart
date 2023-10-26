@@ -25,6 +25,7 @@ class ReactionButton<T> extends StatefulWidget {
     this.itemAnimationDuration = const Duration(milliseconds: 100),
     this.hoverDuration = const Duration(milliseconds: 400),
     this.child,
+    this.positioningStrategy = const TryStayInBoundariesStrategy(),
   }) : _type = child != null ? ReactionType.container : ReactionType.button;
 
   /// This triggers when reaction button value changed.
@@ -65,6 +66,9 @@ class ReactionButton<T> extends StatefulWidget {
 
   /// Animation duration while moving [default = const Duration(milliseconds: 100)]
   final Duration itemAnimationDuration;
+
+  /// Reaction box positioning strategy [default = const TryStayInBoundariesStrategy()]
+  final ReactionBoxPositioningStrategy positioningStrategy;
 
   final Size itemSize;
 
@@ -127,6 +131,7 @@ class _ReactionButtonState<T> extends State<ReactionButton<T>> {
           itemScale: widget.itemScale,
           itemScaleDuration: widget.itemAnimationDuration,
           animateBox: widget.animateBox,
+          positioningStrategy: widget.positioningStrategy,
           onReactionSelected: (reaction) {
             _updateReaction(reaction);
             _disposeOverlayEntry();

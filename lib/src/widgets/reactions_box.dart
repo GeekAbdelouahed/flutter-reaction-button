@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_reaction_button/src/common/position.dart';
@@ -21,9 +23,12 @@ class ReactionsBox<T> extends StatefulWidget {
     required this.onReactionSelected,
     required this.onClose,
     required this.animateBox,
+    this.positioningStrategy = const TryStayInBoundariesStrategy(),
   }) : assert(itemScale > 0.0 && itemScale < 1);
 
   final Offset offset;
+
+  final ReactionBoxPositioningStrategy positioningStrategy;
 
   final Size itemSize;
 
@@ -73,11 +78,7 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
       (widget.itemSpace * (widget.reactions.length - 1)) +
       widget.boxPadding.horizontal;
 
-  bool get shouldStartFromEnd =>
-      MediaQuery.sizeOf(context).width - boxWidth < widget.offset.dx;
-
-  bool get shouldStartFromBottom =>
-      widget.offset.dy < boxHeight + widget.boxPadding.vertical;
+  double get screenWidth => MediaQuery.sizeOf(context).width;
 
   bool _isOffsetOutsideBox(Offset offset) {
     final Rect boxRect = Rect.fromLTWH(0, 0, boxWidth, boxHeight);
@@ -129,14 +130,16 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
               ),
             ),
             PositionedDirectional(
-              start: shouldStartFromEnd
-                  ? widget.offset.dx - boxWidth
-                  : widget.offset.dx,
-              top: shouldStartFromBottom
-                  ? widget.offset.dy + widget.itemSize.height
-                  : widget.offset.dy -
-                      widget.itemSize.height -
-                      widget.boxPadding.vertical,
+              start: widget.positioningStrategy.getHorizontalOffset(context,
+                  boxWidth: boxWidth,
+                  screenWidth: screenWidth,
+                  offset: widget.offset,
+                  boxPadding: widget.boxPadding),
+              top: widget.positioningStrategy.getVerticalOffset(context,
+                  boxHeight: boxHeight,
+                  screenWidth: screenWidth,
+                  offset: widget.offset,
+                  boxPadding: widget.boxPadding),
               child: Listener(
                 onPointerDown: (point) {
                   _positionNotifier.value = PositionData(
@@ -220,5 +223,54 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
         );
       },
     );
+  }
+}
+
+abstract class ReactionBoxPositioningStrategy {
+  const ReactionBoxPositioningStrategy();
+  double getHorizontalOffset(BuildContext context,
+      {required double boxWidth,
+      required double screenWidth,
+      required Offset offset,
+      required EdgeInsetsGeometry boxPadding});
+
+  double getVerticalOffset(BuildContext context,
+      {required double boxHeight,
+      required double screenWidth,
+      required Offset offset,
+      required EdgeInsetsGeometry boxPadding}) {
+    final shouldStartFromBottom = offset.dy < boxHeight + boxPadding.vertical;
+    return shouldStartFromBottom
+        ? offset.dy + boxHeight
+        : offset.dy - boxHeight - boxPadding.vertical;
+  }
+}
+
+class TryStayInBoundariesStrategy extends ReactionBoxPositioningStrategy {
+  const TryStayInBoundariesStrategy();
+  @override
+  double getHorizontalOffset(BuildContext context,
+      {required double boxWidth,
+      required double screenWidth,
+      required Offset offset,
+      required EdgeInsetsGeometry boxPadding}) {
+    final shouldStartFromEnd = offset.dx + boxWidth > screenWidth;
+    if (shouldStartFromEnd) {
+      return max(0, min(screenWidth - boxWidth, offset.dx - boxWidth));
+    } else {
+      return max(0, offset.dx);
+    }
+  }
+}
+
+class CenterHorizontallyStrategy extends ReactionBoxPositioningStrategy {
+  const CenterHorizontallyStrategy();
+  @override
+  double getHorizontalOffset(BuildContext context,
+      {required double boxWidth,
+      required double screenWidth,
+      required Offset offset,
+      required EdgeInsetsGeometry boxPadding}) {
+    return (screenWidth - boxWidth) / 2;
   }
 }
