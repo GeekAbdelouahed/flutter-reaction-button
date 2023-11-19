@@ -1,38 +1,62 @@
-# Flutter Reaction Button
-
 [![pub package](https://img.shields.io/pub/v/flutter_reaction_button.svg)](https://pub.dartlang.org/packages/flutter_reaction_button)
 
-Flutter Reactions Button is a customizable Flutter package that allows you to easily create interactive buttons with reaction emojis, similar to Facebook's iconic reaction buttons.
+# Flutter reaction button
 
-## Preview
+Flutter Reaction Button is a customizable Flutter package that allows you to easily create interactive buttons with reaction emojis, similar to Facebook's iconic reaction buttons.
 
-<img src="https://raw.githubusercontent.com/GeekAbdelouahed/flutter-reaction-button/master/images/flutter_reaction_button_preview.png"/>
 
-## Usage
+## Screenshot
 
-[Include 'flutter_reaction_button' from Dart Pub.](https://pub.dartlang.org/packages/flutter_reaction_button)
+![App Screenshot](https://raw.githubusercontent.com/GeekAbdelouahed/flutter-reaction-button/master/images/flutter_reaction_button_preview.png)
+
+
+## Installation
 
 ```yaml
 # pubspec.yaml
-
 dependencies:
   flutter:
     sdk: flutter
   flutter_reaction_button: <last-version>
 ```
-
-Next, import 'flutter_reaction_button.dart' into your dart code.
+## Usage
 
 ```dart
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+
+ReactionButton<String>(
+    onReactionChanged: (Reaction<String>? reaction) {
+        debugPrint('Selected value: ${reaction?.value}');
+    },
+    reactions: <Reaction<String>>[
+        Reaction<String>(
+            value: 'like',
+            icon: widget,
+        ),
+        Reaction<String>(
+            value: 'love',
+            icon: widget,
+        ),
+        ...
+    ],
+    initialReaction: Reaction<String>(
+        value: 'like',
+        icon: widget,
+    ),
+    selectedReaction: Reaction<String>(
+        value: 'like_fill',
+        icon: widget,
+    ),
+)
 ```
 
-## LICENSE
+
+## License
 
 ```legal
 MIT License
 
-Copyright (c) 2019 Abdelouahed Medjoudja
+Copyright (c) 2023 Abdelouahed Medjoudja
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
