@@ -1,3 +1,6 @@
+## 3.0.0+3
+* Fix reactions box overflow
+
 ## 3.0.0+2
 * Minor updates
 

@@ -21,6 +21,7 @@ class ReactionsBox<T> extends StatefulWidget {
     required this.onReactionSelected,
     required this.onClose,
     required this.animateBox,
+    this.direction = ReactionsBoxAlignment.ltr,
   }) : assert(itemScale > 0.0 && itemScale < 1);
 
   final Offset offset;
@@ -51,6 +52,8 @@ class ReactionsBox<T> extends StatefulWidget {
 
   final bool animateBox;
 
+  final ReactionsBoxAlignment direction;
+
   @override
   State<ReactionsBox<T>> createState() => _ReactionsBoxState<T>();
 }
@@ -66,29 +69,25 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
 
   late final Animation _animation;
 
-  double get boxHeight => widget.itemSize.height + widget.boxPadding.vertical;
+  double get _boxHeight => widget.itemSize.height + widget.boxPadding.vertical;
 
-  double get boxWidth =>
+  double get _boxWidth =>
       (widget.itemSize.width * widget.reactions.length) +
       (widget.itemSpace * (widget.reactions.length - 1)) +
       widget.boxPadding.horizontal;
 
-  bool get shouldStartFromEnd =>
-      MediaQuery.sizeOf(context).width - boxWidth < widget.offset.dx;
+  bool get _isWidthOverflow => widget.direction == ReactionsBoxAlignment.ltr
+      ? widget.offset.dx + _boxWidth > MediaQuery.sizeOf(context).width
+      : widget.offset.dx - _boxWidth < 0;
 
-  bool get shouldStartFromBottom =>
-      widget.offset.dy < boxHeight + widget.boxPadding.vertical;
+  bool get _shouldStartFromBottom =>
+      widget.offset.dy - _boxHeight - widget.boxPadding.vertical < 0;
 
-  bool _isOffsetOutsideBox(Offset offset) {
-    final Rect boxRect = Rect.fromLTWH(0, 0, boxWidth, boxHeight);
-    final bool isReleasedOutsideBox = !boxRect.contains(offset);
-
-    if (isReleasedOutsideBox) {
+  void _checkIsOffsetOutsideBox(Offset offset) {
+    final Rect boxRect = Rect.fromLTWH(0, 0, _boxWidth, _boxHeight);
+    if (!boxRect.contains(offset)) {
       widget.onClose();
-      return true;
     }
-
-    return false;
   }
 
   @override
@@ -115,6 +114,23 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
         final double boxScale =
             1 - (widget.itemScale / widget.reactions.length);
 
+        final double widthOverflow;
+        if (_isWidthOverflow) {
+          widthOverflow = widget.direction == ReactionsBoxAlignment.ltr
+              ? widget.offset.dx + _boxWidth - MediaQuery.sizeOf(context).width
+              : _boxWidth;
+        } else {
+          widthOverflow = 0;
+        }
+
+        final double start = widget.direction == ReactionsBoxAlignment.ltr
+            ? widget.offset.dx - widthOverflow
+            : widget.offset.dx - _boxWidth + widthOverflow;
+
+        final double top = widget.offset.dy -
+            widget.boxPadding.vertical +
+            (_shouldStartFromBottom ? 1 : -1) * widget.itemSize.height;
+
         return Stack(
           children: [
             Positioned.fill(
@@ -129,14 +145,8 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
               ),
             ),
             PositionedDirectional(
-              start: shouldStartFromEnd
-                  ? widget.offset.dx - boxWidth
-                  : widget.offset.dx,
-              top: shouldStartFromBottom
-                  ? widget.offset.dy + widget.itemSize.height
-                  : widget.offset.dy -
-                      widget.itemSize.height -
-                      widget.boxPadding.vertical,
+              start: start,
+              top: top,
               child: Listener(
                 onPointerDown: (point) {
                   _positionNotifier.value = PositionData(
@@ -154,71 +164,70 @@ class _ReactionsBoxState<T> extends State<ReactionsBox<T>>
                   _positionNotifier.value = _positionNotifier.value.copyWith(
                     isBoxHovered: false,
                   );
-                  _isOffsetOutsideBox(point.localPosition);
+                  _checkIsOffsetOutsideBox(point.localPosition);
                 },
                 onPointerCancel: (point) {
                   _positionNotifier.value = _positionNotifier.value.copyWith(
                     isBoxHovered: false,
                   );
-                  _isOffsetOutsideBox(point.localPosition);
+                  _checkIsOffsetOutsideBox(point.localPosition);
                 },
                 child: Transform.scale(
                   scale: isBoxHovered ? boxScale : 1,
-                  child: Material(
-                    color: widget.color,
-                    elevation: widget.elevation,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        widget.radius,
-                      ),
-                    ),
-                    child: Container(
-                      width: boxWidth,
-                      height: boxHeight,
-                      padding: widget.boxPadding,
-                      child: Row(
-                        children: [
-                          for (int index = 0;
-                              index < widget.reactions.length;
-                              index++) ...[
-                            if (index > 0) ...{
-                              SizedBox(
-                                width: widget.itemSpace,
-                              ),
-                            },
-                            AnimatedBuilder(
-                              animation: _animation,
-                              child: ReactionsBoxItem<T>(
-                                index: index,
-                                size: widget.itemSize,
-                                scale: widget.itemScale,
-                                space: widget.itemSpace,
-                                animationDuration: widget.itemScaleDuration,
-                                reaction: widget.reactions[index]!,
-                                fingerPositionNotifier: _positionNotifier,
-                                onReactionSelected: (reaction) {
-                                  widget.onReactionSelected(reaction);
-                                },
-                              ),
-                              builder: (context, child) {
-                                return AnimatedScale(
-                                  duration: widget.boxDuration,
-                                  scale: _animation.value > index ? 1 : 0,
-                                  child: child,
-                                );
-                              },
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: child!,
                 ),
               ),
             ),
           ],
         );
       },
+      child: Material(
+        color: widget.color,
+        elevation: widget.elevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            widget.radius,
+          ),
+        ),
+        child: Container(
+          width: _boxWidth,
+          height: _boxHeight,
+          padding: widget.boxPadding,
+          child: Row(
+            children: [
+              for (int index = 0; index < widget.reactions.length; index++) ...[
+                if (index > 0) ...{
+                  SizedBox(
+                    width: widget.itemSpace,
+                  ),
+                },
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    return AnimatedScale(
+                      duration: widget.boxDuration,
+                      scale: _animation.value > index ? 1 : 0,
+                      child: child,
+                    );
+                  },
+                  child: ReactionsBoxItem<T>(
+                    index: index,
+                    fingerPositionNotifier: _positionNotifier,
+                    reaction: widget.reactions[index]!,
+                    size: widget.itemSize,
+                    scale: widget.itemScale,
+                    space: widget.itemSpace,
+                    animationDuration: widget.itemScaleDuration,
+                    onReactionSelected: (reaction) {
+                      widget.onReactionSelected(reaction);
+                    },
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

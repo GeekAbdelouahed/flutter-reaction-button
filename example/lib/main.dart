@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
                   dimension: 30,
                   child: ReactionButton<String>(
                     toggle: false,
+                    direction: ReactionsBoxAlignment.rtl,
                     onReactionChanged: (Reaction<String>? reaction) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
