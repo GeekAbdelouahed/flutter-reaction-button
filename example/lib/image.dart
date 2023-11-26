@@ -71,9 +71,7 @@ class _ImageWidgetState extends State<ImageWidget> {
                     )
                   ],
                 ),
-                child: _selectedReaction != null
-                    ? _selectedReaction!.previewIcon
-                    : null,
+                child: _selectedReaction?.previewIcon,
               ),
             ),
           ],
